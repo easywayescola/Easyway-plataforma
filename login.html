@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EasyWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --accent: #FFE66D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .login-left {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .login-left img {
+            height: 80px;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-left h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-left p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .login-right {
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-right h2 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #999;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .login-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .login-tab:hover {
+            color: var(--primary);
+        }
+
+        .login-content {
+            display: none;
+        }
+
+        .login-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-forgot a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .remember-forgot a:hover {
+            color: #ff5252;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox input {
+            width: auto;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: #ff5252;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .back-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #ff5252;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .login-left {
+                padding: 2rem 1.5rem;
+            }
+
+            .login-right {
+                padding: 2rem 1.5rem;
+            }
+
+            .login-left h1 {
+                font-size: 1.5rem;
+            }
+
+            .login-left p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left Side -->
+        <div class="login-left">
+            <img src="public/logo.png" alt="EasyWay Logo">
+            <h1>Bem-vindo à EasyWay!</h1>
+            <p>Inglês para Crianças e Adolescentes com Gamificação e Diversão</p>
+            <p style="margin-top: 1.5rem; font-size: 1rem;">
+                "Looking forward to the future with complete confidence"
+            </p>
+        </div>
+
+        <!-- Right Side -->
+        <div class="login-right">
+            <h2>Faça Login</h2>
+
+            <!-- Login Tabs -->
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchTab('student')">👨‍🎓 Aluno</button>
+                <button class="login-tab" onclick="switchTab('teacher')">👨‍🏫 Professor</button>
+            </div>
+
+            <!-- Student Login -->
+            <div id="student" class="login-content active">
+                <form onsubmit="loginStudent(event)">
+                    <div class="form-group">
+                        <label for="studentEmail">Email ou Matrícula</label>
+                        <input type="text" id="studentEmail" placeholder="seu.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword">Senha</label>
+                        <input type="password" id="studentPassword" placeholder="Sua senha" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            <span>Lembrar-me</span>
+                        </label>
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+                    <button type="submit" class="login-btn">Entrar como Aluno</button>
+                </form>
+                <div class="signup-link">
+                    Não tem conta? <a href="#" onclick="alert('Entre em contato com seu professor para criar uma conta')">Solicite acesso</a>
+                </div>
+            </div>
+
+            <!-- Teacher Login -->
+            <div id="teacher" class="login-content">
+                <form onsubmit="loginTeacher(event)">
+                    <div class="form-group">
+                        <label for="teacherEmail">Email</label>
+                        <input type="email" id="teacherEmail" placeholder="seu.email@easyway.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherPassword">Senha</label>
+                        <input type="password" id="teacherPassword" placeholder="Sua senha" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            <span>Lembrar-me</span>
+                        </label>
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+                    <button type="submit" class="login-btn">Entrar como Professor</button>
+                </form>
+                <div class="signup-link">
+                    Problemas para acessar? <a href="https://wa.me/5527998552277" target="_blank">Fale conosco</a>
+                </div>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Voltar ao Início</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            // Hide all contents
+            document.querySelectorAll('.login-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Remove active from all tabs
+            document.querySelectorAll('.login-tab').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show selected content
+            document.getElementById(tab).classList.add('active');
+            // Add active to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function loginStudent(event) {
+            event.preventDefault();
+            const email = document.getElementById('studentEmail').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            // Simple validation
+            if (email && password) {
+                // In a real app, you would validate against a backend
+                // For now, we'll just redirect to the student dashboard
+                localStorage.setItem('userType', 'student');
+                localStorage.setItem('userName', email);
+                window.location.href = 'student-dashboard.html';
+            }
+        }
+
+        function loginTeacher(event) {
+            event.preventDefault();
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            // Simple validation
+            if (email && password) {
+                // In a real app, you would validate against a backend
+                // For now, we'll just redirect to the teacher dashboard
+                localStorage.setItem('userType', 'teacher');
+                localStorage.setItem('userName', email);
+                window.location.href = 'teacher-dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

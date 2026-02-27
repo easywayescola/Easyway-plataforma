@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Professor - EasyWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --accent: #FFE66D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem 1rem;
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar-logo img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 1.2rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: var(--primary);
+        }
+
+        .logout-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .students-table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .students-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .students-table tr:hover {
+            background: var(--light);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #3bb8b0;
+        }
+
+        .add-student-btn {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-student-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 230, 109, 0.4);
+        }
+
+        .profile-section {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+        }
+
+        .profile-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+        }
+
+        .btn-secondary {
+            background: #ddd;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="public/logo.png" alt="EasyWay Logo">
+                <h2>EasyWay</h2>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Professor</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="active" onclick="showSection('dashboard')">📊 Dashboard</a></li>
+                <li><a href="#students" onclick="showSection('students')">👨‍🎓 Alunos</a></li>
+                <li><a href="#activities" onclick="showSection('activities')">📚 Atividades</a></li>
+                <li><a href="#profile" onclick="showSection('profile')">👤 Perfil</a></li>
+                <li><a href="index.html">🏠 Voltar ao Início</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Dashboard do Professor</h1>
+                <button class="logout-btn" onclick="logout()">Sair</button>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section-content">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Total de Alunos</h3>
+                        <div class="number">98</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Atividades Criadas</h3>
+                        <div class="number">24</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Alunos Ativos</h3>
+                        <div class="number">85</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Taxa de Conclusão</h3>
+                        <div class="number">92%</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📈 Atividades Recentes</h2>
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>Atividade</th>
+                                <th>Nível</th>
+                                <th>Pontuação</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>João Silva</td>
+                                <td>Quiz A1 - Verbos</td>
+                                <td>A1</td>
+                                <td>95%</td>
+                                <td>Hoje</td>
+                            </tr>
+                            <tr>
+                                <td>Maria Santos</td>
+                                <td>Leitura A2</td>
+                                <td>A2</td>
+                                <td>88%</td>
+                                <td>Hoje</td>
+                            </tr>
+                            <tr>
+                                <td>Pedro Costa</td>
+                                <td>Flashcards A1</td>
+                                <td>A1</td>
+                                <td>100%</td>
+                                <td>Ontem</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div id="students" class="section-content" style="display: none;">
+                <div class="section">
+                    <h2>👨‍🎓 Gerenciar Alunos</h2>
+                    <button class="add-student-btn" onclick="openAddStudentModal()">+ Adicionar Aluno</button>
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Nível</th>
+                                <th>Status</th>
+                                <th>Pontos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>João Silva</td>
+                                <td>joao@example.com</td>
+                                <td>A1</td>
+                                <td><span class="badge badge-active">Ativo</span></td>
+                                <td>450</td>
+                                <td><button class="action-btn">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Maria Santos</td>
+                                <td>maria@example.com</td>
+                                <td>A2</td>
+                                <td><span class="badge badge-active">Ativo</span></td>
+                                <td>620</td>
+                                <td><button class="action-btn">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Pedro Costa</td>
+                                <td>pedro@example.com</td>
+                                <td>A1</td>
+                                <td><span class="badge badge-inactive">Inativo</span></td>
+                                <td>280</td>
+                                <td><button class="action-btn">Editar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Activities Section -->
+            <div id="activities" class="section-content" style="display: none;">
+                <div class="section">
+                    <h2>📚 Atividades</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary);">
+                            <h3>Quiz A1</h3>
+                            <p style="color: #666; margin: 0.5rem 0;">Questões sobre verbos básicos</p>
+                            <p style="color: var(--primary); font-weight: 600;">45 alunos completaram</p>
+                        </div>
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            <h3>Leitura A2</h3>
+                            <p style="color: #666; margin: 0.5rem 0;">Textos com interpretação</p>
+                            <p style="color: var(--secondary); font-weight: 600;">32 alunos completaram</p>
+                        </div>
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--accent);">
+                            <h3>Flashcards A1</h3>
+                            <p style="color: #666; margin: 0.5rem 0;">Revisão de vocabulário</p>
+                            <p style="color: var(--accent); font-weight: 600;">67 alunos completaram</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile" class="section-content" style="display: none;">
+                <div class="section">
+                    <h2>👤 Meu Perfil</h2>
+                    <div class="profile-section">
+                        <img src="public/profile.jpg" alt="Foto do Professor" class="profile-image">
+                        <div class="profile-info">
+                            <h3>Gestora e Professora</h3>
+                            <p><strong>Formação Acadêmica:</strong></p>
+                            <p>• Licenciatura em Língua Portuguesa e Respectivas Literaturas<br>
+                               • Licenciatura em Letras - Inglês<br>
+                               • Licenciatura em Pedagogia<br>
+                               • Pós-graduação em Ensino de Inglês e Artes Visuais</p>
+                            <p><strong>Certificações:</strong></p>
+                            <p>Gestão Escolar, BNCC, Aprendizagem Criativa, The Leader in Me</p>
+                            <p><strong>Frase Pessoal:</strong></p>
+                            <p style="font-style: italic; color: var(--primary); font-weight: 600;">
+                                "Looking forward to the future with complete confidence"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <h2>Adicionar Novo Aluno</h2>
+            <form onsubmit="addStudent(event)">
+                <div class="form-group">
+                    <label for="studentName">Nome Completo</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentLevel">Nível</label>
+                    <select id="studentLevel" required>
+                        <option value="">Selecione um nível</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C1">C1</option>
+                        <option value="C2">C2</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddStudentModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active menu item
+            document.querySelectorAll('.sidebar-menu a').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function openAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('active');
+        }
+
+        function closeAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('active');
+        }
+
+        function addStudent(event) {
+            event.preventDefault();
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const level = document.getElementById('studentLevel').value;
+            
+            alert(`Aluno ${name} adicionado com sucesso!`);
+            closeAddStudentModal();
+            document.querySelector('form').reset();
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('addStudentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddStudentModal();
+            }
+        });
+    </script>
+</body>
+</html>

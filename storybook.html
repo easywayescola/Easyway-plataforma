@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livro Interativo - EasyWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --accent: #FFE66D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Units Navigation */
+        .units-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .unit-btn {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .unit-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .unit-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Stories Grid */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .story-cover {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .story-info {
+            padding: 1.5rem;
+        }
+
+        .story-level {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .story-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .story-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .read-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .read-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 800px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .close-btn {
+            background: var(--light);
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .play-btn.playing {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+        }
+
+        .audio-info {
+            flex: 1;
+        }
+
+        .audio-info h3 {
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .audio-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Dialogue Section */
+        .dialogue-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .dialogue-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .dialogue {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .speaker {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .dialogue-text {
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .dialogue-translation {
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .story-text {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .story-text p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .vocabulary {
+            background: var(--accent);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .vocabulary h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .vocab-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .vocab-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .vocab-item strong {
+            color: var(--primary);
+        }
+
+        .vocab-item em {
+            color: #666;
+            font-style: italic;
+        }
+
+        .comprehension {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+        }
+
+        .comprehension h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .question input,
+        .question textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .question textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .story-text {
+                font-size: 1rem;
+            }
+
+            .audio-player {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <img src="public/logo.png" alt="EasyWay Logo" class="logo">
+            <h1>Livro Interativo</h1>
+        </div>
+        <a href="student-dashboard.html" class="back-btn">← Voltar</a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-title">
+            <h1>📖 Histórias em Inglês com Áudio</h1>
+            <p>Leia histórias, ouça a pronúncia correta e pratique compreensão de leitura</p>
+        </div>
+
+        <!-- Units Navigation -->
+        <div class="units-nav">
+            <button class="unit-btn active" onclick="filterByUnit('all')">Todas</button>
+            <button class="unit-btn" onclick="filterByUnit('unit1')">Unidade 1</button>
+            <button class="unit-btn" onclick="filterByUnit('unit2')">Unidade 2</button>
+            <button class="unit-btn" onclick="filterByUnit('unit3')">Unidade 3</button>
+            <button class="unit-btn" onclick="filterByUnit('unit4')">Unidade 4</button>
+            <button class="unit-btn" onclick="filterByUnit('unit5')">Unidade 5</button>
+        </div>
+
+        <!-- Stories Grid -->
+        <div class="stories-grid" id="storiesGrid">
+            <!-- Unit 1 Stories -->
+            <div class="story-card unit1" onclick="openStory('story1')">
+                <div class="story-cover">🐱</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 1 - A1</span>
+                    <h3 class="story-title">The Little Cat</h3>
+                    <p class="story-description">Uma história fofa sobre um gatinho curioso que faz novos amigos.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 5 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="story-card unit1" onclick="openStory('story2')">
+                <div class="story-cover">👫</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 1 - A1</span>
+                    <h3 class="story-title">My Best Friend</h3>
+                    <p class="story-description">Uma história sobre amizade e momentos especiais compartilhados.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 5 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit 2 Stories -->
+            <div class="story-card unit2" onclick="openStory('story3')">
+                <div class="story-cover">🌳</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 2 - A1</span>
+                    <h3 class="story-title">A Day at the Park</h3>
+                    <p class="story-description">Uma aventura divertida no parque com atividades e brincadeiras.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 6 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit 3 Stories -->
+            <div class="story-card unit3" onclick="openStory('story4')">
+                <div class="story-cover">🌈</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 3 - A2</span>
+                    <h3 class="story-title">The Rainbow</h3>
+                    <p class="story-description">Uma história mágica sobre cores e descobertas especiais.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 6 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit 4 Stories -->
+            <div class="story-card unit4" onclick="openStory('story5')">
+                <div class="story-cover">👨‍👩‍👧‍👦</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 4 - A2</span>
+                    <h3 class="story-title">My Family</h3>
+                    <p class="story-description">Uma história carinhosa sobre a importância da família.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 5 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit 5 Stories -->
+            <div class="story-card unit5" onclick="openStory('story6')">
+                <div class="story-cover">🗺️</div>
+                <div class="story-info">
+                    <span class="story-level">Unit 5 - A2</span>
+                    <h3 class="story-title">The Adventure</h3>
+                    <p class="story-description">Uma emocionante jornada cheia de descobertas e surpresas.</p>
+                    <div class="story-meta">
+                        <span>⏱️ 7 min</span>
+                        <button class="read-btn">Ler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 1 Modal: The Little Cat -->
+    <div id="story1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🐱 The Little Cat - Unit 1</h2>
+                <button class="close-btn" onclick="closeStory('story1')">&times;</button>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn1" onclick="toggleAudio('audio1', 'playBtn1')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio1" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story1-the-little-cat.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <!-- Dialogue Section -->
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Whiskers (o gatinho):</div>
+                    <div class="dialogue-text">"Hello! What is your name?"</div>
+                    <div class="dialogue-translation">(Olá! Qual é seu nome?)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Max (o cachorro):</div>
+                    <div class="dialogue-text">"My name is Max. Do you want to play with me?"</div>
+                    <div class="dialogue-translation">(Meu nome é Max. Você quer brincar comigo?)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Whiskers:</div>
+                    <div class="dialogue-text">"Yes! Let's be friends!"</div>
+                    <div class="dialogue-translation">(Sim! Vamos ser amigos!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Max:</div>
+                    <div class="dialogue-text">"Great! We can play together every day."</div>
+                    <div class="dialogue-translation">(Ótimo! Podemos brincar juntos todos os dias.)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>Once upon a time, there was a little cat named Whiskers. Whiskers was very curious and loved to play. Every morning, Whiskers would wake up and look out the window.</p>
+                <p>One sunny day, Whiskers saw a butterfly in the garden. "What a beautiful butterfly!" said Whiskers. He jumped out the window and started to chase the butterfly.</p>
+                <p>The butterfly flew over the fence, and Whiskers followed. In the garden next door, he met a little dog named Max. "Hello! Do you want to play with me?" asked Max.</p>
+                <p>"Yes! Let's be friends!" said Whiskers. From that day on, Whiskers and Max played together every day. They became the best of friends.</p>
+                <p>And they lived happily ever after.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Whiskers</strong> - <em>Bigodes (nome do gato)</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Curious</strong> - <em>Curioso</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Butterfly</strong> - <em>Borboleta</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Garden</strong> - <em>Jardim</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Friends</strong> - <em>Amigos</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Happily</strong> - <em>Felizmente</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. What is the name of the little cat?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. What did Whiskers see in the garden?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. Who did Whiskers meet next door?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. What is the main message of this story?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 2 Modal: My Best Friend -->
+    <div id="story2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👫 My Best Friend - Unit 1</h2>
+                <button class="close-btn" onclick="closeStory('story2')">&times;</button>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn2" onclick="toggleAudio('audio2', 'playBtn2')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio2" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story2-my-best-friend.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Emma:</div>
+                    <div class="dialogue-text">"Hi Sarah! Do you want to go to the park?"</div>
+                    <div class="dialogue-translation">(Oi Sarah! Você quer ir ao parque?)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Sarah:</div>
+                    <div class="dialogue-text">"Of course! I love spending time with you."</div>
+                    <div class="dialogue-translation">(Claro! Eu amo passar tempo com você.)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Emma:</div>
+                    <div class="dialogue-text">"You are my best friend. I am very lucky!"</div>
+                    <div class="dialogue-translation">(Você é minha melhor amiga. Sou muito sortuda!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Sarah:</div>
+                    <div class="dialogue-text">"You are my best friend too! Let's have fun!"</div>
+                    <div class="dialogue-translation">(Você é minha melhor amiga também! Vamos nos divertir!)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>My name is Emma, and I want to tell you about my best friend, Sarah. We have been friends since we were five years old.</p>
+                <p>Sarah is very kind and funny. She loves to laugh and make jokes. We like to spend time together at school and after school.</p>
+                <p>Every Saturday, we go to the park. We play on the swings, slide down the slide, and sometimes we have a picnic. Sarah always brings delicious cookies that her mother makes.</p>
+                <p>Last week, I was sad because I did poorly on a test. Sarah came to my house and said, "Don't worry, Emma. You are very smart. Next time you will do better!" Her words made me feel better.</p>
+                <p>I am very lucky to have a friend like Sarah. She is always there for me. I hope we will be friends forever.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Best friend</strong> - <em>Melhor amigo(a)</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Kind</strong> - <em>Gentil</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Funny</strong> - <em>Engraçado</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Picnic</strong> - <em>Piquenique</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Worried</strong> - <em>Preocupado</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Lucky</strong> - <em>Sortudo</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. How long have Emma and Sarah been friends?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. What do they do every Saturday?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. Why was Emma sad last week?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. What makes a good friend?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 3 Modal: A Day at the Park -->
+    <div id="story3" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🌳 A Day at the Park - Unit 2</h2>
+                <button class="close-btn" onclick="closeStory('story3')">&times;</button>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn3" onclick="toggleAudio('audio3', 'playBtn3')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio3" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story3-a-day-at-the-park.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Tom:</div>
+                    <div class="dialogue-text">"Look! The park is beautiful today!"</div>
+                    <div class="dialogue-translation">(Olha! O parque está lindo hoje!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Lisa:</div>
+                    <div class="dialogue-text">"Yes! Let's go to the playground!"</div>
+                    <div class="dialogue-translation">(Sim! Vamos ao parque infantil!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Amy:</div>
+                    <div class="dialogue-text">"Hi! Do you want to swing with me?"</div>
+                    <div class="dialogue-translation">(Oi! Você quer balançar comigo?)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Lisa:</div>
+                    <div class="dialogue-text">"Sure! Let's have fun together!"</div>
+                    <div class="dialogue-translation">(Claro! Vamos nos divertir juntos!)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>It was a beautiful Saturday morning. The sun was shining, and the sky was blue. Tom and his sister Lisa decided to go to the park with their parents.</p>
+                <p>When they arrived at the park, they saw many children playing. Tom ran to the playground and climbed the big slide. "This is fun!" he shouted.</p>
+                <p>Lisa went to the swings. A girl named Amy was sitting on the next swing. "Hi! Do you want to swing with me?" asked Amy. "Yes!" said Lisa, and they became friends.</p>
+                <p>After playing, Tom and Lisa were hungry. They sat on a bench with their parents and had a picnic. They ate sandwiches, fruit, and drank juice.</p>
+                <p>In the afternoon, they played ball games and ran around. When the sun started to go down, they went home. Tom and Lisa were very tired but very happy.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Park</strong> - <em>Parque</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Playground</strong> - <em>Parque infantil</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Slide</strong> - <em>Escorregador</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Swing</strong> - <em>Balanço</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Hungry</strong> - <em>Com fome</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Tired</strong> - <em>Cansado</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. What was the weather like?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. Who did Lisa meet at the park?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. What did they eat for lunch?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. How did Tom and Lisa feel at the end of the day?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 4 Modal: The Rainbow -->
+    <div id="story4" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🌈 The Rainbow - Unit 3</h2>
+                <button class="close-btn" onclick="closeStory('story4')">&times;</button>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn4" onclick="toggleAudio('audio4', 'playBtn4')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio4" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story4-the-rainbow.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Sophie:</div>
+                    <div class="dialogue-text">"Mom! Dad! Look at the rainbow!"</div>
+                    <div class="dialogue-translation">(Mãe! Pai! Olhem o arco-íris!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Mom:</div>
+                    <div class="dialogue-text">"It's beautiful, isn't it? Each color is special."</div>
+                    <div class="dialogue-translation">(É lindo, não é? Cada cor é especial.)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Sophie:</div>
+                    <div class="dialogue-text">"I want to follow the rainbow!"</div>
+                    <div class="dialogue-translation">(Quero seguir o arco-íris!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Dad:</div>
+                    <div class="dialogue-text">"That's a great idea! Let's go together!"</div>
+                    <div class="dialogue-translation">(Que ideia ótima! Vamos juntos!)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>After a heavy rain, a beautiful rainbow appeared in the sky. A little girl named Sophie looked out her window and saw it. "Mom! Dad! Look at the rainbow!" she called.</p>
+                <p>Sophie decided to follow the rainbow. She put on her boots and went outside. As she walked, she noticed that each color of the rainbow was special.</p>
+                <p>The red part reminded her of apples and strawberries. The orange part was like the sunset. The yellow part was as bright as the sun. The green part was like the grass and trees.</p>
+                <p>The blue part was like the sky and the ocean. The purple part was mysterious and magical. Sophie felt happy looking at all the beautiful colors.</p>
+                <p>When she reached the end of the rainbow, she found a pot of golden coins. But more importantly, she learned that rainbows are nature's beautiful gift to us. From that day on, Sophie always looked for rainbows after the rain.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Rainbow</strong> - <em>Arco-íris</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Rain</strong> - <em>Chuva</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Color</strong> - <em>Cor</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Sunset</strong> - <em>Pôr do sol</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Magical</strong> - <em>Mágico</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Gift</strong> - <em>Presente</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. What did Sophie see after the rain?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. What did the red color remind Sophie of?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. What did Sophie find at the end of the rainbow?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. What is the main lesson of this story?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 5 Modal: My Family -->
+    <div id="story5" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👨‍👩‍👧‍👦 My Family - Unit 4</h2>
+                <button class="close-btn" onclick="closeStory('story5')">&times;</button>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn5" onclick="toggleAudio('audio5', 'playBtn5')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio5" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story5-my-family.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Lucas:</div>
+                    <div class="dialogue-text">"My family is very important to me."</div>
+                    <div class="dialogue-translation">(Minha família é muito importante para mim.)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Father:</div>
+                    <div class="dialogue-text">"We love you very much, Lucas."</div>
+                    <div class="dialogue-translation">(Nós te amamos muito, Lucas.)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Mother:</div>
+                    <div class="dialogue-text">"Family is the most important thing in life."</div>
+                    <div class="dialogue-translation">(Família é a coisa mais importante da vida.)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Julia (sister):</div>
+                    <div class="dialogue-text">"I love my family! You are the best!"</div>
+                    <div class="dialogue-translation">(Eu amo minha família! Vocês são os melhores!)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>My name is Lucas, and I want to tell you about my family. My family is very important to me.</p>
+                <p>My father is a doctor. He works hard to help people. He is kind and patient. He teaches me to be honest and responsible.</p>
+                <p>My mother is a teacher. She loves to read and write. She is creative and fun. She teaches me to be curious and to never stop learning.</p>
+                <p>I have a younger sister named Julia. She is six years old. She is funny and playful. Sometimes she is annoying, but I love her very much.</p>
+                <p>My grandmother lives with us. She makes delicious food and tells wonderful stories about the past. I love listening to her stories.</p>
+                <p>Every Sunday, my whole family gets together. We cook together, play games, and laugh. These are my favorite moments. My family is my greatest treasure.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Family</strong> - <em>Família</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Doctor</strong> - <em>Médico</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Teacher</strong> - <em>Professor</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Honest</strong> - <em>Honesto</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Grandmother</strong> - <em>Avó</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Treasure</strong> - <em>Tesouro</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. What is Lucas's father's job?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. How old is Julia?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. Who lives with Lucas's family?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. What does Lucas's family do every Sunday?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story 6 Modal: The Adventure -->
+    <div id="story6" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🗺️ The Adventure - Unit 5</h2>
+                <button class="close-btn" onclick="closeStory('story6')">&times;</button>
+            </div>
+
+            <div class="audio-player">
+                <button class="play-btn" id="playBtn6" onclick="toggleAudio('audio6', 'playBtn6')">▶️</button>
+                <div class="audio-info">
+                    <h3>Ouça a História</h3>
+                    <p>Clique para ouvir a narração completa com pronúncia natural</p>
+                </div>
+            </div>
+            <audio id="audio6" style="width: 100%; margin-bottom: 2rem;" controls>
+                <source src="audio/story6-the-adventure.mp3" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+            </audio>
+
+            <div class="dialogue-section">
+                <h3>💬 Diálogos Principais</h3>
+                
+                <div class="dialogue">
+                    <div class="speaker">Jake:</div>
+                    <div class="dialogue-text">"Let's explore the forest!"</div>
+                    <div class="dialogue-translation">(Vamos explorar a floresta!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Maria:</div>
+                    <div class="dialogue-text">"Great idea! I love adventures!"</div>
+                    <div class="dialogue-translation">(Ótima ideia! Eu amo aventuras!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Jake:</div>
+                    <div class="dialogue-text">"Look! A river! Let's follow it!"</div>
+                    <div class="dialogue-translation">(Olha! Um rio! Vamos segui-lo!)</div>
+                </div>
+
+                <div class="dialogue">
+                    <div class="speaker">Maria:</div>
+                    <div class="dialogue-text">"Wow! This is amazing! A waterfall!"</div>
+                    <div class="dialogue-translation">(Uau! Isto é incrível! Uma cachoeira!)</div>
+                </div>
+            </div>
+
+            <div class="story-text">
+                <p>Jake and his friends decided to go on an adventure. They wanted to explore the forest near their town. They packed their backpacks with snacks, water, and a map.</p>
+                <p>As they walked into the forest, they saw tall trees and beautiful flowers. They heard birds singing and felt the cool breeze. Everything was peaceful and quiet.</p>
+                <p>After walking for an hour, they found a small river. "Let's follow the river!" said Jake. They walked along the river and discovered a hidden waterfall.</p>
+                <p>"Wow! This is amazing!" said his friend Maria. They sat by the waterfall and had lunch. They talked and laughed together.</p>
+                <p>On the way back, they took a different path. They got a little lost, but they used their map to find their way home. When they arrived home, they were tired but very happy.</p>
+                <p>Jake realized that the best adventures are the ones you share with friends. He couldn't wait for their next adventure.</p>
+            </div>
+
+            <div class="vocabulary">
+                <h3>📚 Vocabulário Importante</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <strong>Adventure</strong> - <em>Aventura</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Forest</strong> - <em>Floresta</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>River</strong> - <em>Rio</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Waterfall</strong> - <em>Cachoeira</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Amazing</strong> - <em>Incrível</em>
+                    </div>
+                    <div class="vocab-item">
+                        <strong>Lost</strong> - <em>Perdido</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comprehension">
+                <h3>❓ Compreensão de Leitura</h3>
+                <form onsubmit="submitAnswers(event)">
+                    <div class="question">
+                        <p>1. Where did Jake and his friends go?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>2. What did they discover after walking for an hour?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>3. What did they do by the waterfall?</p>
+                        <input type="text" placeholder="Your answer">
+                    </div>
+                    <div class="question">
+                        <p>4. What did Jake learn from this adventure?</p>
+                        <textarea placeholder="Write your answer here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Respostas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterByUnit(unit) {
+            const cards = document.querySelectorAll('.story-card');
+            const btns = document.querySelectorAll('.unit-btn');
+            
+            // Update active button
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (unit === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.classList.contains(unit) ? 'block' : 'none';
+                }
+            });
+        }
+
+        function openStory(storyId) {
+            document.getElementById(storyId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStory(storyId) {
+            document.getElementById(storyId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Stop audio if playing
+            const audio = document.querySelector(`#${storyId} audio`);
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+        function toggleAudio(audioId, btnId) {
+            const audio = document.getElementById(audioId);
+            const btn = document.getElementById(btnId);
+            
+            if (audio.paused) {
+                audio.play();
+                btn.classList.add('playing');
+                btn.textContent = '⏸️';
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+                btn.textContent = '▶️';
+            }
+        }
+
+        // Update button when audio ends
+        document.querySelectorAll('audio').forEach(audio => {
+            audio.addEventListener('ended', function() {
+                const btn = this.parentElement.querySelector('.play-btn');
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.textContent = '▶️';
+                }
+            });
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                const audio = event.target.querySelector('audio');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            }
+        }
+
+        function submitAnswers(event) {
+            event.preventDefault();
+            alert('Respostas enviadas! Seu professor revisará suas respostas em breve. Parabéns por completar a leitura! 🎉');
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

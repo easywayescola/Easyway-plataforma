@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Skills - EasyWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --accent: #FFE66D;
+            --hero-blue: #3498DB;
+            --hero-red: #E74C3C;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, var(--hero-blue) 0%, var(--hero-red) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-banner p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .hero-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .skill-header {
+            background: linear-gradient(135deg, var(--hero-blue) 0%, var(--hero-red) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .skill-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .skill-content {
+            padding: 2rem;
+        }
+
+        .mission {
+            background: var(--accent);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .mission-items {
+            list-style: none;
+        }
+
+        .mission-items li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .mission-items li:last-child {
+            border-bottom: none;
+        }
+
+        .mission-icon {
+            font-size: 1.5rem;
+        }
+
+        .activities {
+            margin-top: 1.5rem;
+        }
+
+        .activity {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .activity h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .activity p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .start-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .values-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .values-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .value {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 10px;
+            border-top: 4px solid var(--primary);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .value h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .value p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+
+            .hero-emoji {
+                font-size: 3rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <img src="public/logo.png" alt="EasyWay Logo" class="logo">
+            <h1>Super Skills</h1>
+        </div>
+        <a href="student-dashboard.html" class="back-btn">← Voltar</a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-emoji">⚡🦸‍♀️🦸‍♂️⚡</div>
+            <h1>Super Skills - Educação Socioemocional</h1>
+            <p>Desperte o herói que vive dentro de cada criança!</p>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="skills-grid">
+            <!-- Skill 1: Confidence -->
+            <div class="skill-card" onclick="toggleDetails(this)">
+                <div class="skill-header">
+                    <div class="skill-number">1️⃣</div>
+                    <div class="skill-name">CONFIDENCE</div>
+                </div>
+                <div class="skill-content">
+                    <div class="mission">
+                        <h3>🎯 Super Missão do Dia</h3>
+                        <ul class="mission-items">
+                            <li><span class="mission-icon">⭐</span> <strong>I make good choices</strong> - Eu faço boas escolhas</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I try again</strong> - Eu tento de novo</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I believe in myself</strong> - Eu acredito em mim mesmo(a)</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I help my parents</strong> - Eu ajudo meus pais</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I don't give up</strong> - Eu não desisto</li>
+                        </ul>
+                    </div>
+                    <div class="activities">
+                        <div class="activity">
+                            <h4>🎨 Atividade 1: Controle</h4>
+                            <p>Circule o que você pode controlar: Minhas escolhas, Minha atitude, Meu esforço</p>
+                        </div>
+                        <div class="activity">
+                            <h4>✍️ Atividade 2: Completar</h4>
+                            <p>Complete as frases: "Eu sou...", "Eu faço boas...", "Eu acredito..."</p>
+                        </div>
+                        <div class="activity">
+                            <h4>☑️ Atividade 3: Ações de Herói</h4>
+                            <p>Marque as ações corretas: Ser gentil, Tentar novamente, Ajudar</p>
+                        </div>
+                        <div class="activity">
+                            <h4>🎨 Atividade 4: Desenhe-se como Herói</h4>
+                            <p>Desenhe você mesmo como um super-herói com a frase "I BELIEVE IN MYSELF!"</p>
+                        </div>
+                    </div>
+                    <button class="start-btn">Começar Lição 1</button>
+                </div>
+            </div>
+
+            <!-- Skill 2: Kindness -->
+            <div class="skill-card" onclick="toggleDetails(this)">
+                <div class="skill-header">
+                    <div class="skill-number">2️⃣</div>
+                    <div class="skill-name">KINDNESS</div>
+                </div>
+                <div class="skill-content">
+                    <div class="mission">
+                        <h3>🎯 Super Missão do Dia</h3>
+                        <ul class="mission-items">
+                            <li><span class="mission-icon">⭐</span> <strong>I am kind</strong> - Eu sou gentil</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I help others</strong> - Eu ajudo os outros</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I share</strong> - Eu compartilho</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I listen</strong> - Eu ouço</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I care</strong> - Eu me importo</li>
+                        </ul>
+                    </div>
+                    <div class="activities">
+                        <div class="activity">
+                            <h4>🎨 Atividade 1: Atos de Gentileza</h4>
+                            <p>Desenhe 3 formas de ser gentil com seus amigos e família</p>
+                        </div>
+                        <div class="activity">
+                            <h4>💭 Atividade 2: Histórias de Herói</h4>
+                            <p>Conte uma história sobre quando você foi gentil com alguém</p>
+                        </div>
+                        <div class="activity">
+                            <h4>🤝 Atividade 3: Ajudando Outros</h4>
+                            <p>Liste 5 formas de ajudar pessoas ao seu redor</p>
+                        </div>
+                    </div>
+                    <button class="start-btn">Começar Lição 2</button>
+                </div>
+            </div>
+
+            <!-- Skill 3: Perseverance -->
+            <div class="skill-card" onclick="toggleDetails(this)">
+                <div class="skill-header">
+                    <div class="skill-number">3️⃣</div>
+                    <div class="skill-name">PERSEVERANCE</div>
+                </div>
+                <div class="skill-content">
+                    <div class="mission">
+                        <h3>🎯 Super Missão do Dia</h3>
+                        <ul class="mission-items">
+                            <li><span class="mission-icon">⭐</span> <strong>I don't give up</strong> - Eu não desisto</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I keep trying</strong> - Eu continuo tentando</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I am strong</strong> - Eu sou forte</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I can do it</strong> - Eu consigo fazer</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I am brave</strong> - Eu sou corajoso(a)</li>
+                        </ul>
+                    </div>
+                    <div class="activities">
+                        <div class="activity">
+                            <h4>🎯 Atividade 1: Meus Desafios</h4>
+                            <p>Escreva 3 desafios que você superou com perseverança</p>
+                        </div>
+                        <div class="activity">
+                            <h4>💪 Atividade 2: Força Interior</h4>
+                            <p>Desenhe seu super-herói interior e suas forças</p>
+                        </div>
+                        <div class="activity">
+                            <h4>📝 Atividade 3: Meu Compromisso</h4>
+                            <p>Escreva: "Eu prometo não desistir de..."</p>
+                        </div>
+                    </div>
+                    <button class="start-btn">Começar Lição 3</button>
+                </div>
+            </div>
+
+            <!-- Skill 4: Leadership -->
+            <div class="skill-card" onclick="toggleDetails(this)">
+                <div class="skill-header">
+                    <div class="skill-number">4️⃣</div>
+                    <div class="skill-name">LEADERSHIP</div>
+                </div>
+                <div class="skill-content">
+                    <div class="mission">
+                        <h3>🎯 Super Missão do Dia</h3>
+                        <ul class="mission-items">
+                            <li><span class="mission-icon">⭐</span> <strong>I am a leader</strong> - Eu sou um líder</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I inspire others</strong> - Eu inspiro outros</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I take responsibility</strong> - Eu tomo responsabilidade</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I listen to others</strong> - Eu ouço os outros</li>
+                            <li><span class="mission-icon">⭐</span> <strong>I lead by example</strong> - Eu lidero pelo exemplo</li>
+                        </ul>
+                    </div>
+                    <div class="activities">
+                        <div class="activity">
+                            <h4>👑 Atividade 1: Qualidades de Líder</h4>
+                            <p>Liste 5 qualidades que um bom líder deve ter</p>
+                        </div>
+                        <div class="activity">
+                            <h4>🎬 Atividade 2: Histórias de Liderança</h4>
+                            <p>Conte como você liderou um grupo ou projeto</p>
+                        </div>
+                        <div class="activity">
+                            <h4>🌟 Atividade 3: Meu Impacto</h4>
+                            <p>Descreva como você pode fazer diferença na sua comunidade</p>
+                        </div>
+                    </div>
+                    <button class="start-btn">Começar Lição 4</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values Section -->
+        <div class="values-section">
+            <h2>🌟 Valores Desenvolvidos</h2>
+            <div class="values-grid">
+                <div class="value">
+                    <div class="value-icon">🎯</div>
+                    <h3>Responsabilidade</h3>
+                    <p>Assumir compromissos e cumpri-los</p>
+                </div>
+                <div class="value">
+                    <div class="value-icon">💪</div>
+                    <h3>Confiança</h3>
+                    <p>Acreditar em si mesmo e suas capacidades</p>
+                </div>
+                <div class="value">
+                    <div class="value-icon">🔥</div>
+                    <h3>Esforço</h3>
+                    <p>Dar o melhor de si em tudo que faz</p>
+                </div>
+                <div class="value">
+                    <div class="value-icon">🏆</div>
+                    <h3>Persistência</h3>
+                    <p>Não desistir diante dos desafios</p>
+                </div>
+                <div class="value">
+                    <div class="value-icon">❤️</div>
+                    <h3>Gentileza</h3>
+                    <p>Tratar os outros com respeito e compaixão</p>
+                </div>
+                <div class="value">
+                    <div class="value-icon">👑</div>
+                    <h3>Liderança</h3>
+                    <p>Inspirar e guiar outros pelo exemplo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(card) {
+            card.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                card.style.transform = 'translateY(-10px)';
+            }, 100);
+        }
+
+        // Add click handlers to buttons
+        document.querySelectorAll('.start-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Lição em desenvolvimento! Em breve você poderá acessar todo o conteúdo interativo.');
+            });
+        });
+    </script>
+</body>
+</html>

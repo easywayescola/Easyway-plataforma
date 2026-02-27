@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyWay - Escola de Idiomas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FC;
+            --accent: #FFE66D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 230, 109, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .about {
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .testimonials {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .testimonials h2 {
+            color: white;
+        }
+
+        .testimonial {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .testimonial p {
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .motivational {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .motivational h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section {
+            background: white;
+            text-align: center;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 1rem 0;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .login-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 500px;
+            margin: 2rem auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .login-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .login-btn {
+            padding: 1rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1rem;
+            }
+
+            .login-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="public/logo.png" alt="EasyWay Logo">
+            </div>
+            <nav>
+                <a href="#home">Início</a>
+                <a href="#about">Sobre</a>
+                <a href="#features">Recursos</a>
+                <a href="#contact">Contato</a>
+                <a href="login.html" class="btn btn-primary">Entrar</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>🌟 Bem-vindo à EasyWay</h1>
+            <p>Inglês para Crianças e Adolescentes com Gamificação e Diversão!</p>
+            <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary">Começar Agora</a>
+                <a href="#about" class="btn btn-secondary">Saiba Mais</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Sobre a EasyWay</h2>
+                    <p><strong>Aracruz - ES</strong></p>
+                    <p>A EasyWay é uma escola de idiomas dedicada ao ensino de inglês para crianças e adolescentes. Oferecemos aulas presenciais de alta qualidade com metodologia moderna e gamificação.</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">✨</div>
+                            <div>
+                                <strong>Aulas Presenciais</strong>
+                                <p>Interação real e aprendizado significativo</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🎮</div>
+                            <div>
+                                <strong>Gamificação</strong>
+                                <p>Pontos, badges e leaderboard para motivar</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📚</div>
+                            <div>
+                                <strong>Material Próprio</strong>
+                                <p>Conteúdo desenvolvido especialmente para nossos alunos</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🎧</div>
+                            <div>
+                                <strong>Áudio Profissional</strong>
+                                <p>Pronunciação clara e natural</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="motivational">
+                        <h3>🚀 Nosso Slogan</h3>
+                        <p style="font-size: 1.3rem; font-weight: 600;">
+                            "Looking forward to the future with complete confidence"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" style="background: var(--light);" id="features">
+        <div class="container">
+            <h2>Por que Escolher a EasyWay?</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="icon">👨‍🏫</div>
+                    <h3>Professores Qualificados</h3>
+                    <p>Equipe experiente e dedicada ao ensino de qualidade</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🎯</div>
+                    <h3>Metodologia Comprovada</h3>
+                    <p>Técnicas modernas baseadas em pesquisa educacional</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🏆</div>
+                    <h3>Gamificação</h3>
+                    <p>Sistema de pontos e ranking para motivar aprendizado</p>
+                </div>
+                <div class="card">
+                    <div class="icon">📱</div>
+                    <h3>Plataforma Digital</h3>
+                    <p>Acesso a atividades, áudios e progresso online</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🌍</div>
+                    <h3>Inglês Real</h3>
+                    <p>Preparação para comunicação internacional</p>
+                </div>
+                <div class="card">
+                    <div class="icon">😊</div>
+                    <h3>Ambiente Acolhedor</h3>
+                    <p>Espaço seguro e divertido para aprender</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motivational Quotes -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <h2>Frases de Estímulo</h2>
+            <div class="cards">
+                <div class="motivational">
+                    <p>"O sucesso é a soma de pequenos esforços repetidos dia após dia." - Robert Collier</p>
+                </div>
+                <div class="motivational">
+                    <p>"Aprender uma língua é uma porta para um mundo novo." - Frank Smith</p>
+                </div>
+                <div class="motivational">
+                    <p>"Você é mais capaz do que imagina!" - EasyWay</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="section" id="login" style="background: var(--light);">
+        <div class="container">
+            <h2>Acesso à Plataforma</h2>
+            <div class="login-section">
+                <h3>Escolha seu Perfil</h3>
+                <div class="login-buttons">
+                    <button class="login-btn" onclick="goToLogin('teacher')">
+                        👨‍🏫 Professor
+                    </button>
+                    <button class="login-btn" onclick="goToLogin('student')">
+                        👨‍🎓 Aluno
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <h2>Entre em Contato</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Tem dúvidas? Fale conosco pelo WhatsApp!
+            </p>
+            <a href="https://wa.me/5527998552277" target="_blank" class="whatsapp-btn">
+                💬 Fale Conosco no WhatsApp
+            </a>
+            <p style="margin-top: 2rem; color: #666;">
+                <strong>Localização:</strong> Aracruz - ES<br>
+                <strong>Telefone:</strong> (27) 99855-2277
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Início</a>
+                <a href="#about">Sobre</a>
+                <a href="#features">Recursos</a>
+                <a href="#contact">Contato</a>
+            </div>
+            <p>&copy; 2026 EasyWay - Escola de Idiomas. Todos os direitos reservados.</p>
+            <p>Aracruz - ES | Looking forward to the future with complete confidence</p>
+        </div>
+    </footer>
+
+    <script>
+        function goToLogin(type) {
+            window.location.href = 'login.html';
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
