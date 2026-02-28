@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elementary A2 – At the Restaurant</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EF;
+    --brown: #2C1810;
+    --rust: #C4602A;
+    --gold: #D4A24C;
+    --sage: #7A9E7E;
+    --light: #F0E8D8;
+    --paper: #FBF7F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--brown);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--brown);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(196,96,42,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(212,162,76,0.15) 0%, transparent 50%);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--rust);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    color: var(--cream);
+    line-height: 1.05;
+    position: relative;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: rgba(250,246,239,0.6);
+    font-size: 16px;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .hero-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+    position: relative;
+  }
+  .hero-nav a {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--cream);
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .hero-nav a:hover { background: var(--rust); border-color: var(--rust); }
+
+  /* SECTIONS */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section.visible { opacity: 1; transform: none; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-label .num {
+    width: 36px; height: 36px;
+    background: var(--rust);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--brown);
+  }
+  .section-label .subtitle {
+    font-size: 13px;
+    color: var(--rust);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid rgba(44,24,16,0.1);
+    margin: 0;
+  }
+
+  /* VOCAB TABLE */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media(max-width:600px){ .vocab-grid { grid-template-columns: 1fr; } }
+
+  .vocab-card {
+    background: var(--paper);
+    border: 1px solid rgba(44,24,16,0.08);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .vocab-card:hover { border-color: var(--rust); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(196,96,42,0.12); }
+  .vocab-card .word { font-weight: 500; font-size: 15px; }
+  .vocab-card .meaning {
+    font-size: 14px;
+    color: var(--rust);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-style: italic;
+  }
+  .vocab-card.revealed .meaning { opacity: 1; }
+  .vocab-card .hint { font-size: 11px; color: rgba(44,24,16,0.35); position: absolute; bottom: 7px; right: 12px; }
+  .vocab-card .audio-btn {
+    background: none; border: none; cursor: pointer;
+    color: rgba(44,24,16,0.3); padding: 4px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .vocab-card .audio-btn:hover { color: var(--rust); background: rgba(196,96,42,0.08); }
+  .vocab-card .audio-btn.speaking { color: var(--rust); animation: pulse 0.6s infinite alternate; }
+  @keyframes pulse { from { opacity:0.5; } to { opacity:1; } }
+
+  /* STORY AUDIO */
+  .story-audio-bar {
+    display: flex; gap: 10px; align-items: center;
+    background: var(--light);
+    border-radius: 10px; padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+  .story-audio-bar button {
+    background: var(--brown); color: var(--cream);
+    border: none; border-radius: 8px;
+    padding: 8px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; cursor: pointer; display: flex;
+    align-items: center; gap: 6px; transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .story-audio-bar button:hover { background: var(--rust); }
+  .story-audio-bar button.active { background: var(--rust); }
+  .story-audio-bar .speed-label { font-size: 12px; color: rgba(44,24,16,0.5); margin-left: 4px; }
+  .story-audio-bar select {
+    border: 1px solid rgba(44,24,16,0.15); background: white;
+    border-radius: 6px; padding: 6px 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--brown); outline: none; cursor: pointer;
+  }
+  .story-highlight { background: rgba(212,162,76,0.35); border-radius: 3px; transition: background 0.3s; }
+
+  /* VERBS TABLE */
+  .verbs-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(44,24,16,0.08);
+  }
+  .verbs-table th {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 12px 18px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .verbs-table td {
+    padding: 13px 18px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(44,24,16,0.06);
+  }
+  .verbs-table tr:last-child td { border-bottom: none; }
+  .verbs-table tr:hover td { background: var(--light); }
+  .verbs-table .past { color: var(--rust); font-weight: 500; }
+  .verbs-table .example { color: rgba(44,24,16,0.55); font-style: italic; font-size: 13px; }
+
+  /* STORY */
+  .story-card {
+    background: var(--paper);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 32px 36px;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--brown);
+  }
+  .story-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--brown);
+  }
+  .story-card p { margin-bottom: 12px; }
+
+  /* QUESTIONS */
+  .questions { margin-top: 28px; }
+  .question-item {
+    background: var(--paper);
+    border: 1px solid rgba(44,24,16,0.08);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .question-item p { font-size: 14px; font-weight: 500; margin-bottom: 10px; }
+  .question-item input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgba(44,24,16,0.15);
+    background: transparent;
+    padding: 6px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--brown);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .question-item input:focus { border-bottom-color: var(--rust); }
+  .answer-reveal {
+    font-size: 13px;
+    color: var(--sage);
+    margin-top: 8px;
+    font-style: italic;
+    display: none;
+  }
+  .check-btn {
+    background: var(--rust);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .check-btn:hover { background: #A84E22; }
+
+  /* PRACTICE */
+  .practice-item {
+    background: var(--paper);
+    border: 1px solid rgba(44,24,16,0.08);
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .practice-item input[type="text"] {
+    border: none;
+    border-bottom: 2px solid var(--gold);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--rust);
+    outline: none;
+    min-width: 80px;
+    text-align: center;
+    padding: 2px 4px;
+  }
+  .practice-item .hint-word { color: rgba(44,24,16,0.4); font-style: italic; font-size: 12px; }
+
+  .correct { border-bottom-color: var(--sage) !important; color: var(--sage) !important; }
+  .wrong { border-bottom-color: #C0392B !important; color: #C0392B !important; }
+
+  /* TRANSLATION */
+  .translation-group { margin-bottom: 24px; }
+  .translation-group h4 {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 12px;
+  }
+  .translation-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  @media(max-width:500px){ .translation-item { grid-template-columns: 1fr; } }
+  .translation-item .source {
+    background: var(--paper);
+    border: 1px solid rgba(44,24,16,0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .translation-item input {
+    background: var(--paper);
+    border: 1px solid rgba(44,24,16,0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--brown);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .translation-item input:focus { border-color: var(--rust); }
+
+  /* DIALOGUE */
+  .dialogue-container {
+    background: var(--paper);
+    border-radius: 12px;
+    border: 1px solid rgba(44,24,16,0.08);
+    padding: 28px;
+  }
+  .dialogue-line {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+  }
+  .dialogue-line.visible { opacity: 1; }
+  .speaker-badge {
+    flex-shrink: 0;
+    width: 68px;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    height: fit-content;
+    margin-top: 2px;
+  }
+  .waiter { background: var(--brown); color: var(--cream); }
+  .customer1 { background: var(--rust); color: white; }
+  .customer2 { background: var(--sage); color: white; }
+  .customer3 { background: var(--gold); color: var(--brown); }
+  .dialogue-text { font-size: 14px; line-height: 1.65; padding-top: 3px; }
+  .dialogue-play-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--brown);
+    color: var(--cream);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background 0.2s;
+  }
+  .dialogue-play-btn:hover { background: var(--rust); }
+  .dialogue-play-btn svg { width: 16px; height: 16px; }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--rust);
+    transition: width 0.3s;
+    z-index: 999;
+  }
+
+  /* SCORE */
+  .score-badge {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--brown);
+    color: var(--cream);
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 99;
+  }
+  .score-badge span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 16px; }
+
+  @keyframes fadeIn { from { opacity:0; transform: translateX(-10px); } to { opacity:1; transform: none; } }
+
+  .section-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(44,24,16,0.12), transparent);
+    margin: 0 24px;
+  }
+
+  .tip-box {
+    background: rgba(122,158,126,0.1);
+    border: 1px solid rgba(122,158,126,0.3);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #4a6e4e;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-box strong { margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="score-badge" id="scoreBadge">Score: <span id="scoreNum">0</span></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Elementary A2 · English</div>
+  <h1>At the <span>Restaurant</span></h1>
+  <p class="hero-sub">Past Simple · Vocabulary · Reading · Dialogue</p>
+  <nav class="hero-nav">
+    <a href="#vocab">📚 Vocabulary</a>
+    <a href="#verbs">🔄 Verbs</a>
+    <a href="#story">📖 Story</a>
+    <a href="#practice">✏️ Practice</a>
+    <a href="#dialogue">💬 Dialogue</a>
+  </nav>
+</div>
+
+<!-- 1. VOCABULARY -->
+<div class="section" id="vocab">
+  <div class="section-label">
+    <div class="num">1</div>
+    <div>
+      <span class="subtitle">Key Words</span>
+      <h2>Restaurant Vocabulary</h2>
+    </div>
+  </div>
+  <div class="tip-box">
+    <strong>💡 Tip:</strong> Click each card to reveal the Portuguese translation.
+  </div>
+  <div class="vocab-grid" id="vocabGrid">
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">restaurant</span>
+      <span class="meaning">restaurante</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('restaurant')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">menu</span>
+      <span class="meaning">cardápio</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('menu')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">waiter / waitress</span>
+      <span class="meaning">garçom / garçonete</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('waiter, waitress')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">delicious</span>
+      <span class="meaning">delicioso(a)</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('delicious')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">dessert</span>
+      <span class="meaning">sobremesa</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('dessert')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">fast</span>
+      <span class="meaning">rápido(a)</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('fast')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">spicy</span>
+      <span class="meaning">apimentado(a)</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('spicy')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">sweet</span>
+      <span class="meaning">doce</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('sweet')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">Italian</span>
+      <span class="meaning">italiano(a)</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('Italian')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">café</span>
+      <span class="meaning">cafeteria</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('café')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">talented</span>
+      <span class="meaning">talentoso(a)</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('talented')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+    <div class="vocab-card" onclick="revealVocab(this)">
+      <span class="word">order</span>
+      <span class="meaning">pedir / pedido</span>
+      <button class="audio-btn" onclick="event.stopPropagation(); speak('order')">🔊</button>
+      <span class="hint">click to reveal</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- 2. VERBS -->
+<div class="section" id="verbs">
+  <div class="section-label">
+    <div class="num">2</div>
+    <div>
+      <span class="subtitle">Past Simple</span>
+      <h2>Useful Verbs</h2>
+    </div>
+  </div>
+  <table class="verbs-table">
+    <thead>
+      <tr>
+        <th>Infinitive</th>
+        <th>Meaning</th>
+        <th>Past Form</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>to cook</td>
+        <td>cozinhar</td>
+        <td class="past">cooked</td>
+        <td class="example">My mom cooked pasta.</td>
+      </tr>
+      <tr>
+        <td>to like</td>
+        <td>gostar (de)</td>
+        <td class="past">liked</td>
+        <td class="example">I liked the dessert.</td>
+      </tr>
+      <tr>
+        <td>to go</td>
+        <td>ir</td>
+        <td class="past">went</td>
+        <td class="example">We went to a restaurant.</td>
+      </tr>
+      <tr>
+        <td>to drink</td>
+        <td>beber</td>
+        <td class="past">drank</td>
+        <td class="example">She drank orange juice.</td>
+      </tr>
+      <tr>
+        <td>to eat</td>
+        <td>comer</td>
+        <td class="past">ate</td>
+        <td class="example">He ate pizza.</td>
+      </tr>
+      <tr>
+        <td>to buy</td>
+        <td>comprar</td>
+        <td class="past">bought</td>
+        <td class="example">We bought the cookbook.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-divider">
+
+<!-- 3. STORY -->
+<div class="section" id="story">
+  <div class="section-label">
+    <div class="num">3</div>
+    <div>
+      <span class="subtitle">Reading</span>
+      <h2>Story Time</h2>
+    </div>
+  </div>
+  <div class="story-audio-bar">
+    <button id="storyPlayBtn" onclick="toggleStory()">
+      <span id="storyBtnIcon">▶</span> <span id="storyBtnLabel">Read Aloud</span>
+    </button>
+    <label class="speed-label">Speed:</label>
+    <select id="storySpeed" onchange="updateSpeed()">
+      <option value="0.7">Slow</option>
+      <option value="0.9" selected>Normal</option>
+      <option value="1.2">Fast</option>
+    </select>
+  </div>
+
+  <div class="story-card" id="storyCard">
+    <h3>🍽️ Dinner at Luigi's</h3>
+    <p id="sp1">Yesterday, I went to Luigi's Italian Restaurant with my family. The restaurant was beautiful and the waiter was very friendly.</p>
+    <p id="sp2">The menu was beautiful! My father cooked at home every day, but yesterday was special — no cooking! I liked the pizza on the menu. My sister liked the pasta. My mother liked the dessert section!</p>
+    <p id="sp3">We bought our food. The waiter was fast. I ate a delicious pizza with cheese. My sister ate spaghetti. The food was amazing! We drank lemonade and water.</p>
+    <p id="sp4">For dessert, we ate chocolate cake. It was sweet and delicious! I liked everything at Luigi's. The chef was very talented.</p>
+    <p id="sp5">We bought the chef's cookbook at the restaurant. Now my father cooks Italian food at home too!</p>
+  </div>
+
+  <div class="questions">
+    <h3 style="font-family:'Playfair Display',serif; margin-bottom:16px; font-size:18px;">❓ Comprehension Questions</h3>
+    <div class="question-item">
+      <p>1. Where did the narrator go yesterday?</p>
+      <input type="text" placeholder="Type your answer...">
+      <div class="answer-reveal">✅ To Luigi's Italian Restaurant.</div>
+    </div>
+    <div class="question-item">
+      <p>2. What did the narrator eat?</p>
+      <input type="text" placeholder="Type your answer...">
+      <div class="answer-reveal">✅ A delicious pizza with cheese.</div>
+    </div>
+    <div class="question-item">
+      <p>3. What did they drink?</p>
+      <input type="text" placeholder="Type your answer...">
+      <div class="answer-reveal">✅ Lemonade and water.</div>
+    </div>
+    <div class="question-item">
+      <p>4. What did they buy at the restaurant?</p>
+      <input type="text" placeholder="Type your answer...">
+      <div class="answer-reveal">✅ The chef's cookbook.</div>
+    </div>
+    <button class="check-btn" onclick="revealAnswers()">Check Answers</button>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- 4. PRACTICE -->
+<div class="section" id="practice">
+  <div class="section-label">
+    <div class="num">4</div>
+    <div>
+      <span class="subtitle">Exercises</span>
+      <h2>Practice Time</h2>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; margin-bottom:16px; font-weight:500;">A. Complete with the past form:</h3>
+  <div class="tip-box">
+    <strong>💡</strong> Type the past tense form of the verb in parentheses, then press Enter to check.
+  </div>
+
+  <div class="practice-item">
+    1. Yesterday, my sister <input type="text" class="fill" data-answer="cooked" onkeydown="checkFill(event,this)"> <span class="hint-word">(cook)</span> a delicious cake.
+  </div>
+  <div class="practice-item">
+    2. We <input type="text" class="fill" data-answer="went" onkeydown="checkFill(event,this)"> <span class="hint-word">(go)</span> to a new restaurant downtown.
+  </div>
+  <div class="practice-item">
+    3. I <input type="text" class="fill" data-answer="liked" onkeydown="checkFill(event,this)"> <span class="hint-word">(like)</span> the spicy food a lot.
+  </div>
+  <div class="practice-item">
+    4. They <input type="text" class="fill" data-answer="drank" onkeydown="checkFill(event,this)"> <span class="hint-word">(drink)</span> juice for lunch.
+  </div>
+
+  <h3 style="font-size:16px; margin: 32px 0 16px; font-weight:500;">B. Translation Challenge (Inglês → Português):</h3>
+  <div class="translation-group">
+    <div class="translation-item">
+      <div class="source">I cooked pasta for dinner.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">She liked the chocolate dessert.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">We went to the new coffee shop.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">My father cooked pizza yesterday.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">The food was delicious!</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">I drank coffee in the morning.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">He was at home yesterday.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+    <div class="translation-item">
+      <div class="source">The waiter was fast and friendly.</div>
+      <input type="text" placeholder="Escreva em português...">
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- 5. DIALOGUE -->
+<div class="section" id="dialogue">
+  <div class="section-label">
+    <div class="num">5</div>
+    <div>
+      <span class="subtitle">Speaking</span>
+      <h2>At the Restaurant</h2>
+    </div>
+  </div>
+
+  <button class="dialogue-play-btn" onclick="playDialogue()">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    Animate Dialogue
+  </button>
+
+  <div class="dialogue-container" id="dialogueContainer">
+    <div class="dialogue-line" id="d1">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Good evening! What would you like?</span>
+    </div>
+    <div class="dialogue-line" id="d2">
+      <span class="speaker-badge customer1">Person 1</span>
+      <span class="dialogue-text">I liked the pasta on the menu. I'd like that, please.</span>
+    </div>
+    <div class="dialogue-line" id="d3">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Great choice! And to drink?</span>
+    </div>
+    <div class="dialogue-line" id="d4">
+      <span class="speaker-badge customer1">Person 1</span>
+      <span class="dialogue-text">Orange juice, please.</span>
+    </div>
+    <div class="dialogue-line" id="d5">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Perfect! And you?</span>
+    </div>
+    <div class="dialogue-line" id="d6">
+      <span class="speaker-badge customer2">Person 2</span>
+      <span class="dialogue-text">I went to an Italian restaurant last week. I ate pizza. The same, please!</span>
+    </div>
+    <div class="dialogue-line" id="d7">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Excellent! We have pizza on the menu today. And you, sir?</span>
+    </div>
+    <div class="dialogue-line" id="d8">
+      <span class="speaker-badge customer3">Person 3</span>
+      <span class="dialogue-text">I'd like a hamburger, please.</span>
+    </div>
+    <div class="dialogue-line" id="d9">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Sure! And to drink?</span>
+    </div>
+    <div class="dialogue-line" id="d10">
+      <span class="speaker-badge customer3">Person 3</span>
+      <span class="dialogue-text">A soda, please.</span>
+    </div>
+    <div class="dialogue-line" id="d11">
+      <span class="speaker-badge waiter">Waiter</span>
+      <span class="dialogue-text">Great! I'll be right back with your orders.</span>
+    </div>
+  </div>
+
+  <div style="margin-top:28px; background:var(--paper); border-radius:12px; padding:24px; border:1px solid rgba(44,24,16,0.08);">
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:16px;">💬 Useful Phrases</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div style="background:var(--light); border-radius:8px; padding:12px 16px; font-size:13px;"><strong>I'd like...</strong><br><span style="color:rgba(44,24,16,0.55)">Eu gostaria de...</span></div>
+      <div style="background:var(--light); border-radius:8px; padding:12px 16px; font-size:13px;"><strong>The same, please.</strong><br><span style="color:rgba(44,24,16,0.55)">O mesmo, por favor.</span></div>
+      <div style="background:var(--light); border-radius:8px; padding:12px 16px; font-size:13px;"><strong>What would you like?</strong><br><span style="color:rgba(44,24,16,0.55)">O que você gostaria?</span></div>
+      <div style="background:var(--light); border-radius:8px; padding:12px 16px; font-size:13px;"><strong>And to drink?</strong><br><span style="color:rgba(44,24,16,0.55)">E para beber?</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--brown); text-align:center; padding:40px 20px; margin-top:40px;">
+  <p style="font-family:'Playfair Display',serif; font-size:22px; color:var(--cream);">Well done! 🎉</p>
+  <p style="color:rgba(250,246,239,0.5); font-size:14px; margin-top:8px;">Elementary A2 · At the Restaurant</p>
+</div>
+
+<script>
+  // Scroll animations
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('progress').style.width = p + '%';
+  });
+
+  // Vocab reveal
+  function revealVocab(card) {
+    card.classList.toggle('revealed');
+    card.querySelector('.hint').textContent = card.classList.contains('revealed') ? 'click to hide' : 'click to reveal';
+  }
+
+  // Story answers
+  function revealAnswers() {
+    document.querySelectorAll('.answer-reveal').forEach(a => a.style.display = 'block');
+  }
+
+  // Fill in blanks
+  let score = 0;
+  function checkFill(e, input) {
+    if(e.key === 'Enter') {
+      const answer = input.dataset.answer.toLowerCase();
+      const val = input.value.trim().toLowerCase();
+      input.classList.remove('correct','wrong');
+      if(val === answer) {
+        input.classList.add('correct');
+        score++;
+        document.getElementById('scoreNum').textContent = score;
+        document.getElementById('scoreBadge').style.display = 'block';
+      } else {
+        input.classList.add('wrong');
+        setTimeout(() => {
+          input.value = '';
+          input.classList.remove('wrong');
+        }, 800);
+      }
+    }
+  }
+
+  // Dialogue animation
+  function playDialogue() {
+    const lines = document.querySelectorAll('.dialogue-line');
+    lines.forEach(l => { l.classList.remove('visible'); l.style.opacity = '0'; });
+    lines.forEach((line, i) => {
+      setTimeout(() => {
+        line.style.animation = 'none';
+        line.offsetHeight;
+        line.style.animation = 'fadeIn 0.4s ease forwards';
+        line.style.opacity = '1';
+      }, i * 700);
+    });
+  }
+
+  // Init dialogue visible
+  document.querySelectorAll('.dialogue-line').forEach(l => l.style.opacity = '1');
+</script>
+</body>
+</html>
