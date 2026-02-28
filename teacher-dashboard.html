@@ -46,11 +46,6 @@
             text-align: center;
         }
 
-        .sidebar-logo img {
-            height: 50px;
-            margin-bottom: 1rem;
-        }
-
         .sidebar-logo h2 {
             font-size: 1.2rem;
         }
@@ -72,6 +67,7 @@
             padding: 0.75rem 1rem;
             border-radius: 8px;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .sidebar-menu a:hover,
@@ -101,7 +97,7 @@
         }
 
         .logout-btn {
-            background: var(--primary);
+            background: var(--secondary);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
@@ -149,14 +145,16 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
 
         .section h2 {
             color: var(--primary);
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
         }
 
         .students-table {
@@ -188,16 +186,8 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-        }
-
-        .badge-active {
             background: #d4edda;
             color: #155724;
-        }
-
-        .badge-inactive {
-            background: #f8d7da;
-            color: #721c24;
         }
 
         .action-btn {
@@ -209,10 +199,11 @@
             cursor: pointer;
             font-size: 0.9rem;
             transition: all 0.3s;
+            margin-right: 0.5rem;
         }
 
         .action-btn:hover {
-            background: #3bb8b0;
+            background: #c1121f;
         }
 
         .add-student-btn {
@@ -230,31 +221,6 @@
         .add-student-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 230, 109, 0.4);
-        }
-
-        .profile-section {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--primary);
-        }
-
-        .profile-info h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-info p {
-            color: #666;
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
         }
 
         .modal {
@@ -312,7 +278,7 @@
         .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 127, 216, 0.1);
         }
 
         .modal-buttons {
@@ -337,7 +303,7 @@
         }
 
         .btn-primary:hover {
-            background: #ff5252;
+            background: #2a5fa3;
         }
 
         .btn-secondary {
@@ -364,11 +330,6 @@
                 margin-left: 0;
             }
 
-            .profile-section {
-                flex-direction: column;
-                text-align: center;
-            }
-
             .header {
                 flex-direction: column;
                 gap: 1rem;
@@ -381,16 +342,15 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="public/logo-official.png" alt="EasyWay Logo">
                 <h2>EasyWay</h2>
                 <p style="font-size: 0.9rem; margin-top: 0.5rem;">Professor</p>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="#dashboard" class="active" onclick="showSection('dashboard')">📊 Dashboard</a></li>
-                <li><a href="#students" onclick="showSection('students')">👨‍🎓 Alunos</a></li>
-                <li><a href="#activities" onclick="showSection('activities')">📚 Atividades</a></li>
-                <li><a href="#profile" onclick="showSection('profile')">👤 Perfil</a></li>
-                <li><a href="index.html">🏠 Voltar ao Início</a></li>
+                <li><a class="menu-link active" data-section="dashboard">📊 Dashboard</a></li>
+                <li><a class="menu-link" data-section="students">👨‍🎓 Alunos</a></li>
+                <li><a class="menu-link" data-section="activities">📝 Atividades</a></li>
+                <li><a class="menu-link" data-section="profile">👤 Perfil</a></li>
+                <li><a class="menu-link" onclick="logout()">🚪 Sair</a></li>
             </ul>
         </aside>
 
@@ -398,161 +358,60 @@
         <main class="main-content">
             <!-- Header -->
             <div class="header">
-                <h1>Dashboard do Professor</h1>
+                <h1>Bem-vindo ao Dashboard!</h1>
                 <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
 
             <!-- Dashboard Section -->
-            <div id="dashboard" class="section-content">
+            <div id="dashboard" class="section active">
+                <h2>Dashboard</h2>
                 <div class="stats">
                     <div class="stat-card">
                         <h3>Total de Alunos</h3>
-                        <div class="number">98</div>
+                        <div class="number" id="totalStudents">0</div>
                     </div>
                     <div class="stat-card">
                         <h3>Atividades Criadas</h3>
-                        <div class="number">24</div>
+                        <div class="number">0</div>
                     </div>
                     <div class="stat-card">
                         <h3>Alunos Ativos</h3>
-                        <div class="number">85</div>
+                        <div class="number">0</div>
                     </div>
-                    <div class="stat-card">
-                        <h3>Taxa de Conclusão</h3>
-                        <div class="number">92%</div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h2>📈 Atividades Recentes</h2>
-                    <table class="students-table">
-                        <thead>
-                            <tr>
-                                <th>Aluno</th>
-                                <th>Atividade</th>
-                                <th>Nível</th>
-                                <th>Pontuação</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>João Silva</td>
-                                <td>Quiz A1 - Verbos</td>
-                                <td>A1</td>
-                                <td>95%</td>
-                                <td>Hoje</td>
-                            </tr>
-                            <tr>
-                                <td>Maria Santos</td>
-                                <td>Leitura A2</td>
-                                <td>A2</td>
-                                <td>88%</td>
-                                <td>Hoje</td>
-                            </tr>
-                            <tr>
-                                <td>Pedro Costa</td>
-                                <td>Flashcards A1</td>
-                                <td>A1</td>
-                                <td>100%</td>
-                                <td>Ontem</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
             <!-- Students Section -->
-            <div id="students" class="section-content" style="display: none;">
-                <div class="section">
-                    <h2>👨‍🎓 Gerenciar Alunos</h2>
-                    <button class="add-student-btn" onclick="openAddStudentModal()">+ Adicionar Aluno</button>
-                    <table class="students-table">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Nível</th>
-                                <th>Status</th>
-                                <th>Pontos</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>João Silva</td>
-                                <td>joao@example.com</td>
-                                <td>A1</td>
-                                <td><span class="badge badge-active">Ativo</span></td>
-                                <td>450</td>
-                                <td><button class="action-btn">Editar</button></td>
-                            </tr>
-                            <tr>
-                                <td>Maria Santos</td>
-                                <td>maria@example.com</td>
-                                <td>A2</td>
-                                <td><span class="badge badge-active">Ativo</span></td>
-                                <td>620</td>
-                                <td><button class="action-btn">Editar</button></td>
-                            </tr>
-                            <tr>
-                                <td>Pedro Costa</td>
-                                <td>pedro@example.com</td>
-                                <td>A1</td>
-                                <td><span class="badge badge-inactive">Inativo</span></td>
-                                <td>280</td>
-                                <td><button class="action-btn">Editar</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="students" class="section">
+                <h2>Gerenciar Alunos</h2>
+                <button class="add-student-btn" onclick="openAddStudentModal()">+ Adicionar Aluno</button>
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- Students will be loaded here -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- Activities Section -->
-            <div id="activities" class="section-content" style="display: none;">
-                <div class="section">
-                    <h2>📚 Atividades</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary);">
-                            <h3>Quiz A1</h3>
-                            <p style="color: #666; margin: 0.5rem 0;">Questões sobre verbos básicos</p>
-                            <p style="color: var(--primary); font-weight: 600;">45 alunos completaram</p>
-                        </div>
-                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--secondary);">
-                            <h3>Leitura A2</h3>
-                            <p style="color: #666; margin: 0.5rem 0;">Textos com interpretação</p>
-                            <p style="color: var(--secondary); font-weight: 600;">32 alunos completaram</p>
-                        </div>
-                        <div style="background: var(--light); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--accent);">
-                            <h3>Flashcards A1</h3>
-                            <p style="color: #666; margin: 0.5rem 0;">Revisão de vocabulário</p>
-                            <p style="color: var(--accent); font-weight: 600;">67 alunos completaram</p>
-                        </div>
-                    </div>
-                </div>
+            <div id="activities" class="section">
+                <h2>Atividades</h2>
+                <p>Gerencie as atividades dos seus alunos aqui.</p>
             </div>
 
             <!-- Profile Section -->
-            <div id="profile" class="section-content" style="display: none;">
-                <div class="section">
-                    <h2>👤 Meu Perfil</h2>
-                    <div class="profile-section">
-                        <img src="public/profile.jpg" alt="Foto do Professor" class="profile-image">
-                        <div class="profile-info">
-                            <h3>Gestora e Professora</h3>
-                            <p><strong>Formação Acadêmica:</strong></p>
-                            <p>• Licenciatura em Língua Portuguesa e Respectivas Literaturas<br>
-                               • Licenciatura em Letras - Inglês<br>
-                               • Licenciatura em Pedagogia<br>
-                               • Pós-graduação em Ensino de Inglês e Artes Visuais</p>
-                            <p><strong>Certificações:</strong></p>
-                            <p>Gestão Escolar, BNCC, Aprendizagem Criativa, The Leader in Me</p>
-                            <p><strong>Frase Pessoal:</strong></p>
-                            <p style="font-style: italic; color: var(--primary); font-weight: 600;">
-                                "Looking forward to the future with complete confidence"
-                            </p>
-                        </div>
-                    </div>
+            <div id="profile" class="section">
+                <h2>Meu Perfil</h2>
+                <div id="profileContent">
+                    <!-- Profile info will be loaded here -->
                 </div>
             </div>
         </main>
@@ -561,26 +420,24 @@
     <!-- Add Student Modal -->
     <div id="addStudentModal" class="modal">
         <div class="modal-content">
-            <h2>Adicionar Novo Aluno</h2>
+            <h2>Adicionar Aluno</h2>
             <form onsubmit="addStudent(event)">
                 <div class="form-group">
-                    <label for="studentName">Nome Completo</label>
+                    <label>Nome</label>
                     <input type="text" id="studentName" required>
                 </div>
                 <div class="form-group">
-                    <label for="studentEmail">Email</label>
+                    <label>Email</label>
                     <input type="email" id="studentEmail" required>
                 </div>
                 <div class="form-group">
-                    <label for="studentLevel">Nível</label>
+                    <label>Nível</label>
                     <select id="studentLevel" required>
                         <option value="">Selecione um nível</option>
-                        <option value="A1">A1</option>
-                        <option value="A2">A2</option>
-                        <option value="B1">B1</option>
-                        <option value="B2">B2</option>
-                        <option value="C1">C1</option>
-                        <option value="C2">C2</option>
+                        <option value="A1">A1 - Iniciante</option>
+                        <option value="A2">A2 - Elementar</option>
+                        <option value="B1">B1 - Intermediário</option>
+                        <option value="B2">B2 - Intermediário Superior</option>
                     </select>
                 </div>
                 <div class="modal-buttons">
@@ -592,49 +449,171 @@
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section-content').forEach(el => {
-                el.style.display = 'none';
-            });
-            // Show selected section
-            document.getElementById(sectionId).style.display = 'block';
+        // API Configuration
+        const API_URL = localStorage.getItem('API_URL') || 'https://easyway-backend-production-4094.up.railway.app/api';
+
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            const userType = localStorage.getItem('userType');
             
-            // Update active menu item
-            document.querySelectorAll('.sidebar-menu a').forEach(el => {
-                el.classList.remove('active');
+            if (!token || userType !== 'teacher') {
+                alert('Acesso negado. Faça login primeiro.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Load teacher data
+            loadTeacherData();
+            loadStudents();
+            
+            // Setup menu links
+            setupMenuLinks();
+        });
+
+        // Setup menu navigation
+        function setupMenuLinks() {
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('data-section')) {
+                        e.preventDefault();
+                        const sectionId = this.getAttribute('data-section');
+                        showSection(sectionId);
+                        
+                        // Update active menu item
+                        document.querySelectorAll('.menu-link').forEach(l => {
+                            l.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
             });
-            event.target.classList.add('active');
         }
 
+        // Load teacher data from API
+        async function loadTeacherData() {
+            try {
+                const userId = localStorage.getItem('userId');
+                const userName = localStorage.getItem('userName');
+                
+                document.querySelector('.header h1').textContent = `Bem-vindo, ${userName}!`;
+                
+                // Load profile info
+                const profileContent = document.getElementById('profileContent');
+                profileContent.innerHTML = `
+                    <div style="background: white; padding: 2rem; border-radius: 10px;">
+                        <h3>Nome: ${userName}</h3>
+                        <p>ID: ${userId}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erro ao carregar dados do professor:', error);
+            }
+        }
+
+        // Load students from API
+        async function loadStudents() {
+            try {
+                const userId = localStorage.getItem('userId');
+                const response = await fetch(`${API_URL}/teachers/${userId}/students`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const students = await response.json();
+                    displayStudents(students);
+                    document.getElementById('totalStudents').textContent = students.length;
+                } else {
+                    console.error('Erro ao carregar alunos:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar alunos:', error);
+            }
+        }
+
+        // Display students in the table
+        function displayStudents(students) {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Nenhum aluno encontrado</td></tr>';
+                return;
+            }
+            
+            students.forEach((student, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td><span class="badge">Ativo</span></td>
+                    <td>
+                        <button class="action-btn" onclick="editStudent(${student.id})">Editar</button>
+                        <button class="action-btn" onclick="deleteStudent(${student.id})">Deletar</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Modal functions
         function openAddStudentModal() {
             document.getElementById('addStudentModal').classList.add('active');
         }
 
         function closeAddStudentModal() {
             document.getElementById('addStudentModal').classList.remove('active');
+            document.querySelector('#addStudentModal form').reset();
         }
 
+        // Add student
         function addStudent(event) {
             event.preventDefault();
             const name = document.getElementById('studentName').value;
             const email = document.getElementById('studentEmail').value;
-            const level = document.getElementById('studentLevel').value;
             
             alert(`Aluno ${name} adicionado com sucesso!`);
             closeAddStudentModal();
-            document.querySelector('form').reset();
         }
 
+        // Edit student
+        function editStudent(studentId) {
+            alert(`Editar aluno ${studentId}`);
+        }
+
+        // Delete student
+        function deleteStudent(studentId) {
+            if (confirm('Tem certeza que deseja deletar este aluno?')) {
+                alert(`Aluno ${studentId} deletado com sucesso!`);
+                loadStudents();
+            }
+        }
+
+        // Logout
         function logout() {
             if (confirm('Tem certeza que deseja sair?')) {
-                window.location.href = 'index.html';
+                localStorage.removeItem('token');
+                localStorage.removeItem('userType');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                window.location.href = 'login.html';
             }
         }
 
         // Close modal when clicking outside
-        document.getElementById('addStudentModal').addEventListener('click', function(e) {
-            if (e.target === this) {
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('addStudentModal');
+            if (e.target === modal) {
                 closeAddStudentModal();
             }
         });
