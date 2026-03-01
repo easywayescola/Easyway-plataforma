@@ -1,9 +1,11 @@
 {
-  "buildCommand": "echo 'Static site - no build needed'",
+  "buildCommand": "echo 'Static site - no build'",
   "outputDirectory": ".",
   "public": true,
   "cleanUrls": false,
   "trailingSlash": false,
+  "functions": {},
+  "env": {},
   "headers": [
     {
       "source": "/(.*)",
