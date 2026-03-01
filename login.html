@@ -516,6 +516,7 @@
                 localStorage.setItem('userName', data.teacher.name);
 
                 showSuccess('teacherSuccess', 'Login realizado com sucesso! Redirecionando...');
+                console.log('Saved userType:', localStorage.getItem('userType'));
                 setTimeout(() => {
                     window.location.href = 'teacher-dashboard.html';
                 }, 1500);

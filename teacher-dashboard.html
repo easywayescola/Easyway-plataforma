@@ -457,8 +457,11 @@
             const token = localStorage.getItem('token');
             const userType = localStorage.getItem('userType');
             
+            console.log('Dashboard loaded - Token:', token ? 'EXISTS' : 'MISSING');
+            console.log('Dashboard loaded - UserType:', userType);
+            
             if (!token || userType !== 'teacher') {
-                alert('Acesso negado. Faça login primeiro.');
+                console.log('Redirecting to login...');
                 window.location.href = 'login.html';
                 return;
             }
