@@ -1,638 +1,262 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard do Aluno - EasyWay</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #3B7FD8;
-            --secondary: #E63946;
-            --dark: #2C3E50;
-            --light: #F7F9FC;
-            --accent: #FFD60A;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light);
-            color: var(--dark);
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            height: 40px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .user-info {
-            text-align: right;
-        }
-
-        .user-info p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .welcome-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .welcome-section h1 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-top: 4px solid var(--primary);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-card .icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card .number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-card .label {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .section {
-            margin-bottom: 2rem;
-        }
-
-        .section h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .levels {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .level-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .level-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .level-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .level-header h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .level-header p {
-            opacity: 0.9;
-        }
-
-        .level-content {
-            padding: 1.5rem;
-        }
-
-        .progress-bar {
-            background: #eee;
-            height: 10px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
-            height: 100%;
-            transition: width 0.3s;
-        }
-
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .activities-list {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-
-        .activities-list li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .activities-list li:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            font-size: 1.2rem;
-        }
-
-        .activity-name {
-            flex: 1;
-        }
-
-        .activity-status {
-            font-size: 0.85rem;
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .start-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        .leaderboard {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .leaderboard-table th {
-            background: var(--light);
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .leaderboard-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .leaderboard-table tr:hover {
-            background: var(--light);
-        }
-
-        .rank {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        .rank-1 {
-            color: #FFD700;
-        }
-
-        .rank-2 {
-            color: #C0C0C0;
-        }
-
-        .rank-3 {
-            color: #CD7F32;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: var(--dark);
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .header-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .levels {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWay – Painel da Professora</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#001A33;--blue:#29B6F6;--gold:#FFB300;--green:#26C281;--red:#E74C3C;--light:#F0F8FF;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:#F4F7FA;min-height:100vh;color:var(--navy);}
+  .topbar{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .topbar-logo{font-family:'Dancing Script',cursive;font-size:1.6rem;color:white;}
+  .topbar-logo span{color:var(--gold);}
+  .teacher-tag{color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:700;}
+  .main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+  h1{color:var(--navy);margin-bottom:1.5rem;font-size:1.5rem;}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;}
+  .stat-card{background:white;border-radius:16px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,26,51,0.08);text-align:center;}
+  .stat-num{font-size:2.2rem;font-weight:900;margin-bottom:0.2rem;}
+  .stat-label{color:#888;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+  .stat-blue{border-top:4px solid var(--blue);}
+  .stat-gold{border-top:4px solid var(--gold);}
+  .stat-green{border-top:4px solid var(--green);}
+  .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+  .summary-card{background:white;border-radius:12px;padding:1.2rem;box-shadow:0 2px 8px rgba(0,26,51,0.08);border-left:4px solid var(--blue);}
+  .summary-lesson{font-weight:700;color:var(--navy);font-size:0.85rem;margin-bottom:0.8rem;}
+  .summary-stats{display:flex;gap:1rem;}
+  .summary-stat{text-align:center;}
+  .summary-stat-num{font-size:1.3rem;font-weight:900;color:var(--blue);}
+  .summary-stat-lbl{font-size:0.7rem;color:#888;font-weight:700;}
+  .filters{background:white;border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(0,26,51,0.08);display:flex;gap:1rem;flex-wrap:wrap;align-items:center;}
+  .filter-group{display:flex;align-items:center;gap:0.5rem;}
+  .filter-group label{font-weight:700;font-size:0.85rem;color:#555;}
+  .filter-select{padding:0.5rem 0.8rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;}
+  .btn-refresh{padding:0.6rem 1.2rem;background:var(--navy);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:0.85rem;}
+  .table-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,26,51,0.08);overflow:hidden;}
+  .table-header{padding:1.5rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;}
+  .table-header h2{font-size:1.1rem;color:var(--navy);}
+  .table-count{background:var(--light);color:var(--blue);font-weight:800;padding:0.3rem 0.8rem;border-radius:50px;font-size:0.85rem;}
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;}
+  th{background:var(--navy);color:white;padding:1rem;text-align:left;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;}
+  td{padding:1rem;border-bottom:1px solid #f5f5f5;font-size:0.9rem;vertical-align:top;}
+  tr:hover td{background:#FAFBFC;}
+  .score-badge{display:inline-block;padding:0.25rem 0.6rem;border-radius:50px;font-weight:900;font-size:0.85rem;}
+  .score-high{background:#e8f5e9;color:#1b5e20;}
+  .score-mid{background:#FFF8E1;color:#E65100;}
+  .score-low{background:#fdecea;color:#b71c1c;}
+  .lesson-tag{background:var(--light);color:var(--navy);padding:0.25rem 0.6rem;border-radius:6px;font-size:0.8rem;font-weight:700;}
+  .btn-detail{padding:0.4rem 0.8rem;background:var(--blue);color:white;border:none;border-radius:6px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.8rem;}
+  .btn-del{padding:0.4rem 0.8rem;background:#fdecea;color:var(--red);border:none;border-radius:6px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.8rem;margin-left:0.3rem;}
+  .empty-state{text-align:center;padding:3rem;color:#aaa;}
+  .empty-state div{font-size:3rem;margin-bottom:1rem;}
+  .loading{text-align:center;padding:2rem;color:#aaa;font-weight:700;}
+  .erro-box{background:#fdecea;border-radius:12px;padding:1.5rem;text-align:center;color:var(--red);font-weight:700;margin-bottom:1rem;display:none;}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:white;border-radius:20px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .modal-header{padding:1.5rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;}
+  .modal-header h3{font-size:1.1rem;color:var(--navy);}
+  .modal-close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;}
+  .modal-body{padding:1.5rem;}
+  .answer-section{margin-bottom:1.5rem;}
+  .answer-section h4{font-size:0.85rem;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.8rem;border-bottom:2px solid var(--light);padding-bottom:0.4rem;}
+  .answer-item{background:var(--light);border-radius:8px;padding:0.7rem;margin-bottom:0.5rem;font-size:0.9rem;}
+  .answer-label{font-weight:700;color:#555;font-size:0.8rem;margin-bottom:0.3rem;}
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:white;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:0.9rem;transition:transform 0.3s;z-index:999;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .toast.ok{background:var(--green);}
+  .toast.ko{background:var(--red);}
+  @media(max-width:600px){.main{padding:1rem;}th,td{padding:0.7rem 0.5rem;font-size:0.8rem;}.stats-grid{grid-template-columns:1fr 1fr;}}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-left">
-            <img src="public/logo-official.png" alt="EasyWay Logo" class="logo">
-            <h1>EasyWay</h1>
-        </div>
-        <div class="header-right">
-            <div class="user-info">
-                <p><strong>Bem-vindo!</strong></p>
-                <p id="studentName">João Silva</p>
-            </div>
-            <button class="logout-btn" onclick="logout()">Sair</button>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Welcome Section -->
-        <div class="welcome-section">
-            <h1>🌟 Parabéns pelo seu progresso!</h1>
-            <p>Você está fazendo um ótimo trabalho! Continue praticando para melhorar seu inglês.</p>
-        </div>
+<div class="topbar">
+  <div class="topbar-logo">Easy<span>Way</span></div>
+  <div class="teacher-tag">👩‍🏫 Painel da Professora Hesione</div>
+</div>
 
-        <!-- Stats -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="icon">🏆</div>
-                <div class="number" id="totalPoints">450</div>
-                <div class="label">Pontos Totais</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon">📊</div>
-                <div class="number" id="currentLevel">A1</div>
-                <div class="label">Nível Atual</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon">🎯</div>
-                <div class="number" id="completedActivities">12</div>
-                <div class="label">Atividades Completas</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon">🔥</div>
-                <div class="number" id="streak">7</div>
-                <div class="label">Dias em Sequência</div>
-            </div>
-        </div>
+<div class="main">
+  <h1>📊 Respostas dos Alunos</h1>
+  <div class="erro-box" id="erro">⚠️ Não foi possível conectar ao servidor. Verifique se o backend está online.</div>
 
-        <!-- Super Skills Section -->
-        <div class="section">
-            <h2>⚡ Super Skills - Educação Socioemocional</h2>
-            <div class="levels">
-                <div class="level-card" onclick="window.location.href='super-skills.html'" style="cursor: pointer;">
-                    <div class="level-header" style="background: linear-gradient(135deg, #3498DB 0%, #E74C3C 100%);">
-                        <h3 style="font-size: 2.5rem;">⚡🦸‍♀️</h3>
-                        <p>Desenvolva Habilidades de Liderança</p>
-                    </div>
-                    <div class="level-content">
-                        <p style="margin-bottom: 1rem; color: #666;">Aprenda sobre Confiança, Gentileza, Persistência e Liderança através de histórias de super-heróis.</p>
-                        <ul class="activities-list">
-                            <li>
-                                <span class="activity-icon">⭐</span>
-                                <span class="activity-name">Lição 1: Confidence</span>
-                                <span class="activity-status">Novo</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">⭐</span>
-                                <span class="activity-name">Lição 2: Kindness</span>
-                                <span class="activity-status">Novo</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">⭐</span>
-                                <span class="activity-name">Lição 3: Perseverance</span>
-                                <span class="activity-status">Novo</span>
-                            </li>
-                        </ul>
-                        <button class="start-btn">Explorar Super Skills →</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="stats-grid">
+    <div class="stat-card stat-blue"><div class="stat-num" id="stat-total" style="color:var(--blue)">—</div><div class="stat-label">Total de Envios</div></div>
+    <div class="stat-card stat-gold"><div class="stat-num" id="stat-avg" style="color:var(--gold)">—</div><div class="stat-label">Pontuação Média</div></div>
+    <div class="stat-card stat-green"><div class="stat-num" id="stat-today" style="color:var(--green)">—</div><div class="stat-label">Enviados Hoje</div></div>
+  </div>
 
-        <!-- Storybook Section -->
-        <div class="section">
-            <h2>📖 Livro Interativo - Histórias em Inglês</h2>
-            <div class="levels">
-                <div class="level-card" onclick="window.location.href='storybook.html'" style="cursor: pointer;">
-                    <div class="level-header" style="background: linear-gradient(135deg, #9B59B6 0%, #3498DB 100%);">
-                        <h3 style="font-size: 2.5rem;">📚✨</h3>
-                        <p>Leia e Aprenda</p>
-                    </div>
-                    <div class="level-content">
-                        <p style="margin-bottom: 1rem; color: #666;">Leia pequenas histórias interessantes e pratique compreensão de leitura com exercícios interativos.</p>
-                        <ul class="activities-list">
-                            <li>
-                                <span class="activity-icon">📖</span>
-                                <span class="activity-name">The Little Cat</span>
-                                <span class="activity-status">A1</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">📖</span>
-                                <span class="activity-name">My Best Friend</span>
-                                <span class="activity-status">A1</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">📖</span>
-                                <span class="activity-name">A Day at the Park</span>
-                                <span class="activity-status">A1</span>
-                            </li>
-                        </ul>
-                        <button class="start-btn">Ler Histórias →</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div id="lesson-summary" style="margin-bottom:1.5rem;"></div>
 
-        <!-- Levels Section -->
-        <div class="section">
-            <h2>📚 Escolha seu Nível e Pratique</h2>
-            <div class="levels">
-                <!-- A1 Level -->
-                <div class="level-card">
-                    <div class="level-header">
-                        <h3>A1</h3>
-                        <p>Iniciante</p>
-                    </div>
-                    <div class="level-content">
-                        <div class="progress-text">
-                            <span>Progresso</span>
-                            <span>75%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%;"></div>
-                        </div>
-                        <ul class="activities-list">
-                            <li>
-                                <span class="activity-icon">✅</span>
-                                <span class="activity-name">Quiz - Verbos Básicos</span>
-                                <span class="activity-status">Completo</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">✅</span>
-                                <span class="activity-name">Flashcards - Vocabulário</span>
-                                <span class="activity-status">Completo</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">⏳</span>
-                                <span class="activity-name">Leitura - Textos Simples</span>
-                                <span class="activity-status">Em Progresso</span>
-                            </li>
-                        </ul>
-                        <button class="start-btn" onclick="startActivity('A1')">Continuar Praticando</button>
-                    </div>
-                </div>
-
-                <!-- A2 Level -->
-                <div class="level-card">
-                    <div class="level-header">
-                        <h3>A2</h3>
-                        <p>Elementar</p>
-                    </div>
-                    <div class="level-content">
-                        <div class="progress-text">
-                            <span>Progresso</span>
-                            <span>45%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 45%;"></div>
-                        </div>
-                        <ul class="activities-list">
-                            <li>
-                                <span class="activity-icon">✅</span>
-                                <span class="activity-name">Quiz - Past Simple</span>
-                                <span class="activity-status">Completo</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">⏳</span>
-                                <span class="activity-name">Matching - Phrasal Verbs</span>
-                                <span class="activity-status">Em Progresso</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">🔒</span>
-                                <span class="activity-name">Speaking Practice</span>
-                                <span class="activity-status">Bloqueado</span>
-                            </li>
-                        </ul>
-                        <button class="start-btn" onclick="startActivity('A2')">Começar Nível</button>
-                    </div>
-                </div>
-
-                <!-- B1 Level -->
-                <div class="level-card">
-                    <div class="level-header">
-                        <h3>B1</h3>
-                        <p>Intermediário</p>
-                    </div>
-                    <div class="level-content">
-                        <div class="progress-text">
-                            <span>Progresso</span>
-                            <span>0%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
-                        <ul class="activities-list">
-                            <li>
-                                <span class="activity-icon">🔒</span>
-                                <span class="activity-name">Quiz - Tempos Verbais</span>
-                                <span class="activity-status">Bloqueado</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">🔒</span>
-                                <span class="activity-name">Leitura - Artigos</span>
-                                <span class="activity-status">Bloqueado</span>
-                            </li>
-                            <li>
-                                <span class="activity-icon">🔒</span>
-                                <span class="activity-name">Conversação</span>
-                                <span class="activity-status">Bloqueado</span>
-                            </li>
-                        </ul>
-                        <button class="start-btn" onclick="startActivity('B1')" style="opacity: 0.5; cursor: not-allowed;" disabled>Desbloqueado em Breve</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Leaderboard Section -->
-        <div class="section">
-            <h2>🏆 Ranking da Turma</h2>
-            <div class="leaderboard">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Posição</th>
-                            <th>Nome</th>
-                            <th>Nível</th>
-                            <th>Pontos</th>
-                            <th>Atividades</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="rank rank-1">🥇 1º</span></td>
-                            <td><strong>Maria Santos</strong></td>
-                            <td><span class="badge">A2</span></td>
-                            <td><strong>820</strong></td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank rank-2">🥈 2º</span></td>
-                            <td><strong>Pedro Costa</strong></td>
-                            <td><span class="badge">A2</span></td>
-                            <td><strong>750</strong></td>
-                            <td>16</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank rank-3">🥉 3º</span></td>
-                            <td><strong>João Silva</strong></td>
-                            <td><span class="badge">A1</span></td>
-                            <td><strong>450</strong></td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank">4º</span></td>
-                            <td><strong>Ana Oliveira</strong></td>
-                            <td><span class="badge">A1</span></td>
-                            <td><strong>380</strong></td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td><span class="rank">5º</span></td>
-                            <td><strong>Carlos Ferreira</strong></td>
-                            <td><span class="badge">A1</span></td>
-                            <td><strong>320</strong></td>
-                            <td>8</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Filtrar por lição:</label>
+      <select class="filter-select" id="filter-lesson" onchange="renderTable()">
+        <option value="">Todas as lições</option>
+      </select>
     </div>
+    <button class="btn-refresh" onclick="loadData()">🔄 Atualizar</button>
+  </div>
 
-    <script>
-        function startActivity(level) {
-            alert(`Iniciando atividades do nível ${level}!`);
-            // Aqui você redirecionaria para a página de atividades
-            // window.location.href = `activities.html?level=${level}`;
-        }
+  <div class="table-card">
+    <div class="table-header">
+      <h2>📋 Respostas dos Alunos</h2>
+      <span class="table-count" id="table-count">0 envios</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aluno</th><th>Lição</th><th>Pontuação</th><th>Data/Hora</th><th>Ações</th></tr></thead>
+        <tbody id="submissions-body"><tr><td colspan="5" class="loading">Conectando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-        function logout() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                window.location.href = 'index.html';
-            }
-        }
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Respostas</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
 
-        // Simular atualização de dados
-        function updateStats() {
-            const points = Math.floor(Math.random() * 1000);
-            document.getElementById('totalPoints').textContent = points;
-        }
-    </script>
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://easyway-backend-production.up.railway.app/api';
+let allData = [], token = '';
+
+async function loadData() {
+  document.getElementById('erro').style.display = 'none';
+  try {
+    // Login automático com senha 123
+    let r = await fetch(`${API}/auth/teacher/login`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email:'professor@easyway.com', password:'123'})
+    });
+    // Se falhar, tenta senha antiga
+    if (!r.ok) {
+      r = await fetch(`${API}/auth/teacher/login`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({email:'professor@easyway.com', password:'senha123'})
+      });
+    }
+    if (!r.ok) throw new Error('Login failed');
+    const auth = await r.json();
+    token = auth.token;
+
+    // Busca submissões
+    const res = await fetch(`${API}/activities/submissions`, {headers:{'Authorization':'Bearer '+token}});
+    allData = await res.json();
+    updateStats(allData);
+    updateFilter(allData);
+    renderTable();
+
+    // Busca resumo
+    const res2 = await fetch(`${API}/activities/summary`, {headers:{'Authorization':'Bearer '+token}});
+    const summary = await res2.json();
+    renderSummary(summary);
+  } catch(e) {
+    document.getElementById('erro').style.display = 'block';
+    document.getElementById('submissions-body').innerHTML = '<tr><td colspan="5" class="loading">⚠️ Erro ao conectar com o servidor.</td></tr>';
+  }
+}
+
+function renderSummary(data) {
+  if (!data || !data.length) return;
+  document.getElementById('lesson-summary').innerHTML =
+    '<h2 style="font-size:1rem;color:var(--navy);margin-bottom:1rem;">📚 Resumo por Lição</h2>'
+    + '<div class="summary-grid">' + data.map(d=>`
+    <div class="summary-card">
+      <div class="summary-lesson">${d.lesson.replace('Unit 1 - ','')}</div>
+      <div class="summary-stats">
+        <div class="summary-stat"><div class="summary-stat-num">${d.total}</div><div class="summary-stat-lbl">Envios</div></div>
+        <div class="summary-stat"><div class="summary-stat-num" style="color:var(--gold)">${d.avg_score}</div><div class="summary-stat-lbl">Média</div></div>
+        <div class="summary-stat"><div class="summary-stat-num" style="color:var(--green)">${d.max_score}</div><div class="summary-stat-lbl">Máx</div></div>
+      </div>
+    </div>`).join('') + '</div>';
+}
+
+function renderTable() {
+  const lesson = document.getElementById('filter-lesson').value;
+  const data = lesson ? allData.filter(s=>s.lesson.includes(lesson)) : allData;
+  document.getElementById('table-count').textContent = data.length + ' envio' + (data.length!==1?'s':'');
+  if (!data.length) {
+    document.getElementById('submissions-body').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div>📭</div>Nenhum envio ainda.</div></td></tr>';
+    return;
+  }
+  document.getElementById('submissions-body').innerHTML = data.map(s => {
+    const score = s.score||0;
+    const sc = score>=40?'score-high':score>=20?'score-mid':'score-low';
+    const dt = new Date(s.submitted_at);
+    const dts = dt.toLocaleDateString('pt-BR')+' '+dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    return `<tr>
+      <td><strong>${esc(s.student_name)}</strong></td>
+      <td><span class="lesson-tag">${esc(s.lesson.replace('Unit 1 - ',''))}</span></td>
+      <td><span class="score-badge ${sc}">${score} pts</span></td>
+      <td style="color:#888;font-size:0.85rem;">${dts}</td>
+      <td>
+        <button class="btn-detail" onclick="showDetail(${s.id})">👁 Ver</button>
+        <button class="btn-del" onclick="delSub(${s.id})">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function updateStats(data) {
+  document.getElementById('stat-total').textContent = data.length;
+  const avg = data.length ? Math.round(data.reduce((a,b)=>a+(b.score||0),0)/data.length) : 0;
+  document.getElementById('stat-avg').textContent = avg+' pts';
+  const today = new Date().toLocaleDateString('pt-BR');
+  document.getElementById('stat-today').textContent = data.filter(s=>new Date(s.submitted_at).toLocaleDateString('pt-BR')===today).length;
+}
+
+function updateFilter(data) {
+  const lessons = [...new Set(data.map(s=>s.lesson))];
+  document.getElementById('filter-lesson').innerHTML = '<option value="">Todas as lições</option>'
+    + lessons.map(l=>`<option value="${esc(l)}">${l.replace('Unit 1 - ','')}</option>`).join('');
+}
+
+function showDetail(id) {
+  const s = allData.find(x=>x.id===id);
+  if (!s) return;
+  document.getElementById('modal-title').textContent = '📝 '+s.student_name+' — '+s.score+' pts';
+  const a = s.answers||{};
+  let html = '';
+  const secs = [['warmup','🧠 Warm Up'],['writing','✍️ Writing'],['translation','🌐 Translation'],['conversation','💬 Conversation']];
+  secs.forEach(([k,label]) => {
+    if (a[k] && a[k].some(v=>v)) {
+      html += `<div class="answer-section"><h4>${label}</h4>`
+        + a[k].map((v,i)=>`<div class="answer-item"><div class="answer-label">Questão ${i+1}</div><div>${v||'<em style="color:#aaa">Não respondeu</em>'}</div></div>`).join('')+'</div>';
+    }
+  });
+  if (!html) html = '<p style="color:#aaa;text-align:center;padding:1rem;">Apenas pontuação registrada.</p>';
+  html += `<div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center;margin-top:1rem;"><div style="font-size:0.8rem;color:#888;margin-bottom:0.3rem;">Enviado em</div><div style="font-weight:700;">${new Date(s.submitted_at).toLocaleString('pt-BR')}</div></div>`;
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+async function delSub(id) {
+  if (!confirm('Excluir este envio?')) return;
+  try {
+    await fetch(`${API}/activities/submissions/${id}`,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
+    allData = allData.filter(s=>s.id!==id);
+    renderTable(); updateStats(allData);
+    showToast('🗑 Excluído!','ok');
+  } catch(e){showToast('Erro','ko');}
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2500);}
+
+loadData();
+</script>
 </body>
 </html>
