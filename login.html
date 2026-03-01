@@ -528,16 +528,31 @@
             }
         }
 
-        // Check if already logged in
+        // Check if already logged in and token is valid
         window.addEventListener('load', () => {
             const token = localStorage.getItem('token');
             const userType = localStorage.getItem('userType');
             
-            if (token && userType) {
+            console.log('Login page loaded - Token:', token ? 'EXISTS' : 'MISSING');
+            console.log('Login page loaded - UserType:', userType);
+            
+            // Only redirect if both token and userType are present
+            if (token && userType && token.length > 20) {
+                console.log('Valid session found, redirecting...');
                 if (userType === 'student') {
                     window.location.href = 'student-dashboard.html';
                 } else if (userType === 'teacher') {
                     window.location.href = 'teacher-dashboard.html';
+                }
+            } else {
+                console.log('No valid session, showing login form');
+                // Clear invalid data
+                if (token && token.length < 20) {
+                    console.log('Clearing invalid token');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userType');
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem('userName');
                 }
             }
         });
