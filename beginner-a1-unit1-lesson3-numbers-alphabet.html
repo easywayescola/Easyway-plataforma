@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>EasyWay – Lesson 3: Numbers &amp; Alphabet</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#001A33;--blue:#29B6F6;--gold:#FFB300;--green:#26C281;--red:#E74C3C;--light:#F0F8FF;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001A33,#003060 50%,#001A33);min-height:100vh;color:var(--navy);}
+  .screen{display:none;}.screen.active{display:block;}
+  #ns{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+  #ns.active{display:flex;}
+  .logo{font-family:'Dancing Script',cursive;font-size:2.5rem;color:#fff;margin-bottom:0.2rem;}.logo span{color:var(--gold);}
+  .sub{color:var(--blue);font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
+  .wcard{background:white;border-radius:24px;padding:2.5rem 2rem;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .wemoji{font-size:3.5rem;margin-bottom:1rem;}
+  .wcard h2{font-size:1.5rem;color:var(--navy);margin-bottom:0.5rem;}.wcard p{color:#666;font-size:0.95rem;margin-bottom:1.5rem;}
+  .badge{background:linear-gradient(135deg,var(--navy),#003060);color:white;padding:0.5rem 1.2rem;border-radius:50px;font-size:0.8rem;font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:1.5rem;}
+  .ninp{width:100%;padding:1rem 1.2rem;border:2px solid #e0e0e0;border-radius:12px;font-size:1rem;font-family:'Nunito',sans-serif;font-weight:600;outline:none;margin-bottom:1rem;transition:border-color 0.2s;}
+  .ninp:focus{border-color:var(--blue);}
+  .bstart{width:100%;padding:1rem;background:linear-gradient(135deg,var(--blue),#0288D1);color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:0 4px 15px rgba(41,182,246,0.4);}
+  #as{min-height:100vh;padding-bottom:2rem;}#as.active{display:block;}
+  .topbar{background:rgba(0,26,51,0.95);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:2px solid rgba(41,182,246,0.3);}
+  .tlogo{font-family:'Dancing Script',cursive;font-size:1.5rem;color:white;}.tlogo span{color:var(--gold);}
+  .stag{color:var(--blue);font-size:0.85rem;font-weight:700;}
+  .pw{padding:0 1.5rem;}.pb{background:rgba(255,255,255,0.1);height:6px;border-radius:3px;margin:0.8rem 0;}
+  .pf{background:linear-gradient(90deg,var(--blue),var(--gold));height:100%;border-radius:3px;transition:width 0.5s ease;width:0%;}
+  .hero{background:linear-gradient(135deg,#001A33,#003060);padding:2rem 1.5rem 3rem;text-align:center;}
+  .hu{color:var(--blue);font-size:0.75rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.3rem;}
+  .ht{color:white;font-size:1.8rem;font-weight:900;margin-bottom:0.5rem;}.ht span{color:var(--gold);}
+  .ho{color:rgba(255,255,255,0.7);font-size:0.9rem;line-height:1.5;max-width:340px;margin:0 auto 1.5rem;}
+  .hs{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:0.5rem 1.2rem;border-radius:50px;font-size:0.9rem;font-weight:700;}
+  .sec{background:white;margin:1rem;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,26,51,0.15);}
+  .sh{padding:1rem 1.5rem;display:flex;align-items:center;gap:0.8rem;}
+  .si{font-size:1.5rem;}.st{font-size:1rem;font-weight:900;color:white;}.ss{font-size:0.75rem;color:rgba(255,255,255,0.8);}
+  .sb{padding:1.5rem;}
+  .hb{background:linear-gradient(135deg,#29B6F6,#0288D1);}.hn{background:linear-gradient(135deg,#001A33,#003060);}.hg{background:linear-gradient(135deg,#FFB300,#FF8F00);}.hgr{background:linear-gradient(135deg,#26C281,#1A9660);}.hp{background:linear-gradient(135deg,#7C4DFF,#5E35B1);}.ho-hdr{background:linear-gradient(135deg,#FF7043,#E64A19);}
+  /* ALPHABET GRID */
+  .alpha-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin-bottom:1rem;}
+  .alpha-card{background:var(--light);border:2px solid transparent;border-radius:10px;padding:0.6rem 0.3rem;text-align:center;cursor:pointer;transition:all 0.2s;}
+  .alpha-card:hover,.alpha-card.sp{border-color:var(--blue);background:#e3f2fd;}
+  .alpha-letter{font-size:1.1rem;font-weight:900;color:var(--navy);}
+  .alpha-sound{font-size:0.65rem;color:#888;}
+  /* NUMBERS GRID */
+  .num-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+  .num-card{background:var(--light);border:2px solid transparent;border-radius:12px;padding:0.8rem;display:flex;align-items:center;gap:0.8rem;cursor:pointer;transition:all 0.2s;}
+  .num-card:hover,.num-card.sp{border-color:var(--gold);background:#FFF8E1;}
+  .num-digit{font-size:1.5rem;font-weight:900;color:var(--navy);min-width:36px;text-align:center;}
+  .num-word{font-weight:700;color:#555;font-size:0.9rem;}
+  .spico{margin-left:auto;font-size:1.1rem;color:var(--blue);}
+  /* WARMUP */
+  .wit{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;border-left:4px solid var(--blue);}
+  .wq{font-weight:700;color:var(--navy);margin-bottom:0.6rem;font-size:0.95rem;}
+  .wta{width:100%;padding:0.7rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;resize:none;transition:border-color 0.2s;}
+  .wta:focus{border-color:var(--blue);}
+  /* MC */
+  .mc-it{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:1rem;}
+  .mc-q{font-weight:700;color:var(--navy);margin-bottom:0.8rem;font-size:0.9rem;}
+  .mc-opts{display:flex;flex-direction:column;gap:0.5rem;}
+  .mc-opt{padding:0.7rem 1rem;border:2px solid #e0e0e0;border-radius:10px;font-weight:600;cursor:pointer;background:white;transition:all 0.2s;text-align:left;font-family:'Nunito',sans-serif;font-size:0.9rem;}
+  .mc-opt:hover{border-color:var(--blue);background:#e3f2fd;}
+  .mc-opt.correct{border-color:var(--green)!important;background:#e8f5e9!important;color:#1b5e20!important;}
+  .mc-opt.wrong{border-color:var(--red)!important;background:#fdecea!important;color:#b71c1c!important;}
+  /* FILL */
+  .fi{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+  .fl{font-weight:700;color:#555;font-size:0.85rem;}.ft{font-weight:600;color:var(--navy);}
+  .fbi{border:none;border-bottom:2px solid var(--blue);background:transparent;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.95rem;color:var(--navy);width:100px;text-align:center;outline:none;padding:0.2rem 0.3rem;}
+  .fbi.ok{border-color:var(--green);color:var(--green);}.fbi.ko{border-color:var(--red);color:var(--red);}
+  /* LISTEN */
+  .li-list{list-style:none;}
+  .li-it{display:flex;align-items:center;gap:1rem;padding:0.8rem;border-radius:12px;margin-bottom:0.6rem;background:var(--light);cursor:pointer;transition:all 0.2s;}
+  .li-it:hover{background:#e3f2fd;}.li-it.playing{background:#FFF8E1;}
+  .li-num{width:32px;height:32px;background:var(--navy);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;flex-shrink:0;}
+  .li-en{font-weight:700;color:var(--navy);}.li-pt{color:#888;font-size:0.8rem;}.li-ico{color:var(--blue);font-size:1.3rem;margin-left:auto;}
+  /* WRITE */
+  .wri{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
+  .wq2{font-weight:700;color:var(--navy);margin-bottom:0.6rem;font-size:0.9rem;}
+  .winp{width:100%;padding:0.7rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+  .winp:focus{border-color:var(--blue);}
+  /* SPELL GAME */
+  .spell-box{background:linear-gradient(135deg,#001A33,#003060);border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:1rem;}
+  .spell-word{font-size:2rem;font-weight:900;color:var(--gold);letter-spacing:4px;margin-bottom:0.5rem;}
+  .spell-pt{color:rgba(255,255,255,0.7);font-size:0.9rem;margin-bottom:1rem;}
+  .spell-inp{width:100%;padding:0.8rem;border:2px solid rgba(255,255,255,0.3);border-radius:10px;background:rgba(255,255,255,0.1);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;}
+  .spell-inp::placeholder{color:rgba(255,255,255,0.4);}
+  .spell-btns{display:flex;gap:0.5rem;margin-top:0.8rem;}
+  .spell-btn{flex:1;padding:0.7rem;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:0.9rem;}
+  .spell-check{background:var(--gold);color:var(--navy);}
+  .spell-next{background:rgba(255,255,255,0.15);color:white;}
+  .spell-fb{margin-top:0.5rem;font-weight:700;font-size:0.9rem;}
+  .spell-score{color:white;font-size:0.85rem;margin-top:0.5rem;}
+  /* BUTTONS */
+  .cbtn{width:100%;padding:0.9rem;background:linear-gradient(135deg,var(--navy),#003060);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+  .cbtn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(0,26,51,0.3);}
+  /* SUBMIT */
+  .ssec{margin:1.5rem 1rem;background:linear-gradient(135deg,var(--navy),#003060);border-radius:20px;padding:2rem 1.5rem;text-align:center;color:white;}
+  .ssec h3{font-size:1.3rem;margin-bottom:0.5rem;}.ssec p{opacity:0.8;font-size:0.9rem;margin-bottom:1.5rem;}
+  .scbig{background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;margin-bottom:1.5rem;font-size:2rem;font-weight:900;}
+  .scbig span{color:var(--gold);}
+  .bsub{width:100%;padding:1.1rem;background:linear-gradient(135deg,var(--gold),#FF8F00);color:var(--navy);border:none;border-radius:14px;font-size:1.1rem;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:0 4px 15px rgba(255,179,0,0.4);}
+  /* SUCCESS */
+  #ss{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+  #ss.active{display:flex;}
+  .scard{background:white;border-radius:24px;padding:2.5rem 2rem;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .semi{font-size:4rem;margin-bottom:1rem;animation:bounce 1s ease infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .scard h2{color:var(--navy);font-size:1.5rem;margin-bottom:0.5rem;}.scard p{color:#666;margin-bottom:0.5rem;}
+  .fpts{font-size:3rem;font-weight:900;color:var(--blue);margin:1rem 0;}
+  /* TOAST */
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:white;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:0.9rem;transition:transform 0.3s;z-index:999;white-space:nowrap;}
+  .toast.show{transform:translateX(-50%) translateY(0);}.toast.ok{background:var(--green);}.toast.ko{background:var(--red);}
+  @media(max-width:400px){.alpha-grid{grid-template-columns:repeat(4,1fr);}. num-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- NAME SCREEN -->
+<div id="ns" class="screen active">
+  <div class="logo">Easy<span>Way</span></div><div class="sub">Escola de Idiomas</div>
+  <div class="wcard">
+    <div class="wemoji">🔤</div>
+    <div class="badge">UNIT 1 · LESSON 3 · BEGINNER A1</div>
+    <h2>Numbers &amp; Alphabet</h2>
+    <p>Aprenda o alfabeto e os números em inglês!</p>
+    <input type="text" class="ninp" id="sninp" placeholder="Digite seu nome aqui..." autocomplete="off">
+    <button class="bstart" onclick="start()">Let's Go! 🚀</button>
+  </div>
+</div>
+
+<!-- ACTIVITY SCREEN -->
+<div id="as" class="screen">
+  <div class="topbar"><div class="tlogo">Easy<span>Way</span></div><div class="stag" id="snm">👤 Aluno</div></div>
+  <div class="pw"><div class="pb"><div class="pf" id="pf"></div></div></div>
+
+  <div class="hero">
+    <div class="hu">Unit 1 · Lesson 3 · Beginner A1</div>
+    <div class="ht">Numbers &amp; <span>Alphabet</span></div>
+    <div class="ho">Ao final desta lição, você saberá o alfabeto inglês e os números de 1 a 20.</div>
+    <div class="hs">⭐ Score: <span id="sc">0</span> pts</div>
+  </div>
+
+  <!-- WARM UP -->
+  <div class="sec">
+    <div class="sh hb"><div class="si">🧠</div><div><div class="st">Warm Up</div><div class="ss">Pense e responda</div></div></div>
+    <div class="sb">
+      <div class="wit"><div class="wq">1. Você consegue dizer o alfabeto em inglês? Tente!<br><span style="font-size:0.8rem;color:#888;">(escreva as letras que lembrar)</span></div><textarea class="wta warmup-ta" rows="2" placeholder="A, B, C..."></textarea></div>
+      <div class="wit"><div class="wq">2. Como se diz o seu número de telefone em inglês?</div><textarea class="wta warmup-ta" rows="2" placeholder="Sua resposta..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- ALPHABET -->
+  <div class="sec">
+    <div class="sh hn"><div class="si">🔤</div><div><div class="st">The Alphabet</div><div class="ss">Toque em cada letra para ouvir!</div></div></div>
+    <div class="sb">
+      <div class="alpha-grid" id="alpha-grid"></div>
+      <ul class="li-list">
+        <li class="li-it" onclick="speakI(this,'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z')">
+          <div class="li-num">🔊</div>
+          <div><div class="li-en">Full Alphabet</div><div class="li-pt">Ouça o alfabeto completo</div></div>
+          <div class="li-ico">▶</div>
+        </li>
+      </ul>
+      <div style="background:#FFF8E1;border-left:4px solid var(--gold);border-radius:12px;padding:1rem;margin-top:0.5rem;">
+        <h4 style="color:#E65100;font-size:0.85rem;margin-bottom:0.5rem;">🎯 Pronunciation Tips</h4>
+        <p style="font-size:0.85rem;color:var(--navy);line-height:1.7;">
+          <strong>A</strong> = /eɪ/ (ei) &nbsp;|&nbsp; <strong>E</strong> = /iː/ (ii) &nbsp;|&nbsp; <strong>I</strong> = /aɪ/ (ai)<br>
+          <strong>G</strong> = /dʒiː/ (djii) &nbsp;|&nbsp; <strong>J</strong> = /dʒeɪ/ (djei)<br>
+          <strong>Q</strong> = /kjuː/ (kiu) &nbsp;|&nbsp; <strong>W</strong> = "double-u" &nbsp;|&nbsp; <strong>Y</strong> = /waɪ/ (uai)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUMBERS 1-20 -->
+  <div class="sec">
+    <div class="sh hg"><div class="si">🔢</div><div><div class="st">Numbers 1–20</div><div class="ss">Toque para ouvir cada número!</div></div></div>
+    <div class="sb">
+      <div class="num-grid" id="num-grid"></div>
+    </div>
+  </div>
+
+  <!-- TENS -->
+  <div class="sec">
+    <div class="sh hp"><div class="si">💯</div><div><div class="st">Numbers 10, 20, 30... 100</div><div class="ss">Dezenas em inglês</div></div></div>
+    <div class="sb">
+      <ul class="li-list">
+        <li class="li-it" onclick="speakI(this,'Ten')"><div class="li-num">10</div><div><div class="li-en">Ten</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'Twenty')"><div class="li-num">20</div><div><div class="li-en">Twenty</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'Thirty')"><div class="li-num">30</div><div><div class="li-en">Thirty</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'Forty')"><div class="li-num">40</div><div><div class="li-en">Forty</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'Fifty')"><div class="li-num">50</div><div><div class="li-en">Fifty</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'One hundred')"><div class="li-num">100</div><div><div class="li-en">One hundred</div></div><div class="li-ico">🔊</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SPELLING GAME -->
+  <div class="sec">
+    <div class="sh hgr"><div class="si">🎮</div><div><div class="st">Spell It! – Game</div><div class="ss">Soletre a palavra letra por letra!</div></div></div>
+    <div class="sb">
+      <div class="spell-box">
+        <div class="spell-word" id="spell-word">CAT</div>
+        <div class="spell-pt" id="spell-pt">🐱 Gato</div>
+        <button onclick="speakSpell()" style="background:rgba(255,255,255,0.15);color:white;border:none;padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;margin-bottom:0.8rem;">🔊 Ouvir</button>
+        <input class="spell-inp" id="spell-inp" placeholder="C-A-T" maxlength="20" oninput="this.value=this.value.toUpperCase()">
+        <div class="spell-btns">
+          <button class="spell-btn spell-check" onclick="checkSpell()">✅ Verificar</button>
+          <button class="spell-btn spell-next" onclick="nextSpell()">➡ Próxima</button>
+        </div>
+        <div class="spell-fb" id="spell-fb"></div>
+        <div class="spell-score">Palavra <span id="spell-idx">1</span> de <span id="spell-total">5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 1: MC NUMBERS -->
+  <div class="sec">
+    <div class="sh hb"><div class="si">☑️</div><div><div class="st">Activity 1 – Numbers</div><div class="ss">Qual é o número correto?</div></div></div>
+    <div class="sb">
+      <div class="mc-it"><div class="mc-q">1. "Fifteen" em números é:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'n1')">50</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'n1')">15</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'n1')">5</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">2. Como se escreve o número 12?</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'n2')">Twenty</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'n2')">Eleven</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'n2')">Twelve</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">3. "Nineteen" significa:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'n3')">9</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'n3')">19</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'n3')">90</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">4. O número 11 em inglês é:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,true,'n4')">Eleven</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'n4')">Twelve</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'n4')">Ten</button>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 2: FILL NUMBERS -->
+  <div class="sec">
+    <div class="sh ho-hdr"><div class="si">📝</div><div><div class="st">Activity 2 – Write the number</div><div class="ss">Escreva o número por extenso em inglês</div></div></div>
+    <div class="sb">
+      <div class="fi"><div class="fl">a)</div><div class="ft">3 =</div><input class="fbi" id="n1" placeholder="___" maxlength="10"></div>
+      <div class="fi"><div class="fl">b)</div><div class="ft">7 =</div><input class="fbi" id="n2" placeholder="___" maxlength="10"></div>
+      <div class="fi"><div class="fl">c)</div><div class="ft">13 =</div><input class="fbi" id="n3" placeholder="___" maxlength="10"></div>
+      <div class="fi"><div class="fl">d)</div><div class="ft">20 =</div><input class="fbi" id="n4" placeholder="___" maxlength="10"></div>
+      <div class="fi"><div class="fl">e)</div><div class="ft">16 =</div><input class="fbi" id="n5" placeholder="___" maxlength="10"></div>
+      <button class="cbtn" onclick="chkNums()">✅ Verificar respostas</button>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 3: ALPHABET MC -->
+  <div class="sec">
+    <div class="sh hp"><div class="si">🔤</div><div><div class="st">Activity 3 – Alphabet Quiz</div><div class="ss">Teste seu conhecimento do alfabeto</div></div></div>
+    <div class="sb">
+      <div class="mc-it"><div class="mc-q">1. Quantas letras tem o alfabeto inglês?</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'a1')">24</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'a1')">26</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a1')">28</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">2. Como se pronuncia a letra "W" em inglês?</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'a2')">Vê duplo</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'a2')">Double-u</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a2')">Wa</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">3. Quais letras são vogais em inglês?</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,true,'a3')">A, E, I, O, U</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a3')">A, E, I, O, U, Y</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a3')">A, E, I, O</button>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="sec">
+    <div class="sh hg"><div class="si">✍️</div><div><div class="st">Writing – About You!</div><div class="ss">Escreva em inglês</div></div></div>
+    <div class="sb">
+      <div class="wri"><div class="wq2">1. How old are you? (escreva por extenso)</div><input class="winp" id="w1" placeholder="I am ... years old."></div>
+      <div class="wri"><div class="wq2">2. Write your phone number in words (primeiros 4 dígitos)</div><input class="winp" id="w2" placeholder="Ex: two, seven, three..."></div>
+      <div class="wri"><div class="wq2">3. Spell your name! (letra por letra, separadas por vírgula)</div><input class="winp" id="w3" placeholder="Ex: M-A-R-I-A"></div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="ssec">
+    <h3>🏁 Atividade concluída!</h3>
+    <p>Clique abaixo para enviar suas respostas para a professora.</p>
+    <div class="scbig">Pontuação: <span id="fpts">0</span> pts</div>
+    <button class="bsub" onclick="submitAct()">📤 Enviar para a Professora</button>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="ss" class="screen">
+  <div class="logo">Easy<span>Way</span></div><div class="sub">Escola de Idiomas</div>
+  <div class="scard">
+    <div class="semi">🎉</div><h2>Great job, <span id="sn"></span>!</h2>
+    <p>Sua atividade foi enviada para a professora!</p>
+    <div class="fpts" id="sfpts">0 pts</div>
+    <p style="font-size:0.85rem;color:#888;">Lesson 3 – Numbers &amp; Alphabet ✅</p>
+    <br><button class="bstart" onclick="location.reload()">🔄 Fazer de novo</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let sName='',score=0;
+const mcD={},tfD={};
+let fillDone=false,numDone=false;
+
+// ALPHABET DATA
+const alphaData=[
+  {l:'A',s:'ay'},{l:'B',s:'bee'},{l:'C',s:'see'},{l:'D',s:'dee'},
+  {l:'E',s:'ee'},{l:'F',s:'ef'},{l:'G',s:'jee'},{l:'H',s:'aitch'},
+  {l:'I',s:'ai'},{l:'J',s:'jay'},{l:'K',s:'kay'},{l:'L',s:'el'},
+  {l:'M',s:'em'},{l:'N',s:'en'},{l:'O',s:'oh'},{l:'P',s:'pee'},
+  {l:'Q',s:'cue'},{l:'R',s:'ar'},{l:'S',s:'es'},{l:'T',s:'tee'},
+  {l:'U',s:'you'},{l:'V',s:'vee'},{l:'W',s:'d.u.'},{l:'X',s:'ex'},
+  {l:'Y',s:'wai'},{l:'Z',s:'zee'}
+];
+
+// NUMBERS DATA
+const nums=[
+  [1,'One'],[2,'Two'],[3,'Three'],[4,'Four'],[5,'Five'],
+  [6,'Six'],[7,'Seven'],[8,'Eight'],[9,'Nine'],[10,'Ten'],
+  [11,'Eleven'],[12,'Twelve'],[13,'Thirteen'],[14,'Fourteen'],[15,'Fifteen'],
+  [16,'Sixteen'],[17,'Seventeen'],[18,'Eighteen'],[19,'Nineteen'],[20,'Twenty']
+];
+
+// SPELL GAME DATA
+const spellWords=[
+  {word:'CAT',pt:'🐱 Gato'},{word:'DOG',pt:'🐶 Cachorro'},{word:'BUS',pt:'🚌 Ônibus'},
+  {word:'MAP',pt:'🗺 Mapa'},{word:'SUN',pt:'☀️ Sol'}
+];
+let spellIdx=0,spellScore=0;
+
+window.onload=()=>{
+  // Build alphabet grid
+  const ag=document.getElementById('alpha-grid');
+  alphaData.forEach(a=>{
+    const d=document.createElement('div');
+    d.className='alpha-card';
+    d.innerHTML=`<div class="alpha-letter">${a.l}</div><div class="alpha-sound">${a.s}</div>`;
+    d.onclick=()=>{speak(a.l);d.classList.add('sp');setTimeout(()=>d.classList.remove('sp'),800);};
+    ag.appendChild(d);
+  });
+  // Build numbers grid
+  const ng=document.getElementById('num-grid');
+  nums.forEach(n=>{
+    const d=document.createElement('div');
+    d.className='num-card';
+    d.innerHTML=`<div class="num-digit">${n[0]}</div><div class="num-word">${n[1]}</div><div class="spico">🔊</div>`;
+    d.onclick=()=>{speak(n[1]);d.classList.add('sp');setTimeout(()=>d.classList.remove('sp'),800);};
+    ng.appendChild(d);
+  });
+  // Init spell
+  updateSpell();
+  document.getElementById('spell-total').textContent=spellWords.length;
+};
+
+function start(){
+  const v=document.getElementById('sninp').value.trim();
+  if(!v){toast('Digite seu nome! 😊','ko');return;}
+  sName=v;
+  document.getElementById('snm').textContent='👤 '+sName;
+  document.getElementById('sn').textContent=sName;
+  showS('as');
+}
+function showS(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function speak(t){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.85;u.pitch=1.1;const v=window.speechSynthesis.getVoices();const p=v.find(x=>x.lang.startsWith('en')&&(x.name.includes('Samantha')||x.name.includes('Google US')||x.name.includes('Karen')||x.name.includes('Daniel')));if(p)u.voice=p;window.speechSynthesis.speak(u);}
+window.speechSynthesis.onvoiceschanged=()=>{};
+function speakI(el,t){document.querySelectorAll('.li-it.playing').forEach(e=>e.classList.remove('playing'));el.classList.add('playing');speak(t);setTimeout(()=>el.classList.remove('playing'),2500);}
+
+function addSc(n){score+=n;document.getElementById('sc').textContent=score;document.getElementById('fpts').textContent=score;document.getElementById('pf').style.width=Math.min((score/70)*100,100)+'%';}
+
+function chkMC(btn,c,g){
+  if(mcD[g])return;mcD[g]=true;
+  const opts=btn.closest('.mc-opts');opts.querySelectorAll('.mc-opt').forEach(b=>b.disabled=true);
+  if(c){btn.classList.add('correct');addSc(5);toast('✅ Correto! +5 pts','ok');}
+  else{btn.classList.add('wrong');opts.querySelectorAll('.mc-opt').forEach(b=>{if(b.getAttribute('onclick').includes('true,'))b.classList.add('correct');});toast('❌ Incorreto','ko');}
+}
+
+function chkNums(){
+  if(numDone)return;numDone=true;
+  const ans={n1:'three',n2:'seven',n3:'thirteen',n4:'twenty',n5:'sixteen'};
+  let ok=0;
+  Object.entries(ans).forEach(([id,a])=>{const el=document.getElementById(id);if(el.value.trim().toLowerCase()===a){el.classList.add('ok');ok++;}else{el.classList.add('ko');el.value=a;}el.disabled=true;});
+  addSc(ok*4);toast(`✅ ${ok}/5 corretas! +${ok*4} pts`,ok===5?'ok':'');
+}
+
+// SPELL GAME
+function updateSpell(){
+  const w=spellWords[spellIdx];
+  document.getElementById('spell-word').textContent=w.word;
+  document.getElementById('spell-pt').textContent=w.pt;
+  document.getElementById('spell-inp').value='';
+  document.getElementById('spell-fb').textContent='';
+  document.getElementById('spell-idx').textContent=spellIdx+1;
+}
+function speakSpell(){speak(spellWords[spellIdx].word);}
+function checkSpell(){
+  const w=spellWords[spellIdx].word;
+  const inp=document.getElementById('spell-inp').value.replace(/[-\s]/g,'').toUpperCase();
+  const fb=document.getElementById('spell-fb');
+  if(inp===w){fb.textContent='✅ Correto! Perfeito!';fb.style.color='#26C281';addSc(4);toast('🎯 +4 pts','ok');}
+  else{fb.textContent='❌ Era: '+w.split('').join('-');fb.style.color='var(--red)';}
+}
+function nextSpell(){
+  spellIdx=(spellIdx+1)%spellWords.length;updateSpell();
+}
+
+async function submitAct(){
+  const payload={studentName:sName,lesson:'Unit 1 - Lesson 3 - Numbers & Alphabet',score,submittedAt:new Date().toISOString(),
+    answers:{warmup:[...document.querySelectorAll('.warmup-ta')].map(i=>i.value),writing:['w1','w2','w3'].map(id=>document.getElementById(id)?.value||'')}};
+  try{await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+  document.getElementById('sfpts').textContent=score+' pts';showS('ss');
+}
+
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2500);}
+</script>
+</body>
+</html>

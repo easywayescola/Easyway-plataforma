@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>EasyWay – Lesson 2: Personal Information</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#001A33;--blue:#29B6F6;--gold:#FFB300;--green:#26C281;--red:#E74C3C;--light:#F0F8FF;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001A33,#003060 50%,#001A33);min-height:100vh;color:var(--navy);}
+  .screen{display:none;}.screen.active{display:block;}
+  #name-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+  #name-screen.active{display:flex;}
+  .logo{font-family:'Dancing Script',cursive;font-size:2.5rem;color:#fff;margin-bottom:0.2rem;}
+  .logo span{color:var(--gold);}
+  .sub{color:var(--blue);font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
+  .welcome-card{background:white;border-radius:24px;padding:2.5rem 2rem;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .welcome-emoji{font-size:3.5rem;margin-bottom:1rem;}
+  .welcome-card h2{font-size:1.5rem;color:var(--navy);margin-bottom:0.5rem;}
+  .welcome-card p{color:#666;font-size:0.95rem;margin-bottom:1.5rem;}
+  .badge{background:linear-gradient(135deg,var(--navy),#003060);color:white;padding:0.5rem 1.2rem;border-radius:50px;font-size:0.8rem;font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:1.5rem;}
+  .name-inp{width:100%;padding:1rem 1.2rem;border:2px solid #e0e0e0;border-radius:12px;font-size:1rem;font-family:'Nunito',sans-serif;font-weight:600;outline:none;margin-bottom:1rem;transition:border-color 0.2s;}
+  .name-inp:focus{border-color:var(--blue);}
+  .btn-start{width:100%;padding:1rem;background:linear-gradient(135deg,var(--blue),#0288D1);color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:0 4px 15px rgba(41,182,246,0.4);}
+  #activity-screen{min-height:100vh;padding-bottom:2rem;}#activity-screen.active{display:block;}
+  .topbar{background:rgba(0,26,51,0.95);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:2px solid rgba(41,182,246,0.3);}
+  .topbar-logo{font-family:'Dancing Script',cursive;font-size:1.5rem;color:white;}.topbar-logo span{color:var(--gold);}
+  .stag{color:var(--blue);font-size:0.85rem;font-weight:700;}
+  .prog-wrap{padding:0 1.5rem;}.prog-bg{background:rgba(255,255,255,0.1);height:6px;border-radius:3px;margin:0.8rem 0;}
+  .prog-fill{background:linear-gradient(90deg,var(--blue),var(--gold));height:100%;border-radius:3px;transition:width 0.5s ease;width:0%;}
+  .hero{background:linear-gradient(135deg,#001A33,#003060);padding:2rem 1.5rem 3rem;text-align:center;}
+  .hero-unit{color:var(--blue);font-size:0.75rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.3rem;}
+  .hero-title{color:white;font-size:1.8rem;font-weight:900;margin-bottom:0.5rem;}.hero-title span{color:var(--gold);}
+  .hero-obj{color:rgba(255,255,255,0.7);font-size:0.9rem;line-height:1.5;max-width:340px;margin:0 auto 1.5rem;}
+  .hero-score{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:0.5rem 1.2rem;border-radius:50px;font-size:0.9rem;font-weight:700;}
+  .section{background:white;margin:1rem;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,26,51,0.15);}
+  .sh{padding:1rem 1.5rem;display:flex;align-items:center;gap:0.8rem;}
+  .si{font-size:1.5rem;}.st{font-size:1rem;font-weight:900;color:white;}.ss{font-size:0.75rem;color:rgba(255,255,255,0.8);}
+  .sb{padding:1.5rem;}
+  .hb{background:linear-gradient(135deg,#29B6F6,#0288D1);}.hn{background:linear-gradient(135deg,#001A33,#003060);}.hg{background:linear-gradient(135deg,#FFB300,#FF8F00);}.hgr{background:linear-gradient(135deg,#26C281,#1A9660);}.hp{background:linear-gradient(135deg,#7C4DFF,#5E35B1);}.ho{background:linear-gradient(135deg,#FF7043,#E64A19);}
+  /* VOCAB */
+  .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+  .vc{background:var(--light);border:2px solid transparent;border-radius:14px;padding:1rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;}
+  .vc:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(41,182,246,0.2);}
+  .vc.sp{border-color:var(--gold);background:#FFF8E1;}
+  .ven{font-weight:900;color:var(--navy);font-size:0.95rem;margin-bottom:0.3rem;}.vpt{color:#666;font-size:0.8rem;}
+  .sico{position:absolute;top:0.5rem;right:0.5rem;font-size:0.9rem;}
+  /* TABLE */
+  .info-table{width:100%;border-collapse:collapse;}
+  .info-table th{background:var(--navy);color:white;padding:0.8rem;font-size:0.85rem;text-align:left;}
+  .info-table td{padding:0.8rem;border-bottom:1px solid #f0f0f0;font-size:0.9rem;cursor:pointer;}
+  .info-table tr:hover td{background:var(--light);}
+  .info-table .en{font-weight:800;color:var(--navy);}
+  .info-table .pt{color:#666;}
+  .spk-ico{color:var(--blue);}
+  /* PRON TIP */
+  .ptip{background:linear-gradient(135deg,#FFF8E1,#FFF3CD);border-left:4px solid var(--gold);border-radius:12px;padding:1rem;margin-top:1rem;}
+  .ptip h4{color:#E65100;font-size:0.85rem;margin-bottom:0.5rem;}.ptip p{color:var(--navy);font-size:0.85rem;line-height:1.5;}
+  /* FILL */
+  .fill-it{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+  .fl{font-weight:700;color:#555;font-size:0.85rem;}.ft{font-weight:600;color:var(--navy);}
+  .fb{border:none;border-bottom:2px solid var(--blue);background:transparent;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.95rem;color:var(--navy);width:90px;text-align:center;outline:none;padding:0.2rem 0.3rem;}
+  .fb.ok{border-color:var(--green);color:var(--green);}.fb.ko{border-color:var(--red);color:var(--red);}
+  /* MC */
+  .mc-it{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:1rem;}
+  .mc-q{font-weight:700;color:var(--navy);margin-bottom:0.8rem;font-size:0.9rem;}
+  .mc-opts{display:flex;flex-direction:column;gap:0.5rem;}
+  .mc-opt{padding:0.7rem 1rem;border:2px solid #e0e0e0;border-radius:10px;font-weight:600;cursor:pointer;background:white;transition:all 0.2s;text-align:left;font-family:'Nunito',sans-serif;font-size:0.9rem;}
+  .mc-opt:hover{border-color:var(--blue);background:#e3f2fd;}
+  .mc-opt.correct{border-color:var(--green)!important;background:#e8f5e9!important;color:#1b5e20!important;}
+  .mc-opt.wrong{border-color:var(--red)!important;background:#fdecea!important;color:#b71c1c!important;}
+  /* LISTEN */
+  .li-list{list-style:none;}
+  .li-it{display:flex;align-items:center;gap:1rem;padding:0.8rem;border-radius:12px;margin-bottom:0.6rem;background:var(--light);cursor:pointer;transition:all 0.2s;}
+  .li-it:hover{background:#e3f2fd;}.li-it.playing{background:#FFF8E1;}
+  .li-num{width:32px;height:32px;background:var(--navy);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;flex-shrink:0;}
+  .li-en{font-weight:700;color:var(--navy);}.li-pt{color:#888;font-size:0.8rem;}.li-ico{color:var(--blue);font-size:1.3rem;margin-left:auto;}
+  /* TF */
+  .tf-it{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
+  .tf-t{font-weight:700;color:var(--navy);font-size:0.9rem;margin-bottom:0.8rem;}
+  .tf-bs{display:flex;gap:0.5rem;}
+  .tf-b{flex:1;padding:0.7rem;border:2px solid #e0e0e0;border-radius:10px;font-weight:800;font-family:'Nunito',sans-serif;font-size:0.9rem;cursor:pointer;background:white;transition:all 0.2s;}
+  .tf-b.correct{border-color:var(--green)!important;background:#e8f5e9!important;color:var(--green)!important;}
+  .tf-b.wrong{border-color:var(--red)!important;background:#fdecea!important;color:var(--red)!important;}
+  .tf-fb{font-size:0.8rem;margin-top:0.5rem;font-weight:700;display:none;}
+  .tf-fb.ok{color:var(--green);display:block;}.tf-fb.ko{color:var(--red);display:block;}
+  /* MATCH */
+  .mg{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .mc-col{display:flex;flex-direction:column;gap:0.5rem;}
+  .mi{padding:0.8rem;border:2px solid #e0e0e0;border-radius:10px;font-weight:700;cursor:pointer;text-align:center;font-size:0.85rem;transition:all 0.2s;background:white;color:var(--navy);}
+  .mi:hover{border-color:var(--blue);background:#e3f2fd;}
+  .mi.selected{border-color:var(--blue);background:#e3f2fd;}
+  .mi.matched{border-color:var(--green);background:#e8f5e9;color:#1b5e20;cursor:default;}
+  .mi.wrong-m{border-color:var(--red);background:#fdecea;animation:shake 0.3s ease;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  /* WRITE */
+  .wi{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
+  .wq{font-weight:700;color:var(--navy);margin-bottom:0.6rem;font-size:0.9rem;}
+  .winp{width:100%;padding:0.7rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+  .winp:focus{border-color:var(--blue);}
+  .tl{font-size:0.7rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem;}
+  .to{font-weight:700;color:var(--navy);margin-bottom:0.5rem;}
+  /* BUTTONS */
+  .cbtn{width:100%;padding:0.9rem;background:linear-gradient(135deg,var(--navy),#003060);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+  .cbtn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(0,26,51,0.3);}
+  /* DIALOGUE */
+  .dl{display:flex;align-items:flex-start;gap:0.8rem;padding:0.6rem;border-radius:8px;cursor:pointer;transition:background 0.2s;margin-bottom:0.4rem;}
+  .dl:hover{background:#e3f2fd;}.dl.playing{background:#FFF8E1;}
+  .spkr{font-weight:900;font-size:0.75rem;color:white;padding:0.25rem 0.55rem;border-radius:50px;flex-shrink:0;margin-top:2px;}
+  .spkr.A{background:var(--blue);}.spkr.B{background:var(--navy);}
+  .den{font-weight:600;color:var(--navy);font-size:0.9rem;}.dpt{color:#888;font-size:0.78rem;}.dic{color:var(--blue);font-size:1.1rem;margin-left:auto;flex-shrink:0;}
+  /* SUBMIT */
+  .sub-sec{margin:1.5rem 1rem;background:linear-gradient(135deg,var(--navy),#003060);border-radius:20px;padding:2rem 1.5rem;text-align:center;color:white;}
+  .sub-sec h3{font-size:1.3rem;margin-bottom:0.5rem;}.sub-sec p{opacity:0.8;font-size:0.9rem;margin-bottom:1.5rem;}
+  .sc-big{background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;margin-bottom:1.5rem;font-size:2rem;font-weight:900;}
+  .sc-big span{color:var(--gold);}
+  .bsub{width:100%;padding:1.1rem;background:linear-gradient(135deg,var(--gold),#FF8F00);color:var(--navy);border:none;border-radius:14px;font-size:1.1rem;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:0 4px 15px rgba(255,179,0,0.4);}
+  /* SUCCESS */
+  #success-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+  #success-screen.active{display:flex;}
+  .scard{background:white;border-radius:24px;padding:2.5rem 2rem;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .semi{font-size:4rem;margin-bottom:1rem;animation:bounce 1s ease infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .scard h2{color:var(--navy);font-size:1.5rem;margin-bottom:0.5rem;}.scard p{color:#666;margin-bottom:0.5rem;}
+  .fpts{font-size:3rem;font-weight:900;color:var(--blue);margin:1rem 0;}
+  /* TOAST */
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:white;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:0.9rem;transition:transform 0.3s;z-index:999;white-space:nowrap;}
+  .toast.show{transform:translateX(-50%) translateY(0);}.toast.ok{background:var(--green);}.toast.ko{background:var(--red);}
+  @media(max-width:360px){.vgrid,.mg{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- NAME SCREEN -->
+<div id="name-screen" class="screen active">
+  <div class="logo">Easy<span>Way</span></div>
+  <div class="sub">Escola de Idiomas</div>
+  <div class="welcome-card">
+    <div class="welcome-emoji">🪪</div>
+    <div class="badge">UNIT 1 · LESSON 2 · BEGINNER A1</div>
+    <h2>Personal Information</h2>
+    <p>Aprenda a falar sobre si mesmo em inglês!</p>
+    <input type="text" class="name-inp" id="student-name" placeholder="Digite seu nome aqui..." autocomplete="off">
+    <button class="btn-start" onclick="start()">Let's Go! 🚀</button>
+  </div>
+</div>
+
+<!-- ACTIVITY SCREEN -->
+<div id="activity-screen" class="screen">
+  <div class="topbar"><div class="topbar-logo">Easy<span>Way</span></div><div class="stag" id="sname">👤 Aluno</div></div>
+  <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="prog"></div></div></div>
+
+  <div class="hero">
+    <div class="hero-unit">Unit 1 · Lesson 2 · Beginner A1</div>
+    <div class="hero-title">Personal <span>Information</span></div>
+    <div class="hero-obj">Ao final desta lição, você será capaz de falar sobre si mesmo em inglês.</div>
+    <div class="hero-score">⭐ Score: <span id="sc">0</span> pts</div>
+  </div>
+
+  <!-- WARM UP -->
+  <div class="section">
+    <div class="sh hb"><div class="si">🧠</div><div><div class="st">Warm Up</div><div class="ss">Pense e responda em português</div></div></div>
+    <div class="sb">
+      <div style="background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;border-left:4px solid var(--blue);">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:0.6rem;">1. Que informações pessoais você costuma dar ao se apresentar?</div>
+        <textarea class="winp warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+      <div style="background:var(--light);border-radius:12px;padding:1rem;margin-bottom:0.8rem;border-left:4px solid var(--blue);">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:0.6rem;">2. Qual é a sua profissão ou o que você estuda?</div>
+        <textarea class="winp warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+      <div style="background:var(--light);border-radius:12px;padding:1rem;border-left:4px solid var(--blue);">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:0.6rem;">3. De onde você é? Você mora onde cresceu?</div>
+        <textarea class="winp warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOCABULARY -->
+  <div class="section">
+    <div class="sh hn"><div class="si">🔊</div><div><div class="st">Vocabulary – Personal Info</div><div class="ss">Toque para ouvir!</div></div></div>
+    <div class="sb">
+      <table class="info-table">
+        <tr><th>English</th><th>Português</th><th>🔊</th></tr>
+        <tr onclick="speak('My name is')"><td class="en">My name is…</td><td class="pt">Meu nome é…</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I am')"><td class="en">I am… / I'm…</td><td class="pt">Eu sou / Eu tenho…</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I am a student')"><td class="en">I am a student.</td><td class="pt">Eu sou estudante.</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I am a teacher')"><td class="en">I am a teacher.</td><td class="pt">Eu sou professor(a).</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I am from Brazil')"><td class="en">I am from Brazil.</td><td class="pt">Eu sou do Brasil.</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I live in')"><td class="en">I live in…</td><td class="pt">Eu moro em…</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('I am twenty years old')"><td class="en">I am 20 years old.</td><td class="pt">Eu tenho 20 anos.</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('Where are you from')"><td class="en">Where are you from?</td><td class="pt">De onde você é?</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('What do you do')"><td class="en">What do you do?</td><td class="pt">O que você faz?</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('How old are you')"><td class="en">How old are you?</td><td class="pt">Quantos anos você tem?</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('He is')"><td class="en">He is… / She is…</td><td class="pt">Ele é… / Ela é…</td><td class="spk-ico">🔊</td></tr>
+        <tr onclick="speak('That is')"><td class="en">That is…</td><td class="pt">Aquele/a é…</td><td class="spk-ico">🔊</td></tr>
+      </table>
+      <div class="ptip">
+        <h4>🎯 Grammar Tip – Verb TO BE</h4>
+        <p><strong>I am</strong> (eu sou/estou) &nbsp;|&nbsp; <strong>You are</strong> (você é/está) &nbsp;|&nbsp; <strong>He/She is</strong> (ele/ela é/está)<br>
+        Em inglês, não existe "tenho X anos" — dizemos <strong>"I am X years old"</strong>!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTEN & REPEAT -->
+  <div class="section">
+    <div class="sh hp"><div class="si">🎧</div><div><div class="st">Listen &amp; Repeat</div><div class="ss">Toque para ouvir e repita!</div></div></div>
+    <div class="sb">
+      <ul class="li-list">
+        <li class="li-it" onclick="speakI(this,'My name is Ana')"><div class="li-num">1</div><div><div class="li-en">My name is Ana.</div><div class="li-pt">Meu nome é Ana.</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'I am a student')"><div class="li-num">2</div><div><div class="li-en">I am a student.</div><div class="li-pt">Eu sou estudante.</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'I am from Brazil')"><div class="li-num">3</div><div><div class="li-en">I am from Brazil.</div><div class="li-pt">Eu sou do Brasil.</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'I live in Sao Paulo')"><div class="li-num">4</div><div><div class="li-en">I live in São Paulo.</div><div class="li-pt">Eu moro em São Paulo.</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'I am twenty years old')"><div class="li-num">5</div><div><div class="li-en">I am 20 years old.</div><div class="li-pt">Eu tenho 20 anos.</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'Where are you from?')"><div class="li-num">6</div><div><div class="li-en">Where are you from?</div><div class="li-pt">De onde você é?</div></div><div class="li-ico">🔊</div></li>
+        <li class="li-it" onclick="speakI(this,'He is my friend')"><div class="li-num">7</div><div><div class="li-en">He is my friend.</div><div class="li-pt">Ele é meu amigo.</div></div><div class="li-ico">🔊</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- READING + T/F -->
+  <div class="section">
+    <div class="sh hgr"><div class="si">📖</div><div><div class="st">Reading – True or False?</div><div class="ss">Leia, ouça e responda</div></div></div>
+    <div class="sb">
+      <div style="background:#e8f5e9;border-radius:12px;padding:1rem;margin-bottom:1rem;cursor:pointer;" onclick="speak('Hello! My name is Carlos. I am a doctor. I am from Portugal. I live in Lisbon. I am thirty five years old. Nice to meet you!')">
+        <div style="font-size:0.75rem;color:var(--green);font-weight:800;margin-bottom:0.5rem;">🔊 Toque para ouvir</div>
+        <p style="font-weight:700;color:#1b5e20;line-height:1.8;">Hello! My name is Carlos.<br>I am a doctor.<br>I am from Portugal.<br>I live in Lisbon.<br>I am 35 years old.<br>Nice to meet you!</p>
+      </div>
+      <div class="tf-it"><div class="tf-t">1. O nome dele é Carlos.</div><div class="tf-bs"><button class="tf-b" onclick="chkTF(this,true,true,0)">✅ Verdadeiro</button><button class="tf-b" onclick="chkTF(this,false,true,0)">❌ Falso</button></div><div class="tf-fb" id="tf0"></div></div>
+      <div class="tf-it"><div class="tf-t">2. Ele é professor.</div><div class="tf-bs"><button class="tf-b" onclick="chkTF(this,true,false,1)">✅ Verdadeiro</button><button class="tf-b" onclick="chkTF(this,false,false,1)">❌ Falso</button></div><div class="tf-fb" id="tf1"></div></div>
+      <div class="tf-it"><div class="tf-t">3. Ele é de Portugal.</div><div class="tf-bs"><button class="tf-b" onclick="chkTF(this,true,true,2)">✅ Verdadeiro</button><button class="tf-b" onclick="chkTF(this,false,true,2)">❌ Falso</button></div><div class="tf-fb" id="tf2"></div></div>
+      <div class="tf-it"><div class="tf-t">4. Ele tem 25 anos.</div><div class="tf-bs"><button class="tf-b" onclick="chkTF(this,true,false,3)">✅ Verdadeiro</button><button class="tf-b" onclick="chkTF(this,false,false,3)">❌ Falso</button></div><div class="tf-fb" id="tf3"></div></div>
+    </div>
+  </div>
+
+  <!-- DIALOGUE -->
+  <div class="section">
+    <div class="sh hn"><div class="si">💬</div><div><div class="st">Dialogue – Speaking</div><div class="ss">Toque em cada linha para ouvir</div></div></div>
+    <div class="sb">
+      <div class="dl" onclick="speakI(this,'Hello! What is your name?')"><span class="spkr A">A</span><div><div class="den">Hello! What's your name?</div><div class="dpt">Olá! Qual é o seu nome?</div></div><div class="dic">🔊</div></div>
+      <div class="dl" onclick="speakI(this,'My name is Leo. And you?')"><span class="spkr B">B</span><div><div class="den">My name is Leo. And you?</div><div class="dpt">Meu nome é Leo. E você?</div></div><div class="dic">🔊</div></div>
+      <div class="dl" onclick="speakI(this,'I am Sara. Where are you from, Leo?')"><span class="spkr A">A</span><div><div class="den">I am Sara. Where are you from, Leo?</div><div class="dpt">Eu sou Sara. De onde você é, Leo?</div></div><div class="dic">🔊</div></div>
+      <div class="dl" onclick="speakI(this,'I am from Brazil. I live in Rio de Janeiro. And you?')"><span class="spkr B">B</span><div><div class="den">I'm from Brazil. I live in Rio. And you?</div><div class="dpt">Sou do Brasil. Moro no Rio. E você?</div></div><div class="dic">🔊</div></div>
+      <div class="dl" onclick="speakI(this,'I am from Argentina. I am a teacher.')"><span class="spkr A">A</span><div><div class="den">I'm from Argentina. I'm a teacher.</div><div class="dpt">Sou da Argentina. Sou professora.</div></div><div class="dic">🔊</div></div>
+      <div class="dl" onclick="speakI(this,'Wow, nice to meet you Sara!')"><span class="spkr B">B</span><div><div class="den">Wow, nice to meet you, Sara!</div><div class="dpt">Uau, prazer em te conhecer, Sara!</div></div><div class="dic">🔊</div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 1: FILL AM/IS/ARE -->
+  <div class="section">
+    <div class="sh ho"><div class="si">📝</div><div><div class="st">Activity 1 – am / is / are</div><div class="ss">Complete com o verbo correto</div></div></div>
+    <div class="sb">
+      <div class="fill-it"><div class="fl">a)</div><div class="ft">She</div><input class="fb" id="f1" placeholder="___" maxlength="5"><div class="ft">a nurse.</div></div>
+      <div class="fill-it"><div class="fl">b)</div><div class="ft">I</div><input class="fb" id="f2" placeholder="___" maxlength="5"><div class="ft">from Brazil.</div></div>
+      <div class="fill-it"><div class="fl">c)</div><div class="ft">He</div><input class="fb" id="f3" placeholder="___" maxlength="5"><div class="ft">my friend.</div></div>
+      <div class="fill-it"><div class="fl">d)</div><div class="ft">You</div><input class="fb" id="f4" placeholder="___" maxlength="5"><div class="ft">a student.</div></div>
+      <div class="fill-it"><div class="fl">e)</div><div class="ft">I</div><input class="fb" id="f5" placeholder="___" maxlength="5"><div class="ft">20 years old.</div></div>
+      <button class="cbtn" onclick="chkFills()">✅ Verificar respostas</button>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 2: MC -->
+  <div class="section">
+    <div class="sh hb"><div class="si">☑️</div><div><div class="st">Activity 2 – Choose the right option</div><div class="ss">Marque a opção correta</div></div></div>
+    <div class="sb">
+      <div class="mc-it"><div class="mc-q">1. "De onde você é?" em inglês é:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,true,'a1')">Where are you from?</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a1')">What do you do?</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a1')">How old are you?</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">2. "Eu sou do Brasil" em inglês é:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'a2')">I live in Brazil.</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'a2')">I am from Brazil.</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a2')">I love Brazil.</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">3. "Quantos anos você tem?" em inglês é:</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'a3')">Where are you from?</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a3')">What do you do?</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'a3')">How old are you?</button>
+      </div></div>
+      <div class="mc-it"><div class="mc-q">4. Como se diz "Eu tenho 30 anos" em inglês?</div><div class="mc-opts">
+        <button class="mc-opt" onclick="chkMC(this,false,'a4')">I have 30 years.</button>
+        <button class="mc-opt" onclick="chkMC(this,true,'a4')">I am 30 years old.</button>
+        <button class="mc-opt" onclick="chkMC(this,false,'a4')">I got 30 years old.</button>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 3: MATCH -->
+  <div class="section">
+    <div class="sh hgr"><div class="si">🔗</div><div><div class="st">Activity 3 – Match</div><div class="ss">Conecte inglês com português</div></div></div>
+    <div class="sb">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Toque em um item de cada coluna!</p>
+      <div class="mg">
+        <div class="mc-col" id="ml">
+          <div class="mi" data-id="x1" onclick="selM(this,'left')">I am from…</div>
+          <div class="mi" data-id="x2" onclick="selM(this,'left')">I live in…</div>
+          <div class="mi" data-id="x3" onclick="selM(this,'left')">What do you do?</div>
+          <div class="mi" data-id="x4" onclick="selM(this,'left')">How old are you?</div>
+        </div>
+        <div class="mc-col" id="mr">
+          <div class="mi" data-id="x3" onclick="selM(this,'right')">O que você faz?</div>
+          <div class="mi" data-id="x1" onclick="selM(this,'right')">Eu sou de…</div>
+          <div class="mi" data-id="x4" onclick="selM(this,'right')">Quantos anos?</div>
+          <div class="mi" data-id="x2" onclick="selM(this,'right')">Eu moro em…</div>
+        </div>
+      </div>
+      <div id="mmsg" style="text-align:center;margin-top:1rem;font-weight:700;color:var(--green);display:none;"></div>
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="section">
+    <div class="sh hg"><div class="si">✍️</div><div><div class="st">Writing – About You!</div><div class="ss">Complete sobre você em inglês</div></div></div>
+    <div class="sb">
+      <div class="wi"><div class="wq">1. What's your name?</div><input class="winp" id="w1" placeholder="My name is ..."></div>
+      <div class="wi"><div class="wq">2. Where are you from?</div><input class="winp" id="w2" placeholder="I am from ..."></div>
+      <div class="wi"><div class="wq">3. Where do you live?</div><input class="winp" id="w3" placeholder="I live in ..."></div>
+      <div class="wi"><div class="wq">4. How old are you?</div><input class="winp" id="w4" placeholder="I am ... years old."></div>
+      <div class="wi"><div class="wq">5. What do you do?</div><input class="winp" id="w5" placeholder="I am a ..."></div>
+    </div>
+  </div>
+
+  <!-- TRANSLATION -->
+  <div class="section">
+    <div class="sh ho"><div class="si">🌐</div><div><div class="st">Translation – Escreva em inglês</div><div class="ss">Traduza do português para o inglês</div></div></div>
+    <div class="sb">
+      <div class="wi"><div class="tl">PT → EN</div><div class="to">a. Eu sou estudante.</div><input class="winp" id="t1" placeholder="Em inglês..."></div>
+      <div class="wi"><div class="tl">PT → EN</div><div class="to">b. Ela é do Brasil.</div><input class="winp" id="t2" placeholder="Em inglês..."></div>
+      <div class="wi"><div class="tl">PT → EN</div><div class="to">c. Eu moro em Vitória.</div><input class="winp" id="t3" placeholder="Em inglês..."></div>
+      <div class="wi"><div class="tl">PT → EN</div><div class="to">d. Ele tem 25 anos.</div><input class="winp" id="t4" placeholder="Em inglês..."></div>
+      <div class="wi"><div class="tl">PT → EN</div><div class="to">e. De onde você é?</div><input class="winp" id="t5" placeholder="Em inglês..."></div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="sub-sec">
+    <h3>🏁 Atividade concluída!</h3>
+    <p>Clique abaixo para enviar suas respostas para a professora.</p>
+    <div class="sc-big">Pontuação: <span id="fpts">0</span> pts</div>
+    <button class="bsub" onclick="submitAct()">📤 Enviar para a Professora</button>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="success-screen" class="screen">
+  <div class="logo">Easy<span>Way</span></div><div class="sub">Escola de Idiomas</div>
+  <div class="scard">
+    <div class="semi">🎉</div>
+    <h2>Great job, <span id="sn"></span>!</h2>
+    <p>Sua atividade foi enviada para a professora!</p>
+    <div class="fpts" id="sfpts">0 pts</div>
+    <p style="font-size:0.85rem;color:#888;">Lesson 2 – Personal Information ✅</p>
+    <br><button class="btn-start" onclick="location.reload()">🔄 Fazer de novo</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let sName='',score=0;
+const mcD={},tfD={};
+let mSel={left:null,right:null},mCnt=0,fillDone=false;
+
+function start(){
+  const v=document.getElementById('student-name').value.trim();
+  if(!v){toast('Digite seu nome! 😊','ko');return;}
+  sName=v;
+  document.getElementById('sname').textContent='👤 '+sName;
+  document.getElementById('sn').textContent=sName;
+  showS('activity-screen');
+}
+function showS(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function speak(t){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.85;u.pitch=1.1;const v=window.speechSynthesis.getVoices();const p=v.find(x=>x.lang.startsWith('en')&&(x.name.includes('Samantha')||x.name.includes('Google US')||x.name.includes('Karen')||x.name.includes('Daniel')));if(p)u.voice=p;window.speechSynthesis.speak(u);}
+window.speechSynthesis.onvoiceschanged=()=>{};
+function speakI(el,t){document.querySelectorAll('.li-it.playing,.dl.playing').forEach(e=>e.classList.remove('playing'));el.classList.add('playing');speak(t);setTimeout(()=>el.classList.remove('playing'),2500);}
+
+function addSc(n){score+=n;document.getElementById('sc').textContent=score;document.getElementById('fpts').textContent=score;document.getElementById('prog').style.width=Math.min((score/65)*100,100)+'%';}
+
+function chkTF(btn,ua,ca,i){
+  if(tfD[i])return;tfD[i]=true;
+  const bs=btn.parentElement.querySelectorAll('.tf-b');bs.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('tf'+i);
+  if(ua===ca){btn.classList.add('correct');fb.textContent='✅ Correto! +5 pts';fb.className='tf-fb ok';addSc(5);toast('✅ Correto! +5 pts','ok');}
+  else{btn.classList.add('wrong');bs.forEach(b=>{if(b.textContent.includes('Verdadeiro')===ca)b.classList.add('correct');});fb.textContent='❌ Resposta em verde.';fb.className='tf-fb ko';toast('❌ Incorreto','ko');}
+}
+
+function chkFills(){
+  if(fillDone)return;fillDone=true;
+  const ans={f1:'is',f2:'am',f3:'is',f4:'are',f5:'am'};
+  let ok=0;
+  Object.entries(ans).forEach(([id,a])=>{const el=document.getElementById(id);if(el.value.trim().toLowerCase()===a){el.classList.add('ok');ok++;}else{el.classList.add('ko');el.value=a;}el.disabled=true;});
+  addSc(ok*3);toast(`✅ ${ok}/5 corretas! +${ok*3} pts`,ok===5?'ok':'');
+}
+
+function chkMC(btn,c,g){
+  if(mcD[g])return;mcD[g]=true;
+  const opts=btn.closest('.mc-opts');opts.querySelectorAll('.mc-opt').forEach(b=>b.disabled=true);
+  if(c){btn.classList.add('correct');addSc(5);toast('✅ Correto! +5 pts','ok');}
+  else{btn.classList.add('wrong');opts.querySelectorAll('.mc-opt').forEach(b=>{if(b.getAttribute('onclick').includes('true,'))b.classList.add('correct');});toast('❌ Incorreto','ko');}
+}
+
+function selM(el,side){
+  if(el.classList.contains('matched'))return;
+  const cid=side==='left'?'ml':'mr';
+  document.querySelectorAll('#'+cid+' .mi.selected').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');mSel[side]=el;
+  if(mSel.left&&mSel.right){
+    if(mSel.left.dataset.id===mSel.right.dataset.id){
+      [mSel.left,mSel.right].forEach(e=>{e.classList.remove('selected');e.classList.add('matched');e.onclick=null;});
+      mCnt++;addSc(4);toast('✅ Match! +4 pts','ok');
+      if(mCnt===4){const m=document.getElementById('mmsg');m.textContent='🎉 Todos os pares!';m.style.display='block';}
+    }else{
+      [mSel.left,mSel.right].forEach(e=>e.classList.add('wrong-m'));
+      setTimeout(()=>{[mSel.left,mSel.right].forEach(e=>e.classList.remove('selected','wrong-m'));mSel={left:null,right:null};},600);return;
+    }
+    mSel={left:null,right:null};
+  }
+}
+
+async function submitAct(){
+  const payload={studentName:sName,lesson:'Unit 1 - Lesson 2 - Personal Information',score,submittedAt:new Date().toISOString(),
+    answers:{warmup:[...document.querySelectorAll('.warmup-ta')].map(i=>i.value),writing:['w1','w2','w3','w4','w5'].map(id=>document.getElementById(id)?.value||''),translation:['t1','t2','t3','t4','t5'].map(id=>document.getElementById(id)?.value||'')}};
+  try{await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+  document.getElementById('sfpts').textContent=score+' pts';showS('success-screen');
+}
+
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2500);}
+</script>
+</body>
+</html>

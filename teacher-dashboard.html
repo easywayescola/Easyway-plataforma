@@ -1,647 +1,406 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard do Professor - EasyWay</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWay – Painel da Professora</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#001A33; --blue:#29B6F6; --gold:#FFB300; --green:#26C281; --red:#E74C3C; --light:#F0F8FF; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Nunito',sans-serif; background:#F4F7FA; min-height:100vh; color:var(--navy); }
 
-        :root {
-            --primary: #3B7FD8;
-            --secondary: #E63946;
-            --dark: #2C3E50;
-            --light: #F7F9FC;
-            --accent: #FFD60A;
-        }
+  /* LOGIN */
+  #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem; background:linear-gradient(135deg,#001A33,#003060); }
+  #login-screen.hidden { display:none; }
+  .login-card { background:white; border-radius:24px; padding:2.5rem 2rem; max-width:380px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.3); text-align:center; }
+  .logo { font-family:'Dancing Script',cursive; font-size:2.2rem; color:var(--navy); }
+  .logo span { color:var(--gold); }
+  .login-card p { color:#666; margin:0.5rem 0 1.5rem; font-size:0.9rem; }
+  .inp { width:100%; padding:0.9rem 1rem; border:2px solid #e0e0e0; border-radius:12px; font-family:'Nunito',sans-serif; font-size:0.95rem; outline:none; margin-bottom:0.8rem; transition:border-color 0.2s; }
+  .inp:focus { border-color:var(--blue); }
+  .btn-primary { width:100%; padding:1rem; background:linear-gradient(135deg,var(--blue),#0288D1); color:white; border:none; border-radius:12px; font-size:1rem; font-weight:800; font-family:'Nunito',sans-serif; cursor:pointer; transition:transform 0.2s; }
+  .btn-primary:hover { transform:translateY(-2px); }
+  .login-err { color:var(--red); font-size:0.85rem; margin-top:0.5rem; display:none; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light);
-            color: var(--dark);
-        }
+  /* DASHBOARD */
+  #dashboard { display:none; }
+  #dashboard.visible { display:block; }
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            min-height: 100vh;
-        }
+  .topbar { background:var(--navy); padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .topbar-logo { font-family:'Dancing Script',cursive; font-size:1.6rem; color:white; }
+  .topbar-logo span { color:var(--gold); }
+  .topbar-right { display:flex; align-items:center; gap:1rem; }
+  .teacher-name { color:rgba(255,255,255,0.8); font-size:0.85rem; font-weight:700; }
+  .btn-logout { background:rgba(255,255,255,0.15); color:white; border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem; transition:background 0.2s; }
+  .btn-logout:hover { background:rgba(255,255,255,0.25); }
 
-        .sidebar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 2rem 1rem;
-            position: fixed;
-            width: 250px;
-            height: 100vh;
-            overflow-y: auto;
-        }
+  .main { max-width:1100px; margin:0 auto; padding:2rem 1.5rem; }
 
-        .sidebar-logo {
-            margin-bottom: 2rem;
-            text-align: center;
-        }
+  /* STATS */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-bottom:2rem; }
+  .stat-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,26,51,0.08); text-align:center; }
+  .stat-num { font-size:2.2rem; font-weight:900; margin-bottom:0.2rem; }
+  .stat-label { color:#888; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+  .stat-blue { border-top:4px solid var(--blue); }
+  .stat-gold { border-top:4px solid var(--gold); }
+  .stat-green { border-top:4px solid var(--green); }
 
-        .sidebar-logo h2 {
-            font-size: 1.2rem;
-        }
+  /* FILTERS */
+  .filters { background:white; border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 12px rgba(0,26,51,0.08); display:flex; gap:1rem; flex-wrap:wrap; align-items:center; }
+  .filter-group { display:flex; align-items:center; gap:0.5rem; }
+  .filter-group label { font-weight:700; font-size:0.85rem; color:#555; }
+  .filter-select { padding:0.5rem 0.8rem; border:2px solid #e0e0e0; border-radius:8px; font-family:'Nunito',sans-serif; font-size:0.9rem; outline:none; }
+  .filter-select:focus { border-color:var(--blue); }
+  .btn-refresh { padding:0.6rem 1.2rem; background:var(--navy); color:white; border:none; border-radius:8px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; font-size:0.85rem; transition:all 0.2s; }
+  .btn-refresh:hover { background:#003060; }
 
-        .sidebar-menu {
-            list-style: none;
-        }
+  /* TABLE */
+  .table-card { background:white; border-radius:16px; box-shadow:0 2px 12px rgba(0,26,51,0.08); overflow:hidden; }
+  .table-header { padding:1.5rem; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; justify-content:space-between; }
+  .table-header h2 { font-size:1.1rem; color:var(--navy); }
+  .table-count { background:var(--light); color:var(--blue); font-weight:800; padding:0.3rem 0.8rem; border-radius:50px; font-size:0.85rem; }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; }
+  th { background:var(--navy); color:white; padding:1rem; text-align:left; font-size:0.85rem; font-weight:800; letter-spacing:0.5px; }
+  td { padding:1rem; border-bottom:1px solid #f5f5f5; font-size:0.9rem; vertical-align:top; }
+  tr:hover td { background:#FAFBFC; }
+  .score-badge { display:inline-block; padding:0.25rem 0.6rem; border-radius:50px; font-weight:900; font-size:0.85rem; }
+  .score-high { background:#e8f5e9; color:#1b5e20; }
+  .score-mid { background:#FFF8E1; color:#E65100; }
+  .score-low { background:#fdecea; color:#b71c1c; }
+  .lesson-tag { background:var(--light); color:var(--navy); padding:0.25rem 0.6rem; border-radius:6px; font-size:0.8rem; font-weight:700; }
+  .btn-detail { padding:0.4rem 0.8rem; background:var(--blue); color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.8rem; transition:all 0.2s; }
+  .btn-detail:hover { background:#0288D1; }
+  .btn-del { padding:0.4rem 0.8rem; background:#fdecea; color:var(--red); border:none; border-radius:6px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.8rem; transition:all 0.2s; margin-left:0.3rem; }
+  .btn-del:hover { background:var(--red); color:white; }
+  .empty-state { text-align:center; padding:3rem; color:#aaa; }
+  .empty-state div { font-size:3rem; margin-bottom:1rem; }
 
-        .sidebar-menu li {
-            margin-bottom: 1rem;
-        }
+  /* MODAL */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:none; align-items:center; justify-content:center; padding:1rem; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:20px; max-width:560px; width:100%; max-height:85vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-header { padding:1.5rem; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:white; }
+  .modal-header h3 { font-size:1.1rem; color:var(--navy); }
+  .modal-close { background:none; border:none; font-size:1.5rem; cursor:pointer; color:#888; line-height:1; }
+  .modal-body { padding:1.5rem; }
+  .answer-section { margin-bottom:1.5rem; }
+  .answer-section h4 { font-size:0.85rem; font-weight:900; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.8rem; border-bottom:2px solid var(--light); padding-bottom:0.4rem; }
+  .answer-item { background:var(--light); border-radius:8px; padding:0.7rem; margin-bottom:0.5rem; font-size:0.9rem; }
+  .answer-label { font-weight:700; color:#555; font-size:0.8rem; margin-bottom:0.3rem; }
+  .answer-text { color:var(--navy); }
+  .answer-empty { color:#aaa; font-style:italic; }
 
-        .sidebar-menu a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
+  /* LESSON SUMMARY */
+  .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
+  .summary-card { background:white; border-radius:12px; padding:1.2rem; box-shadow:0 2px 8px rgba(0,26,51,0.08); border-left:4px solid var(--blue); }
+  .summary-lesson { font-weight:700; color:var(--navy); font-size:0.85rem; margin-bottom:0.8rem; }
+  .summary-stats { display:flex; gap:1rem; }
+  .summary-stat { text-align:center; }
+  .summary-stat-num { font-size:1.3rem; font-weight:900; color:var(--blue); }
+  .summary-stat-lbl { font-size:0.7rem; color:#888; font-weight:700; }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(5px);
-        }
+  .loading { text-align:center; padding:2rem; color:#aaa; font-weight:700; }
 
-        .main-content {
-            margin-left: 250px;
-            padding: 2rem;
-        }
+  /* TOAST */
+  .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(100px); background:var(--navy); color:white; padding:1rem 2rem; border-radius:50px; font-weight:700; font-size:0.9rem; transition:transform 0.3s; z-index:999; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+  .toast.ok { background:var(--green); }
+  .toast.ko { background:var(--red); }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            color: var(--primary);
-        }
-
-        .logout-btn {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid var(--primary);
-        }
-
-        .stat-card h3 {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .section {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .section h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .students-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .students-table th {
-            background: var(--light);
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .students-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .students-table tr:hover {
-            background: var(--light);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .action-btn {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            margin-right: 0.5rem;
-        }
-
-        .action-btn:hover {
-            background: #c1121f;
-        }
-
-        .add-student-btn {
-            background: var(--accent);
-            color: var(--dark);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin-bottom: 1.5rem;
-        }
-
-        .add-student-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 230, 109, 0.4);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .modal-content h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 127, 216, 0.1);
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2a5fa3;
-        }
-
-        .btn-secondary {
-            background: #ddd;
-            color: var(--dark);
-        }
-
-        .btn-secondary:hover {
-            background: #ccc;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
+  @media(max-width:600px) {
+    .main { padding:1rem; }
+    .stats-grid { grid-template-columns:1fr 1fr; }
+    th,td { padding:0.7rem 0.5rem; font-size:0.8rem; }
+    .filters { flex-direction:column; align-items:flex-start; }
+  }
+</style>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <h2>EasyWay</h2>
-                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Professor</p>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a class="menu-link active" data-section="dashboard">📊 Dashboard</a></li>
-                <li><a class="menu-link" data-section="students">👨‍🎓 Alunos</a></li>
-                <li><a class="menu-link" data-section="activities">📝 Atividades</a></li>
-                <li><a class="menu-link" data-section="profile">👤 Perfil</a></li>
-                <li><a class="menu-link" onclick="logout()">🚪 Sair</a></li>
-            </ul>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <div class="header">
-                <h1>Bem-vindo ao Dashboard!</h1>
-                <button class="logout-btn" onclick="logout()">Sair</button>
-            </div>
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="logo">Easy<span>Way</span></div>
+    <p>Painel da Professora 👩‍🏫</p>
+    <input class="inp" type="email" id="login-email" placeholder="Email da professora" value="professor@easyway.com">
+    <input class="inp" type="password" id="login-pass" placeholder="Senha" value="123">
+    <button class="btn-primary" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="login-err">Email ou senha incorretos.</div>
+  </div>
+</div>
 
-            <!-- Dashboard Section -->
-            <div id="dashboard" class="section active">
-                <h2>Dashboard</h2>
-                <div class="stats">
-                    <div class="stat-card">
-                        <h3>Total de Alunos</h3>
-                        <div class="number" id="totalStudents">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Atividades Criadas</h3>
-                        <div class="number">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Alunos Ativos</h3>
-                        <div class="number">0</div>
-                    </div>
-                </div>
-            </div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-logo">Easy<span>Way</span></div>
+    <div class="topbar-right">
+      <div class="teacher-name" id="teacher-name-display">👩‍🏫 Professora</div>
+      <button class="btn-logout" onclick="doLogout()">Sair</button>
+    </div>
+  </div>
 
-            <!-- Students Section -->
-            <div id="students" class="section">
-                <h2>Gerenciar Alunos</h2>
-                <button class="add-student-btn" onclick="openAddStudentModal()">+ Adicionar Aluno</button>
-                <table class="students-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentsTableBody">
-                        <!-- Students will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
+  <div class="main">
+    <h1 style="color:var(--navy);margin-bottom:1.5rem;font-size:1.5rem;">📊 Painel de Atividades</h1>
 
-            <!-- Activities Section -->
-            <div id="activities" class="section">
-                <h2>Atividades</h2>
-                <p>Gerencie as atividades dos seus alunos aqui.</p>
-            </div>
-
-            <!-- Profile Section -->
-            <div id="profile" class="section">
-                <h2>Meu Perfil</h2>
-                <div id="profileContent">
-                    <!-- Profile info will be loaded here -->
-                </div>
-            </div>
-        </main>
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card stat-blue">
+        <div class="stat-num" id="stat-total" style="color:var(--blue)">—</div>
+        <div class="stat-label">Total de Envios</div>
+      </div>
+      <div class="stat-card stat-gold">
+        <div class="stat-num" id="stat-avg" style="color:var(--gold)">—</div>
+        <div class="stat-label">Pontuação Média</div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-num" id="stat-today" style="color:var(--green)">—</div>
+        <div class="stat-label">Enviados Hoje</div>
+      </div>
     </div>
 
-    <!-- Add Student Modal -->
-    <div id="addStudentModal" class="modal">
-        <div class="modal-content">
-            <h2>Adicionar Aluno</h2>
-            <form onsubmit="addStudent(event)">
-                <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" id="studentName" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="studentEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Nível</label>
-                    <select id="studentLevel" required>
-                        <option value="">Selecione um nível</option>
-                        <option value="A1">A1 - Iniciante</option>
-                        <option value="A2">A2 - Elementar</option>
-                        <option value="B1">B1 - Intermediário</option>
-                        <option value="B2">B2 - Intermediário Superior</option>
-                    </select>
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeAddStudentModal()">Cancelar</button>
-                </div>
-            </form>
-        </div>
+    <!-- LESSON SUMMARY -->
+    <div id="lesson-summary" style="margin-bottom:1.5rem;"></div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <div class="filter-group">
+        <label>Filtrar por lição:</label>
+        <select class="filter-select" id="filter-lesson" onchange="loadSubmissions()">
+          <option value="">Todas as lições</option>
+        </select>
+      </div>
+      <button class="btn-refresh" onclick="loadAll()">🔄 Atualizar</button>
     </div>
 
-    <script>
-        // API Configuration
-        const API_URL = localStorage.getItem('API_URL') || 'https://easyway-backend-production-4094.up.railway.app/api';
+    <!-- TABLE -->
+    <div class="table-card">
+      <div class="table-header">
+        <h2>📋 Respostas dos Alunos</h2>
+        <span class="table-count" id="table-count">0 envios</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Aluno</th>
+              <th>Lição</th>
+              <th>Pontuação</th>
+              <th>Data/Hora</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="submissions-body">
+            <tr><td colspan="5" class="loading">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-        // Check authentication on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            const token = localStorage.getItem('token');
-            const userType = localStorage.getItem('userType');
-            
-            console.log('Dashboard loaded - Token:', token ? 'EXISTS' : 'MISSING');
-            console.log('Dashboard loaded - UserType:', userType);
-            
-            if (!token || userType !== 'teacher') {
-                console.log('Redirecting to login...');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Load teacher data
-            loadTeacherData();
-            loadStudents();
-            
-            // Setup menu links
-            setupMenuLinks();
-        });
+<!-- MODAL: Answer Detail -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Respostas do Aluno</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
 
-        // Setup menu navigation
-        function setupMenuLinks() {
-            document.querySelectorAll('.menu-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.getAttribute('data-section')) {
-                        e.preventDefault();
-                        const sectionId = this.getAttribute('data-section');
-                        showSection(sectionId);
-                        
-                        // Update active menu item
-                        document.querySelectorAll('.menu-link').forEach(l => {
-                            l.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                    }
-                });
-            });
-        }
+<div class="toast" id="toast"></div>
 
-        // Load teacher data from API
-        async function loadTeacherData() {
-            try {
-                const userId = localStorage.getItem('userId');
-                const userName = localStorage.getItem('userName');
-                
-                document.querySelector('.header h1').textContent = `Bem-vindo, ${userName}!`;
-                
-                // Load profile info
-                const profileContent = document.getElementById('profileContent');
-                profileContent.innerHTML = `
-                    <div style="background: white; padding: 2rem; border-radius: 10px;">
-                        <h3>Nome: ${userName}</h3>
-                        <p>ID: ${userId}</p>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Erro ao carregar dados do professor:', error);
-            }
-        }
+<script>
+const API = 'https://easyway-backend-production.up.railway.app/api';
+let token = localStorage.getItem('ew_teacher_token') || '';
+let allSubmissions = [];
 
-        // Load students from API
-        async function loadStudents() {
-            try {
-                const userId = localStorage.getItem('userId');
-                const response = await fetch(`${API_URL}/teachers/${userId}/students`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
-                if (response.ok) {
-                    const students = await response.json();
-                    displayStudents(students);
-                    document.getElementById('totalStudents').textContent = students.length;
-                } else {
-                    console.error('Erro ao carregar alunos:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Erro ao carregar alunos:', error);
-            }
-        }
+// ====== AUTH ======
+async function doLogin() {
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-err');
+  errEl.style.display = 'none';
+  try {
+    const res = await fetch(`${API}/auth/teacher/login`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro');
+    token = data.token;
+    localStorage.setItem('ew_teacher_token', token);
+    document.getElementById('teacher-name-display').textContent = '👩‍🏫 ' + data.name;
+    showDashboard();
+  } catch(e) {
+    errEl.style.display = 'block';
+  }
+}
 
-        // Display students in the table
-        function displayStudents(students) {
-            const tbody = document.getElementById('studentsTableBody');
-            tbody.innerHTML = '';
-            
-            if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Nenhum aluno encontrado</td></tr>';
-                return;
-            }
-            
-            students.forEach((student, index) => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${student.name}</td>
-                    <td>${student.email}</td>
-                    <td><span class="badge">Ativo</span></td>
-                    <td>
-                        <button class="action-btn" onclick="editStudent(${student.id})">Editar</button>
-                        <button class="action-btn" onclick="deleteStudent(${student.id})">Deletar</button>
-                    </td>
-                `;
-            });
-        }
+function doLogout() {
+  localStorage.removeItem('ew_teacher_token');
+  token = '';
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('dashboard').classList.remove('visible');
+}
 
-        // Show section
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-        }
+function showDashboard() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('dashboard').classList.add('visible');
+  loadAll();
+}
 
-        // Modal functions
-        function openAddStudentModal() {
-            document.getElementById('addStudentModal').classList.add('active');
-        }
+// Check saved token on load
+window.onload = () => {
+  if (token) {
+    showDashboard();
+  }
+};
 
-        function closeAddStudentModal() {
-            document.getElementById('addStudentModal').classList.remove('active');
-            document.querySelector('#addStudentModal form').reset();
-        }
+// ====== LOAD DATA ======
+async function loadAll() {
+  await Promise.all([loadSubmissions(), loadSummary()]);
+}
 
-        // Add student
-        async function addStudent(event) {
-            event.preventDefault();
-            const name = document.getElementById('studentName').value;
-            const email = document.getElementById('studentEmail').value;
-            const password = '123'; // Default password
-            const teacher_id = localStorage.getItem('userId');
-            
-            try {
-                const response = await fetch(`${API_URL}/students/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ name, email, password, teacher_id })
-                });
-                
-                if (response.ok) {
-                    alert(`Aluno ${name} adicionado com sucesso!`);
-                    closeAddStudentModal();
-                    loadStudents();
-                } else {
-                    const error = await response.json();
-                    alert(`Erro: ${error.error}`);
-                }
-            } catch (error) {
-                console.error('Erro ao adicionar aluno:', error);
-                alert('Erro ao adicionar aluno. Tente novamente.');
-            }
-        }
+async function loadSubmissions() {
+  const lesson = document.getElementById('filter-lesson').value;
+  let url = `${API}/activities/submissions`;
+  if (lesson) url += `?lesson=${encodeURIComponent(lesson)}`;
+  try {
+    const res = await fetch(url, {headers: {'Authorization': 'Bearer ' + token}});
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    const data = await res.json();
+    allSubmissions = data;
+    renderTable(data);
+    updateStats(data);
+    updateFilterOptions(data);
+  } catch(e) {
+    document.getElementById('submissions-body').innerHTML = '<tr><td colspan="5" class="loading">Erro ao carregar dados.</td></tr>';
+  }
+}
 
-        // Edit student
-        function editStudent(studentId) {
-            alert(`Editar aluno ${studentId}`);
-        }
+async function loadSummary() {
+  try {
+    const res = await fetch(`${API}/activities/summary`, {headers: {'Authorization': 'Bearer ' + token}});
+    const data = await res.json();
+    renderSummary(data);
+  } catch(e) {}
+}
 
-        // Delete student
-        function deleteStudent(studentId) {
-            if (confirm('Tem certeza que deseja deletar este aluno?')) {
-                alert(`Aluno ${studentId} deletado com sucesso!`);
-                loadStudents();
-            }
-        }
+// ====== RENDER ======
+function renderTable(data) {
+  const tbody = document.getElementById('submissions-body');
+  document.getElementById('table-count').textContent = data.length + ' envio' + (data.length !== 1 ? 's' : '');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div>📭</div>Nenhum envio ainda.</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(s => {
+    const score = s.score || 0;
+    const scoreClass = score >= 40 ? 'score-high' : score >= 20 ? 'score-mid' : 'score-low';
+    const dt = new Date(s.submitted_at);
+    const dtStr = dt.toLocaleDateString('pt-BR') + ' ' + dt.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    const lesson = s.lesson.replace('Unit 1 - ','').replace('Unit 1 · ','');
+    return `<tr>
+      <td><strong>${esc(s.student_name)}</strong></td>
+      <td><span class="lesson-tag">${esc(lesson)}</span></td>
+      <td><span class="score-badge ${scoreClass}">${score} pts</span></td>
+      <td style="color:#888;font-size:0.85rem;">${dtStr}</td>
+      <td>
+        <button class="btn-detail" onclick="showDetail(${s.id})">👁 Ver</button>
+        <button class="btn-del" onclick="deleteSubmission(${s.id})">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
 
-        // Logout
-        function logout() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userType');
-                localStorage.removeItem('userId');
-                localStorage.removeItem('userName');
-                window.location.href = 'login.html';
-            }
-        }
+function renderSummary(data) {
+  if (!data.length) return;
+  const el = document.getElementById('lesson-summary');
+  el.innerHTML = '<h2 style="font-size:1rem;color:var(--navy);margin-bottom:1rem;">📚 Resumo por Lição</h2>'
+    + '<div class="summary-grid">'
+    + data.map(d => `
+    <div class="summary-card">
+      <div class="summary-lesson">${d.lesson.replace('Unit 1 - ','')}</div>
+      <div class="summary-stats">
+        <div class="summary-stat"><div class="summary-stat-num">${d.total}</div><div class="summary-stat-lbl">Envios</div></div>
+        <div class="summary-stat"><div class="summary-stat-num" style="color:var(--gold)">${d.avg_score}</div><div class="summary-stat-lbl">Média</div></div>
+        <div class="summary-stat"><div class="summary-stat-num" style="color:var(--green)">${d.max_score}</div><div class="summary-stat-lbl">Máx</div></div>
+      </div>
+    </div>`).join('') + '</div>';
+}
 
-        // Close modal when clicking outside
-        document.addEventListener('click', function(e) {
-            const modal = document.getElementById('addStudentModal');
-            if (e.target === modal) {
-                closeAddStudentModal();
-            }
-        });
-    </script>
+function updateStats(data) {
+  document.getElementById('stat-total').textContent = data.length;
+  const avg = data.length ? Math.round(data.reduce((a,b) => a + (b.score||0), 0) / data.length) : 0;
+  document.getElementById('stat-avg').textContent = avg + ' pts';
+  const today = new Date().toLocaleDateString('pt-BR');
+  const todayCount = data.filter(s => new Date(s.submitted_at).toLocaleDateString('pt-BR') === today).length;
+  document.getElementById('stat-today').textContent = todayCount;
+}
+
+function updateFilterOptions(data) {
+  const lessons = [...new Set(data.map(s => s.lesson))];
+  const sel = document.getElementById('filter-lesson');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">Todas as lições</option>'
+    + lessons.map(l => `<option value="${esc(l)}" ${l===current?'selected':''}>${l.replace('Unit 1 - ','')}</option>`).join('');
+}
+
+// ====== DETAIL MODAL ======
+function showDetail(id) {
+  const s = allSubmissions.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('modal-title').textContent = '📝 ' + s.student_name + ' — ' + s.score + ' pts';
+  const a = s.answers || {};
+  let html = '';
+
+  if (a.warmup && a.warmup.some(v => v)) {
+    html += `<div class="answer-section"><h4>🧠 Warm Up</h4>`
+      + a.warmup.map((v,i) => `<div class="answer-item"><div class="answer-label">Questão ${i+1}</div><div class="${v ? 'answer-text' : 'answer-empty'}">${v || 'Não respondeu'}</div></div>`).join('') + '</div>';
+  }
+  if (a.writing && a.writing.some(v => v)) {
+    html += `<div class="answer-section"><h4>✍️ Writing</h4>`
+      + a.writing.map((v,i) => `<div class="answer-item"><div class="answer-label">Questão ${i+1}</div><div class="${v ? 'answer-text' : 'answer-empty'}">${v || 'Não respondeu'}</div></div>`).join('') + '</div>';
+  }
+  if (a.translation && a.translation.some(v => v)) {
+    html += `<div class="answer-section"><h4>🌐 Translation</h4>`
+      + a.translation.map((v,i) => `<div class="answer-item"><div class="answer-label">Frase ${String.fromCharCode(65+i)}</div><div class="${v ? 'answer-text' : 'answer-empty'}">${v || 'Não respondeu'}</div></div>`).join('') + '</div>';
+  }
+  if (!html) html = '<p style="color:#aaa;text-align:center;padding:1rem;">Apenas pontuação registrada (respostas de múltipla escolha são automáticas).</p>';
+  html += `<div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:0.8rem;color:#888;margin-bottom:0.3rem;">Enviado em</div>
+    <div style="font-weight:700;color:var(--navy);">${new Date(s.submitted_at).toLocaleString('pt-BR')}</div>
+  </div>`;
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ====== DELETE ======
+async function deleteSubmission(id) {
+  if (!confirm('Excluir este envio?')) return;
+  try {
+    const res = await fetch(`${API}/activities/submissions/${id}`, {
+      method: 'DELETE',
+      headers: {'Authorization': 'Bearer ' + token}
+    });
+    if (res.ok) { showToast('🗑 Excluído!','ok'); loadAll(); }
+    else showToast('Erro ao excluir','ko');
+  } catch(e) { showToast('Erro de conexão','ko'); }
+}
+
+// ====== UTILS ======
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showToast(msg,type='') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>t.className='toast',2500);
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>EasyWay – Lesson 1: Greetings</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #001A33;
+    --blue: #29B6F6;
+    --gold: #FFB300;
+    --green: #26C281;
+    --red: #E74C3C;
+    --light: #F0F8FF;
+    --shadow: 0 4px 20px rgba(0,26,51,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #001A33 0%, #003060 50%, #001A33 100%); min-height: 100vh; color: var(--navy); }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* NAME SCREEN */
+  #name-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+  #name-screen.active { display: flex; }
+  .logo { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #fff; margin-bottom: 0.2rem; }
+  .logo span { color: var(--gold); }
+  .subtitle-logo { color: var(--blue); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2rem; }
+  .welcome-card { background: white; border-radius: 24px; padding: 2.5rem 2rem; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .welcome-emoji { font-size: 3.5rem; margin-bottom: 1rem; }
+  .welcome-card h2 { font-size: 1.5rem; color: var(--navy); margin-bottom: 0.5rem; }
+  .welcome-card p { color: #666; font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .lesson-badge { background: linear-gradient(135deg, var(--navy), #003060); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; display: inline-block; margin-bottom: 1.5rem; }
+  .name-input { width: 100%; padding: 1rem 1.2rem; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1rem; font-family: 'Nunito', sans-serif; font-weight: 600; transition: border-color 0.2s; outline: none; margin-bottom: 1rem; }
+  .name-input:focus { border-color: var(--blue); }
+  .btn-start { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--blue), #0288D1); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(41,182,246,0.4); }
+  .btn-start:hover { transform: translateY(-2px); }
+
+  /* ACTIVITY SCREEN */
+  #activity-screen { min-height: 100vh; padding-bottom: 2rem; }
+  #activity-screen.active { display: block; }
+
+  .top-bar { background: rgba(0,26,51,0.95); backdrop-filter: blur(10px); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid rgba(41,182,246,0.3); }
+  .top-logo { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: white; }
+  .top-logo span { color: var(--gold); }
+  .student-tag { color: var(--blue); font-size: 0.85rem; font-weight: 700; }
+  .progress-wrap { padding: 0 1.5rem; }
+  .progress-bg { background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin: 0.8rem 0; }
+  .progress-fill { background: linear-gradient(90deg, var(--blue), var(--gold)); height: 100%; border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #001A33, #003060); padding: 2rem 1.5rem 3rem; text-align: center; }
+  .hero-unit { color: var(--blue); font-size: 0.75rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .hero-title { color: white; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .hero-title span { color: var(--gold); }
+  .hero-obj { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.5; max-width: 340px; margin: 0 auto 1.5rem; }
+  .hero-score { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 700; }
+
+  /* SECTIONS */
+  .section { background: white; margin: 1rem; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+  .sec-hdr { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .sec-icon { font-size: 1.5rem; }
+  .sec-title { font-size: 1rem; font-weight: 900; color: white; }
+  .sec-sub { font-size: 0.75rem; color: rgba(255,255,255,0.8); }
+  .sec-body { padding: 1.5rem; }
+
+  .hdr-blue { background: linear-gradient(135deg, #29B6F6, #0288D1); }
+  .hdr-navy { background: linear-gradient(135deg, #001A33, #003060); }
+  .hdr-gold { background: linear-gradient(135deg, #FFB300, #FF8F00); }
+  .hdr-green { background: linear-gradient(135deg, #26C281, #1A9660); }
+  .hdr-purple { background: linear-gradient(135deg, #7C4DFF, #5E35B1); }
+  .hdr-orange { background: linear-gradient(135deg, #FF7043, #E64A19); }
+
+  /* WARMUP */
+  .warmup-item { background: var(--light); border-radius: 12px; padding: 1rem; margin-bottom: 0.8rem; border-left: 4px solid var(--blue); }
+  .warmup-q { font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; font-size: 0.95rem; }
+  .warmup-ta { width: 100%; padding: 0.7rem; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; resize: none; }
+  .warmup-ta:focus { border-color: var(--blue); }
+
+  /* VOCAB */
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .vocab-card { background: var(--light); border: 2px solid transparent; border-radius: 14px; padding: 1rem 0.8rem; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+  .vocab-card:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(41,182,246,0.2); }
+  .vocab-card.speaking { border-color: var(--gold); background: #FFF8E1; }
+  .vocab-en { font-weight: 900; color: var(--navy); font-size: 1rem; margin-bottom: 0.3rem; }
+  .vocab-pt { color: #666; font-size: 0.8rem; }
+  .speak-ico { position: absolute; top: 0.5rem; right: 0.5rem; font-size: 0.9rem; }
+
+  /* PRON TIP */
+  .pron-tip { background: linear-gradient(135deg, #FFF8E1, #FFF3CD); border-left: 4px solid var(--gold); border-radius: 12px; padding: 1rem; margin-top: 1rem; }
+  .pron-tip h4 { color: #E65100; font-size: 0.85rem; margin-bottom: 0.5rem; }
+  .pron-tip p { color: var(--navy); font-size: 0.85rem; line-height: 1.5; }
+
+  /* TRUE/FALSE */
+  .tf-item { background: var(--light); border-radius: 12px; padding: 1rem; margin-bottom: 0.8rem; }
+  .tf-text { font-weight: 700; color: var(--navy); font-size: 0.9rem; margin-bottom: 0.8rem; }
+  .reading-box { background: #e8f5e9; border-radius: 8px; padding: 0.8rem; color: #388E3C; font-size: 0.85rem; margin-bottom: 0.8rem; cursor: pointer; line-height: 1.7; font-weight: 600; }
+  .tf-btns { display: flex; gap: 0.5rem; }
+  .tf-btn { flex: 1; padding: 0.7rem; border: 2px solid #e0e0e0; border-radius: 10px; font-weight: 800; font-family: 'Nunito', sans-serif; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; background: white; }
+  .tf-btn.correct { border-color: var(--green) !important; background: #e8f5e9 !important; color: var(--green) !important; }
+  .tf-btn.wrong { border-color: var(--red) !important; background: #fdecea !important; color: var(--red) !important; }
+  .tf-fb { font-size: 0.8rem; margin-top: 0.5rem; font-weight: 700; display: none; }
+  .tf-fb.ok { color: var(--green); display: block; }
+  .tf-fb.ko { color: var(--red); display: block; }
+
+  /* FILL BLANK */
+  .fill-item { background: var(--light); border-radius: 12px; padding: 1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .fill-lbl { font-weight: 700; color: #555; font-size: 0.85rem; }
+  .fill-txt { font-weight: 600; color: var(--navy); }
+  .fill-blank { border: none; border-bottom: 2px solid var(--blue); background: transparent; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--navy); width: 70px; text-align: center; outline: none; padding: 0.2rem 0.3rem; }
+  .fill-blank.ok { border-color: var(--green); color: var(--green); }
+  .fill-blank.ko { border-color: var(--red); color: var(--red); }
+
+  /* MC */
+  .mc-item { background: var(--light); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+  .mc-q { font-weight: 700; color: var(--navy); margin-bottom: 0.8rem; font-size: 0.9rem; }
+  .mc-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+  .mc-opt { padding: 0.7rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-weight: 600; cursor: pointer; background: white; transition: all 0.2s; text-align: left; font-family: 'Nunito', sans-serif; font-size: 0.9rem; }
+  .mc-opt:hover { border-color: var(--blue); background: #e3f2fd; }
+  .mc-opt.correct { border-color: var(--green) !important; background: #e8f5e9 !important; color: #1b5e20 !important; }
+  .mc-opt.wrong { border-color: var(--red) !important; background: #fdecea !important; color: #b71c1c !important; }
+
+  /* LISTEN */
+  .listen-list { list-style: none; }
+  .listen-item { display: flex; align-items: center; gap: 1rem; padding: 0.8rem; border-radius: 12px; margin-bottom: 0.6rem; background: var(--light); cursor: pointer; transition: all 0.2s; }
+  .listen-item:hover { background: #e3f2fd; }
+  .listen-item.playing { background: #FFF8E1; }
+  .listen-num { width: 32px; height: 32px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; flex-shrink: 0; }
+  .listen-en { font-weight: 700; color: var(--navy); }
+  .listen-pt { color: #888; font-size: 0.8rem; }
+  .listen-ico { color: var(--blue); font-size: 1.3rem; margin-left: auto; }
+
+  /* DIALOGUE */
+  .dialog-line { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.6rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-bottom: 0.4rem; }
+  .dialog-line:hover { background: #e3f2fd; }
+  .dialog-line.playing { background: #FFF8E1; }
+  .spk { font-weight: 900; font-size: 0.75rem; color: white; padding: 0.25rem 0.55rem; border-radius: 50px; flex-shrink: 0; margin-top: 2px; }
+  .spk.A { background: var(--blue); }
+  .spk.B { background: var(--navy); }
+  .dialog-en { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+  .dialog-pt { color: #888; font-size: 0.78rem; }
+  .dialog-ico { color: var(--blue); font-size: 1.1rem; margin-left: auto; flex-shrink: 0; }
+
+  /* MATCH */
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .match-col { display: flex; flex-direction: column; gap: 0.5rem; }
+  .match-item { padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; font-size: 0.85rem; transition: all 0.2s; background: white; color: var(--navy); }
+  .match-item:hover { border-color: var(--blue); background: #e3f2fd; }
+  .match-item.selected { border-color: var(--blue); background: #e3f2fd; }
+  .match-item.matched { border-color: var(--green); background: #e8f5e9; color: #1b5e20; cursor: default; }
+  .match-item.wrong-match { border-color: var(--red); background: #fdecea; animation: shake 0.3s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+  /* ORGANIZE */
+  .word-bank { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+  .word-chip { padding: 0.4rem 0.9rem; background: var(--navy); color: white; border-radius: 50px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .word-chip:hover { background: var(--blue); }
+  .word-chip.used { opacity: 0.3; cursor: not-allowed; }
+  .answer-line { border-bottom: 2px dashed var(--blue); padding: 0.5rem; min-height: 40px; font-weight: 700; color: var(--navy); font-size: 0.9rem; }
+
+  /* WRITING / TRANS */
+  .write-item { background: var(--light); border-radius: 12px; padding: 1rem; margin-bottom: 0.8rem; }
+  .write-q { font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; font-size: 0.9rem; }
+  .write-inp { width: 100%; padding: 0.7rem; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .write-inp:focus { border-color: var(--blue); }
+  .trans-lang { font-size: 0.7rem; color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+  .trans-orig { font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+
+  /* BUTTONS */
+  .check-btn { width: 100%; padding: 0.9rem; background: linear-gradient(135deg, var(--navy), #003060); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; margin-top: 1rem; transition: all 0.2s; }
+  .check-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,26,51,0.3); }
+
+  /* SUBMIT */
+  .submit-sec { margin: 1.5rem 1rem; background: linear-gradient(135deg, var(--navy), #003060); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; color: white; }
+  .submit-sec h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .submit-sec p { opacity: 0.8; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .score-big { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; font-size: 2rem; font-weight: 900; }
+  .score-big span { color: var(--gold); }
+  .btn-submit { width: 100%; padding: 1.1rem; background: linear-gradient(135deg, var(--gold), #FF8F00); color: var(--navy); border: none; border-radius: 14px; font-size: 1.1rem; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(255,179,0,0.4); }
+  .btn-submit:hover { transform: translateY(-2px); }
+
+  /* SUCCESS */
+  #success-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+  #success-screen.active { display: flex; }
+  .success-card { background: white; border-radius: 24px; padding: 2.5rem 2rem; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .success-emoji { font-size: 4rem; margin-bottom: 1rem; animation: bounce 1s ease infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .success-card h2 { color: var(--navy); font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .success-card p { color: #666; margin-bottom: 0.5rem; }
+  .final-pts { font-size: 3rem; font-weight: 900; color: var(--blue); margin: 1rem 0; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--navy); color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 700; font-size: 0.9rem; transition: transform 0.3s; z-index: 999; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.ok { background: var(--green); }
+  .toast.ko { background: var(--red); }
+
+  @media (max-width: 360px) { .vocab-grid, .match-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- NAME SCREEN -->
+<div id="name-screen" class="screen active">
+  <div class="logo">Easy<span>Way</span></div>
+  <div class="subtitle-logo">Escola de Idiomas</div>
+  <div class="welcome-card">
+    <div class="welcome-emoji">👋</div>
+    <div class="lesson-badge">UNIT 1 · LESSON 1 · BEGINNER A1</div>
+    <h2>Greetings &amp; Introductions</h2>
+    <p>Aprenda a cumprimentar e se apresentar em inglês!</p>
+    <input type="text" class="name-input" id="student-name" placeholder="Digite seu nome aqui..." autocomplete="off">
+    <button class="btn-start" onclick="startActivity()">Let's Go! 🚀</button>
+  </div>
+</div>
+
+<!-- ACTIVITY SCREEN -->
+<div id="activity-screen" class="screen">
+  <div class="top-bar">
+    <div class="top-logo">Easy<span>Way</span></div>
+    <div class="student-tag" id="display-name">👤 Aluno</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bg"><div class="progress-fill" id="progress-bar"></div></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-unit">Unit 1 · Lesson 1 · Beginner A1</div>
+    <div class="hero-title">Greetings &amp; <span>Introductions</span></div>
+    <div class="hero-obj">Ao final desta lição, você será capaz de cumprimentar e se apresentar em inglês.</div>
+    <div class="hero-score">⭐ Score: <span id="score-display">0</span> pts</div>
+  </div>
+
+  <!-- WARM UP -->
+  <div class="section">
+    <div class="sec-hdr hdr-blue">
+      <div class="sec-icon">🧠</div>
+      <div><div class="sec-title">Warm Up</div><div class="sec-sub">Pense e responda em português</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="warmup-item">
+        <div class="warmup-q">1. Você usa "oi" ou "olá" com mais frequência?</div>
+        <textarea class="warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+      <div class="warmup-item">
+        <div class="warmup-q">2. Como você cumprimenta alguém no dia a dia?</div>
+        <textarea class="warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+      <div class="warmup-item">
+        <div class="warmup-q">3. Qual cumprimento você já ouviu em inglês?</div>
+        <textarea class="warmup-ta" rows="2" placeholder="Sua resposta..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOCABULARY -->
+  <div class="section">
+    <div class="sec-hdr hdr-navy">
+      <div class="sec-icon">🔊</div>
+      <div><div class="sec-title">Vocabulary – Greetings</div><div class="sec-sub">Toque para ouvir a pronúncia!</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="vocab-grid">
+        <div class="vocab-card" onclick="speak('Hello')"><span class="speak-ico">🔊</span><div class="vocab-en">Hello!</div><div class="vocab-pt">Olá!</div></div>
+        <div class="vocab-card" onclick="speak('Hi')"><span class="speak-ico">🔊</span><div class="vocab-en">Hi!</div><div class="vocab-pt">Oi!</div></div>
+        <div class="vocab-card" onclick="speak('Hey')"><span class="speak-ico">🔊</span><div class="vocab-en">Hey!</div><div class="vocab-pt">Ei!</div></div>
+        <div class="vocab-card" onclick="speak('Good morning')"><span class="speak-ico">🔊</span><div class="vocab-en">Good morning!</div><div class="vocab-pt">Bom dia!</div></div>
+        <div class="vocab-card" onclick="speak('Good afternoon')"><span class="speak-ico">🔊</span><div class="vocab-en">Good afternoon!</div><div class="vocab-pt">Boa tarde!</div></div>
+        <div class="vocab-card" onclick="speak('Good evening')"><span class="speak-ico">🔊</span><div class="vocab-en">Good evening!</div><div class="vocab-pt">Boa noite!</div></div>
+        <div class="vocab-card" onclick="speak('Goodbye')"><span class="speak-ico">🔊</span><div class="vocab-en">Goodbye!</div><div class="vocab-pt">Adeus / Até logo!</div></div>
+        <div class="vocab-card" onclick="speak('Bye')"><span class="speak-ico">🔊</span><div class="vocab-en">Bye!</div><div class="vocab-pt">Tchau!</div></div>
+        <div class="vocab-card" onclick="speak('See you later')"><span class="speak-ico">🔊</span><div class="vocab-en">See you later!</div><div class="vocab-pt">Até mais tarde!</div></div>
+        <div class="vocab-card" onclick="speak('Nice to meet you')"><span class="speak-ico">🔊</span><div class="vocab-en">Nice to meet you!</div><div class="vocab-pt">Prazer em conhecer!</div></div>
+        <div class="vocab-card" onclick="speak('How are you')"><span class="speak-ico">🔊</span><div class="vocab-en">How are you?</div><div class="vocab-pt">Como você está?</div></div>
+        <div class="vocab-card" onclick="speak('I am fine')"><span class="speak-ico">🔊</span><div class="vocab-en">I'm fine!</div><div class="vocab-pt">Estou bem!</div></div>
+        <div class="vocab-card" onclick="speak('Thank you')"><span class="speak-ico">🔊</span><div class="vocab-en">Thank you!</div><div class="vocab-pt">Obrigado(a)!</div></div>
+        <div class="vocab-card" onclick="speak('What is your name')"><span class="speak-ico">🔊</span><div class="vocab-en">What's your name?</div><div class="vocab-pt">Qual é o seu nome?</div></div>
+      </div>
+      <div class="pron-tip">
+        <h4>🎯 Pronunciation Tip – The sound of "H"</h4>
+        <p>Em inglês, o <strong>H</strong> é um sopro de ar — não é "RR" como em português!<br>Exemplos: <strong>Hello</strong> → /həˈloʊ/ &nbsp;|&nbsp; <strong>Hi</strong> → /haɪ/</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- READING + TRUE/FALSE -->
+  <div class="section">
+    <div class="sec-hdr hdr-green">
+      <div class="sec-icon">📖</div>
+      <div><div class="sec-title">Reading – True or False?</div><div class="sec-sub">Leia, ouça e marque V ou F</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="reading-box" onclick="speak('Hello! Good Evening! I am Ana! I am a girl. Nice to meet you! Bye!')">
+        <div style="font-size:0.75rem;color:var(--green);font-weight:800;margin-bottom:0.5rem;">🔊 Toque para ouvir</div>
+        <strong>Hello! Good Evening!<br>I am Ana!<br>I am a girl.<br>Nice to meet you!<br>Bye!</strong>
+      </div>
+      <div class="tf-item">
+        <div class="tf-text">1. O nome dela é Ana.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="checkTF(this,true,true,0)">✅ Verdadeiro</button>
+          <button class="tf-btn" onclick="checkTF(this,false,true,0)">❌ Falso</button>
+        </div>
+        <div class="tf-fb" id="tfb0"></div>
+      </div>
+      <div class="tf-item">
+        <div class="tf-text">2. Ela é uma professora.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="checkTF(this,true,false,1)">✅ Verdadeiro</button>
+          <button class="tf-btn" onclick="checkTF(this,false,false,1)">❌ Falso</button>
+        </div>
+        <div class="tf-fb" id="tfb1"></div>
+      </div>
+      <div class="tf-item">
+        <div class="tf-text">3. Ela diz "até logo" (Bye) no final.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="checkTF(this,true,true,2)">✅ Verdadeiro</button>
+          <button class="tf-btn" onclick="checkTF(this,false,true,2)">❌ Falso</button>
+        </div>
+        <div class="tf-fb" id="tfb2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTEN & REPEAT -->
+  <div class="section">
+    <div class="sec-hdr hdr-purple">
+      <div class="sec-icon">🎧</div>
+      <div><div class="sec-title">Listen &amp; Repeat</div><div class="sec-sub">Toque para ouvir e repita em voz alta!</div></div>
+    </div>
+    <div class="sec-body">
+      <ul class="listen-list">
+        <li class="listen-item" onclick="speakItem(this,'Hello')">
+          <div class="listen-num">1</div>
+          <div><div class="listen-en">Hello!</div><div class="listen-pt">Olá!</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'I am a student')">
+          <div class="listen-num">2</div>
+          <div><div class="listen-en">I am…</div><div class="listen-pt">Eu sou/estou…</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'Nice to meet you')">
+          <div class="listen-num">3</div>
+          <div><div class="listen-en">Nice to meet you.</div><div class="listen-pt">Prazer em conhecer você.</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'How are you today')">
+          <div class="listen-num">4</div>
+          <div><div class="listen-en">How are you?</div><div class="listen-pt">Como você está?</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'I am fine, thank you')">
+          <div class="listen-num">5</div>
+          <div><div class="listen-en">I'm fine / great!</div><div class="listen-pt">Estou bem / ótimo(a)!</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'What is your name')">
+          <div class="listen-num">6</div>
+          <div><div class="listen-en">What's your name?</div><div class="listen-pt">Qual é o seu nome?</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+        <li class="listen-item" onclick="speakItem(this,'Goodbye, see you later')">
+          <div class="listen-num">7</div>
+          <div><div class="listen-en">Goodbye! / Bye!</div><div class="listen-pt">Adeus! / Tchau!</div></div>
+          <div class="listen-ico">🔊</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DIALOGUE -->
+  <div class="section">
+    <div class="sec-hdr hdr-navy">
+      <div class="sec-icon">💬</div>
+      <div><div class="sec-title">Dialogue – Speaking</div><div class="sec-sub">Toque em cada linha para ouvir</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="dialog-line" onclick="speakItem(this,'Hello! How are you today?')">
+        <span class="spk A">A</span><div><div class="dialog-en">Hello! How are you today?</div><div class="dialog-pt">Olá! Como você está hoje?</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'I am great. And you?')">
+        <span class="spk B">B</span><div><div class="dialog-en">I am great. And you?</div><div class="dialog-pt">Estou ótimo. E você?</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'I am fine, thanks!')">
+        <span class="spk A">A</span><div><div class="dialog-en">I am fine, thanks!</div><div class="dialog-pt">Estou bem, obrigado(a)!</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,&quot;What is your name?&quot;)">
+        <span class="spk B">B</span><div><div class="dialog-en">What's your name?</div><div class="dialog-pt">Qual é o seu nome?</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'I am Sam!')">
+        <span class="spk A">A</span><div><div class="dialog-en">I'm Sam!</div><div class="dialog-pt">Eu sou Sam!</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'Nice to meet you, Sam!')">
+        <span class="spk B">B</span><div><div class="dialog-en">Nice to meet you, Sam!</div><div class="dialog-pt">Prazer em te conhecer, Sam!</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'Nice to meet you too! Goodbye!')">
+        <span class="spk A">A</span><div><div class="dialog-en">Nice to meet you, too! Goodbye!</div><div class="dialog-pt">Prazer também! Adeus!</div></div><div class="dialog-ico">🔊</div>
+      </div>
+      <div class="dialog-line" onclick="speakItem(this,'Bye!')">
+        <span class="spk B">B</span><div><div class="dialog-en">Bye!</div><div class="dialog-pt">Tchau!</div></div><div class="dialog-ico">🔊</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 1 – am / are -->
+  <div class="section">
+    <div class="sec-hdr hdr-orange">
+      <div class="sec-icon">📝</div>
+      <div><div class="sec-title">Activity 1 – Complete (am / are)</div><div class="sec-sub">Complete os espaços corretamente</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="fill-item"><div class="fill-lbl">a)</div><div class="fill-txt">I</div><input class="fill-blank" id="f1" placeholder="___" maxlength="5"><div class="fill-txt">Anna.</div></div>
+      <div class="fill-item"><div class="fill-lbl">b)</div><div class="fill-txt">You</div><input class="fill-blank" id="f2" placeholder="___" maxlength="5"><div class="fill-txt">Peter.</div></div>
+      <div class="fill-item"><div class="fill-lbl">c)</div><div class="fill-txt">I</div><input class="fill-blank" id="f3" placeholder="___" maxlength="5"><div class="fill-txt">a teacher.</div></div>
+      <div class="fill-item"><div class="fill-lbl">d)</div><div class="fill-txt">You</div><input class="fill-blank" id="f4" placeholder="___" maxlength="5"><div class="fill-txt">my friend.</div></div>
+      <button class="check-btn" onclick="checkFills()">✅ Verificar respostas</button>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 2 – Multiple Choice -->
+  <div class="section">
+    <div class="sec-hdr hdr-blue">
+      <div class="sec-icon">☑️</div>
+      <div><div class="sec-title">Activity 2 – Choose the right option</div><div class="sec-sub">Marque a opção correta</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="mc-item">
+        <div class="mc-q">1. "Prazer em conhecer você" em inglês é:</div>
+        <div class="mc-opts">
+          <button class="mc-opt" onclick="checkMC(this,false,'mc1')">Good morning.</button>
+          <button class="mc-opt" onclick="checkMC(this,true,'mc1')">Nice to meet you.</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc1')">How are you?</button>
+        </div>
+      </div>
+      <div class="mc-item">
+        <div class="mc-q">2. "Como você está?" em inglês é:</div>
+        <div class="mc-opts">
+          <button class="mc-opt" onclick="checkMC(this,true,'mc2')">How are you?</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc2')">What's your name?</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc2')">Where are you from?</button>
+        </div>
+      </div>
+      <div class="mc-item">
+        <div class="mc-q">3. "Bom dia!" em inglês é:</div>
+        <div class="mc-opts">
+          <button class="mc-opt" onclick="checkMC(this,true,'mc3')">Good morning!</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc3')">Good evening!</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc3')">Good night!</button>
+        </div>
+      </div>
+      <div class="mc-item">
+        <div class="mc-q">4. "Tchau!" em inglês é:</div>
+        <div class="mc-opts">
+          <button class="mc-opt" onclick="checkMC(this,false,'mc4')">Hello!</button>
+          <button class="mc-opt" onclick="checkMC(this,false,'mc4')">Thank you!</button>
+          <button class="mc-opt" onclick="checkMC(this,true,'mc4')">Bye!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 3 – MATCHING -->
+  <div class="section">
+    <div class="sec-hdr hdr-green">
+      <div class="sec-icon">🔗</div>
+      <div><div class="sec-title">Activity 3 – Match</div><div class="sec-sub">Conecte inglês com português</div></div>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Toque em um item de cada coluna para conectar!</p>
+      <div class="match-grid">
+        <div class="match-col" id="ml">
+          <div class="match-item" data-id="m1" onclick="selMatch(this,'left')">Hello</div>
+          <div class="match-item" data-id="m2" onclick="selMatch(this,'left')">That is a girl!</div>
+          <div class="match-item" data-id="m3" onclick="selMatch(this,'left')">Good morning</div>
+          <div class="match-item" data-id="m4" onclick="selMatch(this,'left')">Goodbye</div>
+        </div>
+        <div class="match-col" id="mr">
+          <div class="match-item" data-id="m3" onclick="selMatch(this,'right')">Bom dia</div>
+          <div class="match-item" data-id="m1" onclick="selMatch(this,'right')">Olá</div>
+          <div class="match-item" data-id="m4" onclick="selMatch(this,'right')">Até logo</div>
+          <div class="match-item" data-id="m2" onclick="selMatch(this,'right')">Aquela é uma menina!</div>
+        </div>
+      </div>
+      <div id="match-msg" style="text-align:center;margin-top:1rem;font-weight:700;color:var(--green);display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY 4 – ORGANIZE -->
+  <div class="section">
+    <div class="sec-hdr hdr-purple">
+      <div class="sec-icon">🔀</div>
+      <div><div class="sec-title">Activity 4 – Organize</div><div class="sec-sub">Coloque o diálogo na ordem certa</div></div>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Toque nas frases na ordem correta (1º → 2º → 3º):</p>
+      <div class="word-bank" id="org-chips">
+        <div class="word-chip" data-ord="2" onclick="pickChip(this)">My name is Ana.</div>
+        <div class="word-chip" data-ord="1" onclick="pickChip(this)">Hello!</div>
+        <div class="word-chip" data-ord="3" onclick="pickChip(this)">Nice to meet you!</div>
+      </div>
+      <div class="answer-line" id="org-ans"></div>
+      <button class="check-btn" onclick="checkOrg()">✅ Verificar ordem</button>
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="section">
+    <div class="sec-hdr hdr-gold">
+      <div class="sec-icon">✍️</div>
+      <div><div class="sec-title">Writing – About You!</div><div class="sec-sub">Complete com suas informações</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="write-item"><div class="write-q">1. Hello, Good Evening! (responda)</div><input class="write-inp" id="w1" placeholder="Responda em inglês..."></div>
+      <div class="write-item"><div class="write-q">2. What's your name?</div><input class="write-inp" id="w2" placeholder="My name is ..."></div>
+      <div class="write-item"><div class="write-q">3. How are you today?</div><input class="write-inp" id="w3" placeholder="I am ..."></div>
+      <div class="write-item"><div class="write-q">4. Nice to meet you! (responda)</div><input class="write-inp" id="w4" placeholder="Nice to meet you, ..."></div>
+    </div>
+  </div>
+
+  <!-- TRANSLATION -->
+  <div class="section">
+    <div class="sec-hdr hdr-orange">
+      <div class="sec-icon">🌐</div>
+      <div><div class="sec-title">Translation – Escreva em inglês</div><div class="sec-sub">Traduza do português para o inglês</div></div>
+    </div>
+    <div class="sec-body">
+      <div class="write-item"><div class="trans-lang">PT → EN</div><div class="trans-orig">a. Bom dia!</div><input class="write-inp" id="t1" placeholder="Em inglês..."></div>
+      <div class="write-item"><div class="trans-lang">PT → EN</div><div class="trans-orig">b. Boa tarde!</div><input class="write-inp" id="t2" placeholder="Em inglês..."></div>
+      <div class="write-item"><div class="trans-lang">PT → EN</div><div class="trans-orig">c. Prazer em te conhecer!</div><input class="write-inp" id="t3" placeholder="Em inglês..."></div>
+      <div class="write-item"><div class="trans-lang">PT → EN</div><div class="trans-orig">d. Aquele é meu amigo!</div><input class="write-inp" id="t4" placeholder="Em inglês..."></div>
+      <div class="write-item"><div class="trans-lang">PT → EN</div><div class="trans-orig">e. Até logo!</div><input class="write-inp" id="t5" placeholder="Em inglês..."></div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-sec">
+    <h3>🏁 Atividade concluída!</h3>
+    <p>Clique abaixo para enviar suas respostas para a professora.</p>
+    <div class="score-big">Pontuação: <span id="final-pts">0</span> pts</div>
+    <button class="btn-submit" onclick="submitActivity()">📤 Enviar para a Professora</button>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen" class="screen">
+  <div class="logo">Easy<span>Way</span></div>
+  <div class="subtitle-logo">Escola de Idiomas</div>
+  <div class="success-card">
+    <div class="success-emoji">🎉</div>
+    <h2>Great job, <span id="suc-name"></span>!</h2>
+    <p>Sua atividade foi enviada para a professora com sucesso!</p>
+    <div class="final-pts" id="suc-pts">0 pts</div>
+    <p style="font-size:0.85rem;color:#888;">Lesson 1 – Greetings &amp; Introductions ✅</p>
+    <br>
+    <button class="btn-start" onclick="location.reload()">🔄 Fazer de novo</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let studentName='', score=0;
+const mcDone={}, tfDone={};
+let matchSel={left:null,right:null}, matchCount=0;
+let orgArr=[], orgDone=false, fillDone=false;
+
+function startActivity(){
+  const v=document.getElementById('student-name').value.trim();
+  if(!v){showToast('Digite seu nome! 😊','ko');return;}
+  studentName=v;
+  document.getElementById('display-name').textContent='👤 '+studentName;
+  document.getElementById('suc-name').textContent=studentName;
+  showScreen('activity-screen');
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// TTS
+function speak(text){
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=0.85; u.pitch=1.1;
+  const voices=window.speechSynthesis.getVoices();
+  const pref=voices.find(v=>v.lang.startsWith('en')&&(v.name.includes('Samantha')||v.name.includes('Google US')||v.name.includes('Karen')||v.name.includes('Daniel')||v.name.includes('Alex')));
+  if(pref)u.voice=pref;
+  window.speechSynthesis.speak(u);
+}
+window.speechSynthesis.onvoiceschanged=()=>{};
+function speakItem(el,text){
+  document.querySelectorAll('.listen-item.playing,.dialog-line.playing').forEach(e=>e.classList.remove('playing'));
+  el.classList.add('playing');
+  speak(text);
+  setTimeout(()=>el.classList.remove('playing'),2500);
+}
+
+// SCORE
+function addScore(n){
+  score+=n;
+  document.getElementById('score-display').textContent=score;
+  document.getElementById('final-pts').textContent=score;
+  const pct=Math.min((score/60)*100,100);
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+
+// TRUE/FALSE
+function checkTF(btn,userAns,correctAns,idx){
+  if(tfDone[idx])return;
+  tfDone[idx]=true;
+  const btns=btn.parentElement.querySelectorAll('.tf-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('tfb'+idx);
+  if(userAns===correctAns){
+    btn.classList.add('correct');
+    fb.textContent='✅ Correto! Muito bem!'; fb.className='tf-fb ok';
+    addScore(5); showToast('✅ Correto! +5 pts','ok');
+  }else{
+    btn.classList.add('wrong');
+    btns.forEach(b=>{const isTrue=b.textContent.includes('Verdadeiro');if(isTrue===correctAns)b.classList.add('correct');});
+    fb.textContent='❌ A resposta correta está em verde.'; fb.className='tf-fb ko';
+    showToast('❌ Resposta incorreta','ko');
+  }
+}
+
+// FILL BLANKS
+function checkFills(){
+  if(fillDone)return; fillDone=true;
+  const ans={f1:'am',f2:'are',f3:'am',f4:'are'};
+  let ok=0;
+  Object.entries(ans).forEach(([id,a])=>{
+    const el=document.getElementById(id);
+    if(el.value.trim().toLowerCase()===a){el.classList.add('ok');ok++;}
+    else{el.classList.add('ko');el.value=a;}
+    el.disabled=true;
+  });
+  addScore(ok*3);
+  showToast(`✅ ${ok}/4 corretas! +${ok*3} pts`,ok===4?'ok':'');
+}
+
+// MC
+function checkMC(btn,correct,gid){
+  if(mcDone[gid])return; mcDone[gid]=true;
+  const opts=btn.closest('.mc-opts');
+  opts.querySelectorAll('.mc-opt').forEach(b=>b.disabled=true);
+  if(correct){btn.classList.add('correct');addScore(5);showToast('✅ Correto! +5 pts','ok');}
+  else{
+    btn.classList.add('wrong');
+    opts.querySelectorAll('.mc-opt').forEach(b=>{if(b.getAttribute('onclick').includes('true,'))b.classList.add('correct');});
+    showToast('❌ Resposta incorreta','ko');
+  }
+}
+
+// MATCHING
+function selMatch(el,side){
+  if(el.classList.contains('matched'))return;
+  document.querySelectorAll(`#m${side[0]} .match-item.selected`).forEach(e=>e.classList.remove('selected'));
+  const colId = side==='left'?'ml':'mr';
+  document.querySelectorAll('#'+colId+' .match-item.selected').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  matchSel[side]=el;
+  if(matchSel.left&&matchSel.right){
+    if(matchSel.left.dataset.id===matchSel.right.dataset.id){
+      [matchSel.left,matchSel.right].forEach(e=>{e.classList.remove('selected');e.classList.add('matched');e.onclick=null;});
+      matchCount++; addScore(4); showToast('✅ Match! +4 pts','ok');
+      if(matchCount===4){const m=document.getElementById('match-msg');m.textContent='🎉 Perfeito! Todos os pares!';m.style.display='block';}
+    }else{
+      [matchSel.left,matchSel.right].forEach(e=>e.classList.add('wrong-match'));
+      setTimeout(()=>{[matchSel.left,matchSel.right].forEach(e=>{e.classList.remove('selected','wrong-match');});matchSel={left:null,right:null};},600);
+      return;
+    }
+    matchSel={left:null,right:null};
+  }
+}
+
+// ORGANIZE
+function pickChip(el){
+  if(el.classList.contains('used')||orgDone)return;
+  orgArr.push(el.dataset.ord);
+  el.classList.add('used');
+  const labels=['Hello!','My name is Ana.','Nice to meet you!'];
+  document.getElementById('org-ans').textContent=orgArr.map(o=>labels[o-1]).join(' → ');
+}
+function checkOrg(){
+  if(orgDone)return; orgDone=true;
+  const isOk=JSON.stringify(orgArr)===JSON.stringify(['1','2','3']);
+  const el=document.getElementById('org-ans');
+  if(isOk){el.style.color='var(--green)';addScore(8);showToast('🎉 Ordem correta! +8 pts','ok');}
+  else{el.style.color='var(--red)';el.textContent='❌ Correta: Hello! → My name is Ana. → Nice to meet you!';showToast('❌ Incorrect order','ko');}
+}
+
+// SUBMIT
+async function submitActivity(){
+  const payload={
+    studentName,
+    lesson:'Unit 1 - Lesson 1 - Greetings & Introductions',
+    score,
+    submittedAt:new Date().toISOString(),
+    answers:{
+      warmup:[...document.querySelectorAll('.warmup-ta')].map(i=>i.value),
+      writing:['w1','w2','w3','w4'].map(id=>document.getElementById(id)?.value||''),
+      translation:['t1','t2','t3','t4','t5'].map(id=>document.getElementById(id)?.value||'')
+    }
+  };
+  try{
+    await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
+    });
+  }catch(e){console.log('Backend note:',e.message);}
+  document.getElementById('suc-pts').textContent=score+' pts';
+  showScreen('success-screen');
+}
+
+// TOAST
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>t.className='toast',2500);
+}
+</script>
+</body>
+</html>
