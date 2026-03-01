@@ -1,0 +1,53 @@
+{
+  "buildCommand": "echo 'Static site - no build needed'",
+  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/teacher-dashboard",
+      "destination": "/teacher-dashboard.html"
+    },
+    {
+      "source": "/student-dashboard",
+      "destination": "/student-dashboard.html"
+    },
+    {
+      "source": "/licoes",
+      "destination": "/licoes.html"
+    },
+    {
+      "source": "/proficiency-test",
+      "destination": "/proficiency-test.html"
+    },
+    {
+      "source": "/storybook",
+      "destination": "/storybook.html"
+    },
+    {
+      "source": "/dialogues",
+      "destination": "/dialogues.html"
+    },
+    {
+      "source": "/super-skills",
+      "destination": "/super-skills.html"
+    },
+    {
+      "source": "/licoes/:path*",
+      "destination": "/licoes/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
