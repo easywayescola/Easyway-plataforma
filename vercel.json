@@ -1,20 +1,8 @@
 {
-  "buildCommand": "echo 'Static site - no build'",
-  "outputDirectory": ".",
-  "public": true,
-  "cleanUrls": false,
-  "trailingSlash": false,
-  "functions": {},
-  "env": {},
-  "headers": [
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
+      "source": "/((?!.*\\.).*)",
+      "destination": "/index.html"
     }
   ]
 }
