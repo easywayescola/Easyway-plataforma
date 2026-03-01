@@ -1,48 +1,9 @@
 {
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": ".",
-  "redirects": [
-    {
-      "source": "/login",
-      "destination": "/login.html",
-      "permanent": false
-    },
-    {
-      "source": "/teacher-dashboard",
-      "destination": "/teacher-dashboard.html",
-      "permanent": false
-    },
-    {
-      "source": "/student-dashboard",
-      "destination": "/student-dashboard.html",
-      "permanent": false
-    },
-    {
-      "source": "/licoes",
-      "destination": "/licoes.html",
-      "permanent": false
-    },
-    {
-      "source": "/proficiency-test",
-      "destination": "/proficiency-test.html",
-      "permanent": false
-    },
-    {
-      "source": "/storybook",
-      "destination": "/storybook.html",
-      "permanent": false
-    },
-    {
-      "source": "/dialogues",
-      "destination": "/dialogues.html",
-      "permanent": false
-    },
-    {
-      "source": "/super-skills",
-      "destination": "/super-skills.html",
-      "permanent": false
-    }
-  ],
+  "public": true,
+  "cleanUrls": false,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
