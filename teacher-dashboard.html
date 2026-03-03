@@ -219,18 +219,12 @@ function showTab(id, el) {
 
 async function getToken() {
   if (token) return token;
-  // Tenta token do localStorage primeiro
   const saved = localStorage.getItem('token');
-  if (saved) { token = saved; return token; }
-  // Auto-login
-  const r = await fetch(`${API}/auth/teacher/login`, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({email:'professor@easyway.com', password:'123'})
-  });
-  if (!r.ok) throw new Error('Login failed');
-  const auth = await r.json();
-  token = auth.token;
-  return token;
+  const userType = localStorage.getItem('userType');
+  if (saved && userType === 'teacher') { token = saved; return token; }
+  // Sem token ou não é professor, redireciona para login
+  window.location.href = 'login.html';
+  throw new Error('Not authenticated');
 }
 
 async function loadData() {
