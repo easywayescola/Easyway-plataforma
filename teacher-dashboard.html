@@ -13,6 +13,13 @@
   .topbar-logo{font-family:'Dancing Script',cursive;font-size:1.6rem;color:white;}
   .topbar-logo span{color:var(--gold);}
   .teacher-tag{color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:700;}
+  .topbar-right{display:flex;align-items:center;gap:1rem;}
+  .btn-logout{background:rgba(255,255,255,0.15);color:white;border:none;padding:0.4rem 0.9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;}
+  .tabs{background:white;border-bottom:2px solid #eee;display:flex;gap:0;padding:0 2rem;}
+  .tab{padding:1rem 1.5rem;cursor:pointer;font-weight:700;font-size:0.9rem;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;}
+  .tab.active{color:var(--navy);border-bottom-color:var(--navy);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
   .main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
   h1{color:var(--navy);margin-bottom:1.5rem;font-size:1.5rem;}
   .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;}
@@ -34,6 +41,7 @@
   .filter-group label{font-weight:700;font-size:0.85rem;color:#555;}
   .filter-select{padding:0.5rem 0.8rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;}
   .btn-refresh{padding:0.6rem 1.2rem;background:var(--navy);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:0.85rem;}
+  .btn-add{padding:0.6rem 1.2rem;background:var(--green);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:0.85rem;}
   .table-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,26,51,0.08);overflow:hidden;}
   .table-header{padding:1.5rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;}
   .table-header h2{font-size:1.1rem;color:var(--navy);}
@@ -48,6 +56,7 @@
   .score-mid{background:#FFF8E1;color:#E65100;}
   .score-low{background:#fdecea;color:#b71c1c;}
   .lesson-tag{background:var(--light);color:var(--navy);padding:0.25rem 0.6rem;border-radius:6px;font-size:0.8rem;font-weight:700;}
+  .level-tag{padding:0.2rem 0.6rem;border-radius:6px;font-size:0.8rem;font-weight:700;background:#e3f2fd;color:#1565c0;}
   .btn-detail{padding:0.4rem 0.8rem;background:var(--blue);color:white;border:none;border-radius:6px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.8rem;}
   .btn-del{padding:0.4rem 0.8rem;background:#fdecea;color:var(--red);border:none;border-radius:6px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.8rem;margin-left:0.3rem;}
   .empty-state{text-align:center;padding:3rem;color:#aaa;}
@@ -56,7 +65,7 @@
   .erro-box{background:#fdecea;border-radius:12px;padding:1.5rem;text-align:center;color:var(--red);font-weight:700;margin-bottom:1rem;display:none;}
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;}
   .modal-overlay.open{display:flex;}
-  .modal{background:white;border-radius:20px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .modal{background:white;border-radius:20px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
   .modal-header{padding:1.5rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;}
   .modal-header h3{font-size:1.1rem;color:var(--navy);}
   .modal-close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;}
@@ -65,105 +74,250 @@
   .answer-section h4{font-size:0.85rem;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.8rem;border-bottom:2px solid var(--light);padding-bottom:0.4rem;}
   .answer-item{background:var(--light);border-radius:8px;padding:0.7rem;margin-bottom:0.5rem;font-size:0.9rem;}
   .answer-label{font-weight:700;color:#555;font-size:0.8rem;margin-bottom:0.3rem;}
+  .form-group{margin-bottom:1.2rem;}
+  .form-group label{display:block;font-weight:700;font-size:0.85rem;color:#555;margin-bottom:0.4rem;}
+  .form-group input,.form-group select{width:100%;padding:0.7rem;border:2px solid #e0e0e0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.9rem;outline:none;transition:border 0.2s;}
+  .form-group input:focus,.form-group select:focus{border-color:var(--blue);}
+  .btn-primary{width:100%;padding:0.8rem;background:var(--navy);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;margin-top:0.5rem;}
   .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:white;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:0.9rem;transition:transform 0.3s;z-index:999;}
   .toast.show{transform:translateX(-50%) translateY(0);}
   .toast.ok{background:var(--green);}
   .toast.ko{background:var(--red);}
-  @media(max-width:600px){.main{padding:1rem;}th,td{padding:0.7rem 0.5rem;font-size:0.8rem;}.stats-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.main{padding:1rem;}th,td{padding:0.7rem 0.5rem;font-size:0.8rem;}.stats-grid{grid-template-columns:1fr 1fr;}.tabs{padding:0 1rem;}.tab{padding:0.8rem 1rem;}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-logo">Easy<span>Way</span></div>
-  <div class="teacher-tag">👩‍🏫 Painel da Professora Hesione</div>
-</div>
-
-<div class="main">
-  <h1>📊 Respostas dos Alunos</h1>
-  <div class="erro-box" id="erro">⚠️ Não foi possível conectar ao servidor. Verifique se o backend está online.</div>
-
-  <div class="stats-grid">
-    <div class="stat-card stat-blue"><div class="stat-num" id="stat-total" style="color:var(--blue)">—</div><div class="stat-label">Total de Envios</div></div>
-    <div class="stat-card stat-gold"><div class="stat-num" id="stat-avg" style="color:var(--gold)">—</div><div class="stat-label">Pontuação Média</div></div>
-    <div class="stat-card stat-green"><div class="stat-num" id="stat-today" style="color:var(--green)">—</div><div class="stat-label">Enviados Hoje</div></div>
-  </div>
-
-  <div id="lesson-summary" style="margin-bottom:1.5rem;"></div>
-
-  <div class="filters">
-    <div class="filter-group">
-      <label>Filtrar por lição:</label>
-      <select class="filter-select" id="filter-lesson" onchange="renderTable()">
-        <option value="">Todas as lições</option>
-      </select>
-    </div>
-    <button class="btn-refresh" onclick="loadData()">🔄 Atualizar</button>
-  </div>
-
-  <div class="table-card">
-    <div class="table-header">
-      <h2>📋 Respostas dos Alunos</h2>
-      <span class="table-count" id="table-count">0 envios</span>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Aluno</th><th>Lição</th><th>Pontuação</th><th>Data/Hora</th><th>Ações</th></tr></thead>
-        <tbody id="submissions-body"><tr><td colspan="5" class="loading">Conectando...</td></tr></tbody>
-      </table>
-    </div>
+  <div class="topbar-right">
+    <div class="teacher-tag">👩‍🏫 Painel da Professora</div>
+    <button class="btn-logout" onclick="logout()">Sair</button>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal">
+<div class="tabs">
+  <div class="tab active" onclick="showTab('tab-submissions', this)">📊 Respostas</div>
+  <div class="tab" onclick="showTab('tab-alunos', this)">👨‍🎓 Alunos</div>
+</div>
+
+<!-- ABA RESPOSTAS -->
+<div id="tab-submissions" class="tab-content active">
+  <div class="main">
+    <h1>📊 Respostas dos Alunos</h1>
+    <div class="erro-box" id="erro">⚠️ Não foi possível conectar ao servidor.</div>
+    <div class="stats-grid">
+      <div class="stat-card stat-blue"><div class="stat-num" id="stat-total" style="color:var(--blue)">—</div><div class="stat-label">Total de Envios</div></div>
+      <div class="stat-card stat-gold"><div class="stat-num" id="stat-avg" style="color:var(--gold)">—</div><div class="stat-label">Pontuação Média</div></div>
+      <div class="stat-card stat-green"><div class="stat-num" id="stat-today" style="color:var(--green)">—</div><div class="stat-label">Enviados Hoje</div></div>
+    </div>
+    <div id="lesson-summary" style="margin-bottom:1.5rem;"></div>
+    <div class="filters">
+      <div class="filter-group">
+        <label>Filtrar por lição:</label>
+        <select class="filter-select" id="filter-lesson" onchange="renderTable()">
+          <option value="">Todas as lições</option>
+        </select>
+      </div>
+      <button class="btn-refresh" onclick="loadData()">🔄 Atualizar</button>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <h2>📋 Respostas dos Alunos</h2>
+        <span class="table-count" id="table-count">0 envios</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aluno</th><th>Lição</th><th>Pontuação</th><th>Data/Hora</th><th>Ações</th></tr></thead>
+          <tbody id="submissions-body"><tr><td colspan="5" class="loading">Conectando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABA ALUNOS -->
+<div id="tab-alunos" class="tab-content">
+  <div class="main">
+    <h1>👨‍🎓 Gerenciar Alunos</h1>
+    <div class="filters">
+      <button class="btn-add" onclick="openAddAluno()">➕ Adicionar Aluno</button>
+      <button class="btn-refresh" onclick="loadAlunos()">🔄 Atualizar</button>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <h2>Lista de Alunos</h2>
+        <span class="table-count" id="alunos-count">0 alunos</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Email</th><th>Nível</th><th>Turma</th><th>Cadastrado em</th></tr></thead>
+          <tbody id="alunos-body"><tr><td colspan="5" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALHE RESPOSTA -->
+<div class="modal-overlay" id="modal-detail">
   <div class="modal">
     <div class="modal-header">
       <h3 id="modal-title">Respostas</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeModal('modal-detail')">✕</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- MODAL ADICIONAR ALUNO -->
+<div class="modal-overlay" id="modal-aluno">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>➕ Adicionar Aluno</h3>
+      <button class="modal-close" onclick="closeModal('modal-aluno')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Nome completo</label><input type="text" id="aluno-nome" placeholder="Ex: Maria Silva"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="aluno-email" placeholder="Ex: maria@email.com"></div>
+      <div class="form-group"><label>Senha</label><input type="password" id="aluno-senha" placeholder="Mínimo 3 caracteres"></div>
+      <div class="form-group">
+        <label>Nível</label>
+        <select id="aluno-nivel">
+          <option value="A1">A1 - Iniciante</option>
+          <option value="A2">A2 - Elementar</option>
+          <option value="B1">B1 - Intermediário</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Turma (opcional)</label><input type="text" id="aluno-turma" placeholder="Ex: Turma A, Manhã..."></div>
+      <div id="aluno-erro" style="color:var(--red);font-weight:700;font-size:0.9rem;margin-bottom:0.5rem;display:none;"></div>
+      <button class="btn-primary" onclick="salvarAluno()">✅ Salvar Aluno</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API = 'https://easyway-backend-production.up.railway.app/api';
+const API = 'https://easyway-backend-production-4094.up.railway.app/api';
 let allData = [], token = '';
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userType');
+  localStorage.removeItem('userName');
+  window.location.href = 'login.html';
+}
+
+function showTab(id, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'tab-alunos') loadAlunos();
+}
+
+async function getToken() {
+  if (token) return token;
+  // Tenta token do localStorage primeiro
+  const saved = localStorage.getItem('token');
+  if (saved) { token = saved; return token; }
+  // Auto-login
+  const r = await fetch(`${API}/auth/teacher/login`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email:'professor@easyway.com', password:'123'})
+  });
+  if (!r.ok) throw new Error('Login failed');
+  const auth = await r.json();
+  token = auth.token;
+  return token;
+}
 
 async function loadData() {
   document.getElementById('erro').style.display = 'none';
   try {
-    // Login automático com senha 123
-    let r = await fetch(`${API}/auth/teacher/login`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({email:'professor@easyway.com', password:'123'})
-    });
-    // Se falhar, tenta senha antiga
-    if (!r.ok) {
-      r = await fetch(`${API}/auth/teacher/login`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({email:'professor@easyway.com', password:'senha123'})
-      });
-    }
-    if (!r.ok) throw new Error('Login failed');
-    const auth = await r.json();
-    token = auth.token;
-
-    // Busca submissões
-    const res = await fetch(`${API}/activities/submissions`, {headers:{'Authorization':'Bearer '+token}});
+    const tk = await getToken();
+    const res = await fetch(`${API}/activities/submissions`, {headers:{'Authorization':'Bearer '+tk}});
     allData = await res.json();
     updateStats(allData);
     updateFilter(allData);
     renderTable();
-
-    // Busca resumo
-    const res2 = await fetch(`${API}/activities/summary`, {headers:{'Authorization':'Bearer '+token}});
+    const res2 = await fetch(`${API}/activities/summary`, {headers:{'Authorization':'Bearer '+tk}});
     const summary = await res2.json();
     renderSummary(summary);
   } catch(e) {
     document.getElementById('erro').style.display = 'block';
-    document.getElementById('submissions-body').innerHTML = '<tr><td colspan="5" class="loading">⚠️ Erro ao conectar com o servidor.</td></tr>';
+    document.getElementById('submissions-body').innerHTML = '<tr><td colspan="5" class="loading">⚠️ Erro ao conectar.</td></tr>';
+  }
+}
+
+async function loadAlunos() {
+  document.getElementById('alunos-body').innerHTML = '<tr><td colspan="5" class="loading">Carregando...</td></tr>';
+  try {
+    const tk = await getToken();
+    const res = await fetch(`${API}/teacher/students`, {headers:{'Authorization':'Bearer '+tk}});
+    const alunos = await res.json();
+    document.getElementById('alunos-count').textContent = alunos.length + ' aluno' + (alunos.length!==1?'s':'');
+    if (!alunos.length) {
+      document.getElementById('alunos-body').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div>👨‍🎓</div>Nenhum aluno cadastrado ainda.</div></td></tr>';
+      return;
+    }
+    document.getElementById('alunos-body').innerHTML = alunos.map(a => `
+      <tr>
+        <td><strong>${esc(a.name)}</strong></td>
+        <td style="color:#888">${esc(a.email)}</td>
+        <td><span class="level-tag">${esc(a.level)}</span></td>
+        <td>${esc(a.class_name||'—')}</td>
+        <td style="color:#888;font-size:0.85rem;">${new Date(a.created_at).toLocaleDateString('pt-BR')}</td>
+      </tr>`).join('');
+  } catch(e) {
+    document.getElementById('alunos-body').innerHTML = '<tr><td colspan="5" class="loading">⚠️ Erro ao carregar alunos.</td></tr>';
+  }
+}
+
+function openAddAluno() {
+  document.getElementById('aluno-nome').value = '';
+  document.getElementById('aluno-email').value = '';
+  document.getElementById('aluno-senha').value = '';
+  document.getElementById('aluno-nivel').value = 'A1';
+  document.getElementById('aluno-turma').value = '';
+  document.getElementById('aluno-erro').style.display = 'none';
+  document.getElementById('modal-aluno').classList.add('open');
+}
+
+async function salvarAluno() {
+  const nome = document.getElementById('aluno-nome').value.trim();
+  const email = document.getElementById('aluno-email').value.trim();
+  const senha = document.getElementById('aluno-senha').value.trim();
+  const nivel = document.getElementById('aluno-nivel').value;
+  const turma = document.getElementById('aluno-turma').value.trim();
+  const erroEl = document.getElementById('aluno-erro');
+
+  if (!nome || !email || !senha) {
+    erroEl.textContent = 'Nome, email e senha são obrigatórios.';
+    erroEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    const tk = await getToken();
+    const r = await fetch(`${API}/teacher/students`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},
+      body: JSON.stringify({name:nome, email, password:senha, level:nivel, class_name:turma})
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      erroEl.textContent = data.error || 'Erro ao cadastrar aluno.';
+      erroEl.style.display = 'block';
+      return;
+    }
+    closeModal('modal-aluno');
+    showToast('✅ Aluno cadastrado!', 'ok');
+    loadAlunos();
+  } catch(e) {
+    erroEl.textContent = 'Erro de conexão.';
+    erroEl.style.display = 'block';
   }
 }
 
@@ -238,15 +392,16 @@ function showDetail(id) {
   if (!html) html = '<p style="color:#aaa;text-align:center;padding:1rem;">Apenas pontuação registrada.</p>';
   html += `<div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center;margin-top:1rem;"><div style="font-size:0.8rem;color:#888;margin-bottom:0.3rem;">Enviado em</div><div style="font-weight:700;">${new Date(s.submitted_at).toLocaleString('pt-BR')}</div></div>`;
   document.getElementById('modal-body').innerHTML = html;
-  document.getElementById('modal').classList.add('open');
+  document.getElementById('modal-detail').classList.add('open');
 }
 
-function closeModal(){document.getElementById('modal').classList.remove('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 async function delSub(id) {
   if (!confirm('Excluir este envio?')) return;
   try {
-    await fetch(`${API}/activities/submissions/${id}`,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
+    const tk = await getToken();
+    await fetch(`${API}/activities/submissions/${id}`,{method:'DELETE',headers:{'Authorization':'Bearer '+tk}});
     allData = allData.filter(s=>s.id!==id);
     renderTable(); updateStats(allData);
     showToast('🗑 Excluído!','ok');
