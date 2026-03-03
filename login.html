@@ -126,7 +126,7 @@
                 setTimeout(() => window.location.href='teacher-dashboard.html', 1200);
             } catch(e) { showError('teacherError','Erro de conexão. Verifique se o servidor está disponível.'); btn.disabled=false; btn.textContent='Entrar como Professor'; }
         }
-        window.addEventListener('load', () => {
+        // auto-redirect removed
             const token = localStorage.getItem('token');
             const userType = localStorage.getItem('userType');
             if (token && userType && token.length > 20) {
@@ -136,3 +136,4 @@
     </script>
 </body>
 </html>
+
