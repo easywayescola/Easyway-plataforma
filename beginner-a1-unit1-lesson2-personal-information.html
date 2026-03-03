@@ -424,7 +424,7 @@ function selM(el,side){
 async function submitAct(){
   const payload={studentName:sName,lesson:'Unit 1 - Lesson 2 - Personal Information',score,submittedAt:new Date().toISOString(),
     answers:{warmup:[...document.querySelectorAll('.warmup-ta')].map(i=>i.value),writing:['w1','w2','w3','w4','w5'].map(id=>document.getElementById(id)?.value||''),translation:['t1','t2','t3','t4','t5'].map(id=>document.getElementById(id)?.value||'')}};
-  try{await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+  try{await fetch('https://easyway-backend-production-4094.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
   document.getElementById('sfpts').textContent=score+' pts';showS('success-screen');
 }
 

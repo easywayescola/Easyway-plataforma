@@ -420,7 +420,7 @@ function nextSpell(){
 async function submitAct(){
   const payload={studentName:sName,lesson:'Unit 1 - Lesson 3 - Numbers & Alphabet',score,submittedAt:new Date().toISOString(),
     answers:{warmup:[...document.querySelectorAll('.warmup-ta')].map(i=>i.value),writing:['w1','w2','w3'].map(id=>document.getElementById(id)?.value||'')}};
-  try{await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+  try{await fetch('https://easyway-backend-production-4094.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
   document.getElementById('sfpts').textContent=score+' pts';showS('ss');
 }
 

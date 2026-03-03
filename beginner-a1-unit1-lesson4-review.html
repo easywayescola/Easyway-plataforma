@@ -422,7 +422,7 @@ async function submitAct(){
   const conv=['c1','c2','c3','c4','c5','c6'].map(id=>document.getElementById(id)?.value||'');
   const trans=['t1','t2','t3','t4'].map(id=>document.getElementById(id)?.value||'');
   const payload={studentName:sName,lesson:'Unit 1 - Lesson 4 - Review & Conversation',score,submittedAt:new Date().toISOString(),answers:{conversation:conv,translation:trans}};
-  try{await fetch('https://easyway-backend-production.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+  try{await fetch('https://easyway-backend-production-4094.up.railway.app/api/activities/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
   document.getElementById('sfpts').textContent=score+' pts';showS('ss');
 }
 
