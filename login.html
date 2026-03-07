@@ -101,7 +101,7 @@
                 if (!r.ok) { showError('studentError', data.error || 'Credenciais inválidas.'); btn.disabled=false; btn.textContent='Entrar como Aluno'; return; }
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userType', 'student');
-                localStorage.setItem('userName', data.name || '');
+                localStorage.setItem('userName', data.student ? data.student.name : (data.name || ''));
                 localStorage.setItem('studentLevel', data.level || 'A1');
                 document.getElementById('studentSuccess').textContent='Login realizado! Redirecionando...';
                 document.getElementById('studentSuccess').classList.add('show');
@@ -120,7 +120,7 @@
                 if (!r.ok) { showError('teacherError', data.error || 'Credenciais inválidas.'); btn.disabled=false; btn.textContent='Entrar como Professor'; return; }
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userType', 'teacher');
-                localStorage.setItem('userName', data.name || '');
+                localStorage.setItem('userName', data.student ? data.student.name : (data.name || ''));
                 document.getElementById('teacherSuccess').textContent='Login realizado! Redirecionando...';
                 document.getElementById('teacherSuccess').classList.add('show');
                 setTimeout(() => window.location.href='teacher-dashboard.html', 1200);
