@@ -557,7 +557,23 @@
         </div>
     </section>
 
-    <!-- Login Section Removed - Access via login.html -->
+    <!-- Login Section -->
+    <section class="section" id="login" style="background: var(--light);">
+        <div class="container">
+            <h2>Acesso à Plataforma</h2>
+            <div class="login-section">
+                <h3>Escolha seu Perfil</h3>
+                <div class="login-buttons">
+                    <button class="login-btn" onclick="goToLogin('teacher')">
+                        👨‍🏫 Professor
+                    </button>
+                    <button class="login-btn" onclick="goToLogin('student')">
+                        👨‍🎓 Aluno
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact Section -->
     <section class="section contact-section" id="contact">
@@ -591,6 +607,10 @@
     </footer>
 
     <script>
+        function goToLogin(type) {
+            window.location.href = 'login.html';
+        }
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
