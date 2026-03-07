@@ -249,7 +249,7 @@ async function loadAlunos() {
   document.getElementById('alunos-body').innerHTML = '<tr><td colspan="5" class="loading">Carregando...</td></tr>';
   try {
     const tk = await getToken();
-    const res = await fetch(`${API}/teacher/students`, {headers:{'Authorization':'Bearer '+tk}});
+    const res = await fetch(`${API}/teachers/1/students`, {headers:{'Authorization':'Bearer '+tk}});
     const alunos = await res.json();
     document.getElementById('alunos-count').textContent = alunos.length + ' aluno' + (alunos.length!==1?'s':'');
     if (!alunos.length) {
@@ -295,10 +295,10 @@ async function salvarAluno() {
 
   try {
     const tk = await getToken();
-    const r = await fetch(`${API}/teacher/students`, {
+    const r = await fetch(`${API}/students/register`, {
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},
-      body: JSON.stringify({name:nome, email, password:senha, level:nivel, class_name:turma})
+      body: JSON.stringify({name:nome, email, password:senha, teacher_id:1})
     });
     const data = await r.json();
     if (!r.ok) {
