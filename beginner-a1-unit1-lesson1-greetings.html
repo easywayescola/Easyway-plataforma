@@ -705,7 +705,7 @@ async function submitActivity(){
     }
   };
   try{
-    await fetch('https://easyway-backend-production-4094.up.railway.app/api/activities/submit',{
+    await fetch('https://easyway-plataforma-production.up.railway.app/api/activities/submit',{
       method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
     });
   }catch(e){console.log('Backend note:',e.message);}

@@ -6,8 +6,8 @@
 // Configuration
 const API_CONFIG = {
     // Development: http://localhost:5000/api
-    // Production: https://easyway-backend-production-4094.up.railway.app/api
-    baseURL: localStorage.getItem('API_URL') || 'https://easyway-backend-production-4094.up.railway.app/api',
+    // Production: https://easyway-plataforma-production.up.railway.app/api
+    baseURL: localStorage.getItem('API_URL') || 'https://easyway-plataforma-production.up.railway.app/api',
     timeout: 10000
 };
 
