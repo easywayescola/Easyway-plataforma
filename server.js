@@ -14,6 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'easyway-secret-2024';
 
 // ─── Conexão com banco ───────────────────────────────────────────────────────
 const db = mysql.createPool({
+  connectTimeout: 10000,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -173,4 +174,10 @@ app.post('/api/activities/submit', auth, async (req, res) => {
   }
 });
 
+db.getConnection().then(conn => {
+  console.log('✅ Conectado ao banco de dados MySQL!');
+  conn.release();
+}).catch(err => {
+  console.error('❌ Erro ao conectar ao banco de dados:', err.message);
+});
 app.listen(PORT, () => console.log(`✅ EasyWay backend rodando na porta ${PORT}`));
