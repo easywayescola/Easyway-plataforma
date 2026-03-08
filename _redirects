@@ -1,5 +1,0 @@
-# Netlify/Vercel redirects configuration
-# Note: Vercel uses vercel.json for rewrites, this file is for Netlify compatibility only
-
-# SPA fallback - only for routes that don't exist as files
-/*                           /index.html                200
