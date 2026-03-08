@@ -1,18 +1,5 @@
-# Netlify redirects configuration
-# This file ensures that each HTML file is served correctly
+# Netlify/Vercel redirects configuration
+# Note: Vercel uses vercel.json for rewrites, this file is for Netlify compatibility only
 
-# Specific page routes
-/login                      /login.html                200
-/teacher-dashboard          /teacher-dashboard.html    200
-/student-dashboard          /student-dashboard.html    200
-/licoes                      /licoes.html               200
-/proficiency-test           /proficiency-test.html     200
-/storybook                   /storybook.html            200
-/dialogues                   /dialogues.html            200
-/super-skills                /super-skills.html         200
-
-# Lesson routes
-/licoes/*                    /licoes/:splat             200
-
-# Default: serve index.html for root and SPA routes
+# SPA fallback - only for routes that don't exist as files
 /*                           /index.html                200
