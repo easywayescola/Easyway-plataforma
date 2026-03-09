@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit 2 – Daily Life · Lesson 7 · EasyWay</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root{
+  --green:#4a7c59;--gl:#e8f5e9;--gd:#2e5c3a;
+  --gold:#e6a817;--goldl:#fff8e6;--goldd:#b07800;
+  --blue:#2563eb;--bluel:#eff6ff;
+  --red:#c0392b;--redl:#fdecea;
+  --purple:#7c3aed;--purplel:#f5f3ff;
+  --bg:#f9f7f2;--card:#fff;--text:#1a1a2e;--muted:#666;
+  --border:#e0ddd5;--radius:14px;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+header{background:var(–gd);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.logo strong{font-size:1.05rem}.logo span{font-size:.72rem;opacity:.8;display:block}
+.score-badge{margin-left:auto;background:var(–gold);color:#fff;font-weight:700;padding:5px 14px;border-radius:999px;font-size:.88rem;white-space:nowrap}
+
+nav{background:var(–green);display:flex;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;padding:10px 14px;font-size:.78rem;white-space:nowrap;transition:background .2s}
+nav a:hover{background:rgba(255,255,255,.18);color:#fff}
+
+.hero{background:linear-gradient(135deg,var(–gd),var(–green));color:#fff;text-align:center;padding:30px 20px 22px}
+.unit-tag{display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 14px;font-size:.75rem;margin-bottom:10px}
+.hero h1{font-size:1.65rem;font-weight:800}
+.hero p{font-size:.86rem;opacity:.85;margin-top:6px}
+
+main{max-width:880px;margin:0 auto;padding:24px 16px 60px}
+section{margin-bottom:36px}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-num{background:var(–green);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.sec-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(–muted)}
+
+.card{background:var(–card);border-radius:var(–radius);box-shadow:var(–shadow);padding:22px;border:1px solid var(–border);margin-bottom:16px}
+.card h2{font-size:1.12rem;margin-bottom:14px;color:var(–gd)}
+.card h3{font-size:.98rem;margin-bottom:10px;color:var(–green)}
+.tip{background:var(–goldl);border-left:4px solid var(–gold);border-radius:8px;padding:11px 15px;font-size:.86rem;color:#7a5900;margin-bottom:16px}
+.obs{background:var(–bluel);border-left:4px solid var(–blue);border-radius:8px;padding:11px 15px;font-size:.86rem;color:#1e40af;margin-bottom:16px}
+.pron{background:var(–purplel);border-left:4px solid var(–purple);border-radius:8px;padding:11px 15px;font-size:.86rem;color:#5b21b6;margin-bottom:16px}
+hr.div{border:none;border-top:1px solid var(–border);margin:20px 0}
+
+/* VOCAB GRID */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.vocab-card{background:var(–gl);border:1px solid #c8e6c9;border-radius:10px;padding:13px 12px;cursor:pointer;transition:transform .15s,box-shadow .15s;user-select:none;text-align:center}
+.vocab-card:hover,.vocab-card:active{transform:scale(1.05);box-shadow:0 4px 14px rgba(74,124,89,.22)}
+.vocab-card .emoji{font-size:1.6rem;margin-bottom:4px}
+.vocab-card .eng{font-weight:700;font-size:.92rem}
+.vocab-card .pt{font-size:.76rem;color:var(–muted);margin-top:2px}
+
+/* VERB TABLE */
+.table-wrap{overflow-x:auto}
+.vtable{width:100%;border-collapse:collapse;font-size:.88rem;min-width:400px}
+.vtable th{background:var(–gd);color:#fff;padding:10px 12px;text-align:left;font-weight:600}
+.vtable td{padding:9px 12px;border-bottom:1px solid var(–border)}
+.vtable tr:last-child td{border-bottom:none}
+.vtable tr:nth-child(even) td{background:#f4fbf5}
+
+/* SPEAK */
+.speak-btn{background:none;border:1px solid #cde;cursor:pointer;font-size:1rem;padding:3px 8px;border-radius:6px;transition:background .15s,transform .1s;vertical-align:middle;margin-right:4px}
+.speak-btn:hover{background:var(–gl)}
+.speak-btn:active{transform:scale(.9)}
+
+/* READING */
+.reading-box{background:var(–gl);border-radius:10px;padding:18px;font-size:.95rem;line-height:1.85;margin-bottom:14px;border-left:4px solid var(–green)}
+.family-img{font-size:4rem;text-align:center;padding:14px 0}
+
+/* LISTENING */
+.listen-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.listen-list li{display:flex;align-items:center;gap:10px;background:#f9f9f9;border-radius:8px;padding:10px 14px;font-size:.9rem;border:1px solid var(–border)}
+.listen-list li span{flex:1}
+
+/* EXERCISES */
+.ex-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.ex-list li{background:#f9f9f9;border-radius:10px;padding:13px 15px;font-size:.92rem;border:1px solid var(–border)}
+.fill-input{border:none;border-bottom:2px solid var(–green);background:transparent;font-size:.92rem;padding:2px 6px;width:160px;outline:none;color:var(–text);font-family:inherit}
+.fill-input.correct{border-bottom-color:#27ae60;background:#e8f5e9;border-radius:4px}
+.fill-input.wrong{border-bottom-color:var(–red);background:var(–redl);border-radius:4px}
+.feedback{font-size:.78rem;margin-top:5px;font-weight:600}
+.feedback.ok{color:#27ae60}.feedback.no{color:var(–red)}
+
+/* MATCH */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match-col{display:flex;flex-direction:column;gap:8px}
+.match-item{background:#f0f0f0;border-radius:8px;padding:10px 13px;font-size:.88rem;cursor:pointer;border:2px solid transparent;transition:all .2s;user-select:none}
+.match-item.selected{border-color:var(–blue);background:var(–bluel)}
+.match-item.matched{border-color:#27ae60;background:#e8f5e9;cursor:default}
+.match-item.wrong-flash{border-color:var(–red);background:var(–redl)}
+
+/* QUIZ */
+.quiz-item{margin-bottom:18px}
+.quiz-q{font-weight:600;margin-bottom:8px;font-size:.92rem}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{background:#f5f5f5;border:2px solid var(–border);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:.88rem;transition:all .2s;text-align:left}
+.quiz-opt:hover{border-color:var(–green);background:var(–gl)}
+.quiz-opt.correct{border-color:#27ae60;background:#e8f5e9;color:#1a5c2a}
+.quiz-opt.wrong{border-color:var(–red);background:var(–redl);color:var(–red)}
+.quiz-opt:disabled{cursor:default}
+
+/* WRITING */
+.writing-input{width:100%;border:1px solid var(–border);border-radius:8px;padding:10px 13px;font-size:.92rem;font-family:inherit;resize:vertical;min-height:70px;outline:none;transition:border .2s}
+.writing-input:focus{border-color:var(–green)}
+
+/* PRON PRACTICE */
+.pron-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pron-card{background:var(–purplel);border:1px solid #ddd6fe;border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.pron-card:hover,.pron-card:active{transform:scale(1.06);box-shadow:0 4px 12px rgba(124,58,237,.2)}
+.pron-card .word{font-weight:700;font-size:1rem;color:var(–purple)}
+.pron-card .phonetic{font-size:.78rem;color:var(–muted);margin-top:3px}
+
+/* SPEAKING */
+.conv-box{background:var(–gl);border-radius:10px;padding:16px 18px;font-size:.92rem;line-height:1.9}
+.conv-a{color:var(–gd);font-weight:600}
+.conv-b{color:var(–blue);font-weight:600}
+
+/* SUBMIT */
+.submit-card{background:linear-gradient(135deg,var(–gd),var(–green));color:#fff;border-radius:var(–radius);padding:28px 22px;text-align:center;box-shadow:var(–shadow)}
+.submit-card h2{font-size:1.15rem;margin-bottom:8px}
+.submit-card p{font-size:.86rem;opacity:.88;margin-bottom:18px}
+.name-input{width:100%;max-width:320px;padding:11px 16px;border-radius:10px;border:none;font-size:1rem;margin-bottom:14px;outline:none;text-align:center;color:var(–text)}
+.submit-btn{background:var(–gold);color:#fff;border:none;padding:12px 30px;border-radius:999px;cursor:pointer;font-size:.95rem;font-weight:700;transition:background .2s,transform .15s;display:inline-flex;align-items:center;gap:8px}
+.submit-btn:hover{background:var(–goldd);transform:scale(1.03)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.submit-msg{margin-top:12px;font-size:.88rem;min-height:22px}
+
+footer{background:var(–gd);color:rgba(255,255,255,.7);text-align:center;padding:18px;font-size:.78rem}
+
+@media(max-width:520px){
+.hero h1{font-size:1.3rem}
+.card{padding:14px}
+.match-wrap{grid-template-columns:1fr}
+.vocab-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <strong>EasyWay</strong>
+    <span>Escola de Idiomas</span>
+  </div>
+  <div class="score-badge">⭐ Score: <span id="scoreDisplay">0</span></div>
+</header>
+
+<nav>
+  <a href="#vocab">📚 Vocab</a>
+  <a href="#verbs">🔧 Verbs</a>
+  <a href="#real">💡 Real English</a>
+  <a href="#reading">📖 Reading</a>
+  <a href="#listening">👂 Listening</a>
+  <a href="#exercises">✏️ Exercises</a>
+  <a href="#speaking">🗣️ Speaking</a>
+  <a href="#writing">📝 Writing</a>
+  <a href="#submit">📧 Enviar</a>
+</nav>
+
+<div class="hero">
+  <div class="unit-tag">Unit 2 · Daily Life · Lesson 7</div>
+  <h1>👨‍👩‍👧‍👦 Daily Life</h1>
+  <p>Vocabulary · Family · House Chores · Useful Verbs</p>
+</div>
+
+<main>
+
+<!-- ═══ VOCABULARY ═══ -->
+
+<section id="vocab">
+  <div class="sec-label">
+    <div class="sec-num">📚</div>
+    <div class="sec-tag">Vocabulary</div>
+  </div>
+
+  <div class="card">
+    <h2>👨‍👩‍👧 Family Members | Membros da Família</h2>
+    <div class="tip">💡 Tap a card to hear the word in American English!</div>
+    <div class="vocab-grid">
+      <div class="vocab-card" onclick="speak('mother')"><div class="emoji">👩</div><div class="eng">Mother</div><div class="pt">mãe</div></div>
+      <div class="vocab-card" onclick="speak('father')"><div class="emoji">👨</div><div class="eng">Father</div><div class="pt">pai</div></div>
+      <div class="vocab-card" onclick="speak('parents')"><div class="emoji">👨‍👩‍👧</div><div class="eng">Parents</div><div class="pt">pais</div></div>
+      <div class="vocab-card" onclick="speak('brother')"><div class="emoji">👦</div><div class="eng">Brother</div><div class="pt">irmão</div></div>
+      <div class="vocab-card" onclick="speak('sister')"><div class="emoji">👧</div><div class="eng">Sister</div><div class="pt">irmã</div></div>
+      <div class="vocab-card" onclick="speak('siblings')"><div class="emoji">👫</div><div class="eng">Siblings</div><div class="pt">irmãos</div></div>
+      <div class="vocab-card" onclick="speak('son')"><div class="emoji">🧒</div><div class="eng">Son</div><div class="pt">filho</div></div>
+      <div class="vocab-card" onclick="speak('daughter')"><div class="emoji">👧</div><div class="eng">Daughter</div><div class="pt">filha</div></div>
+      <div class="vocab-card" onclick="speak('children')"><div class="emoji">👶</div><div class="eng">Children</div><div class="pt">crianças / filhos</div></div>
+      <div class="vocab-card" onclick="speak('grandparents')"><div class="emoji">👴👵</div><div class="eng">Grandparents</div><div class="pt">avós</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏠 House Chores | Deveres Domésticos</h2>
+    <div class="vocab-grid">
+      <div class="vocab-card" onclick="speak('dishes')"><div class="emoji">🍽️</div><div class="eng">Dishes</div><div class="pt">louça</div></div>
+      <div class="vocab-card" onclick="speak('laundry')"><div class="emoji">👕</div><div class="eng">Laundry</div><div class="pt">roupa / lavagem</div></div>
+      <div class="vocab-card" onclick="speak('homework')"><div class="emoji">📚</div><div class="eng">Homework</div><div class="pt">dever de casa</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💬 Useful Expressions | Expressões Úteis</h2>
+    <ul class="listen-list">
+      <li><span><strong>This is my...</strong> — Este / Esta é meu / minha...</span><button class="speak-btn" onclick="speak('This is my family.')">🔊</button></li>
+      <li><span><strong>I have...</strong> — Eu tenho...</span><button class="speak-btn" onclick="speak('I have a brother.')">🔊</button></li>
+      <li><span><strong>I visit my...</strong> — Eu visito meu(a)...</span><button class="speak-btn" onclick="speak('I visit my grandparents.')">🔊</button></li>
+      <li><span><strong>I do the dishes.</strong> — Eu lavo a louça.</span><button class="speak-btn" onclick="speak('I do the dishes.')">🔊</button></li>
+      <li><span><strong>I'm an only child.</strong> — Eu sou filho(a) único(a).</span><button class="speak-btn" onclick="speak("I'm an only child.")">🔊</button></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ USEFUL VERBS ═══ -->
+
+<section id="verbs">
+  <div class="sec-label">
+    <div class="sec-num">🔧</div>
+    <div class="sec-tag">Useful Verbs</div>
+  </div>
+  <div class="card">
+    <h2>Useful Verbs — To have · To visit · To do</h2>
+    <div class="table-wrap">
+      <table class="vtable">
+        <thead><tr><th>Verb</th><th>Português</th><th>Example</th><th>Listen</th></tr></thead>
+        <tbody>
+          <tr><td><strong>to have</strong></td><td>ter</td><td>I have a family.</td><td><button class="speak-btn" onclick="speak('I have a family.')">🔊</button></td></tr>
+          <tr><td><strong>to visit</strong></td><td>visitar</td><td>I like to visit my sister.</td><td><button class="speak-btn" onclick="speak('I like to visit my sister.')">🔊</button></td></tr>
+          <tr><td><strong>to do</strong></td><td>fazer</td><td>I do my homework every day.</td><td><button class="speak-btn" onclick="speak('I do my homework every day.')">🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REAL ENGLISH ═══ -->
+
+<section id="real">
+  <div class="sec-label">
+    <div class="sec-num">💡</div>
+    <div class="sec-tag">Real English</div>
+  </div>
+
+  <div class="card">
+    <h2>🍗 "Have" também significa comer, beber e tomar!</h2>
+    <div class="obs">
+      📌 <strong>OBS:</strong> Usamos <em>have</em> também no lugar de comer ou beber!<br/>
+      <em>ex: I have chicken for lunch. / I have coffee in the morning.</em>
+    </div>
+    <div class="table-wrap">
+      <table class="vtable">
+        <thead><tr><th>Situação</th><th>Exemplo</th><th>Tradução</th><th>Ouvir</th></tr></thead>
+        <tbody>
+          <tr><td>☕ Tomar bebida</td><td>I have coffee every morning.</td><td>Tomo café toda manhã.</td><td><button class="speak-btn" onclick="speak('I have coffee every morning.')">🔊</button></td></tr>
+          <tr><td>🥗 Comer refeição</td><td>I have chicken for lunch.</td><td>Como frango no almoço.</td><td><button class="speak-btn" onclick="speak('I have chicken for lunch.')">🔊</button></td></tr>
+          <tr><td>🥛 Beber algo</td><td>I have juice in the afternoon.</td><td>Bebo suco à tarde.</td><td><button class="speak-btn" onclick="speak('I have juice in the afternoon.')">🔊</button></td></tr>
+          <tr><td>🍽️ Jantar</td><td>We have dinner at 7pm.</td><td>Jantamos às 19h.</td><td><button class="speak-btn" onclick="speak('We have dinner at 7pm.')">🔊</button></td></tr>
+          <tr><td>🍳 Café da manhã</td><td>She has breakfast early.</td><td>Ela toma café cedo.</td><td><button class="speak-btn" onclick="speak('She has breakfast early.')">🔊</button></td></tr>
+          <tr><td>🧃 Lanche</td><td>They have a snack at school.</td><td>Eles lancham na escola.</td><td><button class="speak-btn" onclick="speak('They have a snack at school.')">🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>👤 Possessive Adjectives — His & Her</h2>
+    <div class="table-wrap">
+      <table class="vtable">
+        <thead><tr><th>Pronome</th><th>Tradução</th><th>Exemplo</th><th>Ouvir</th></tr></thead>
+        <tbody>
+          <tr><td><strong>His</strong></td><td>dele</td><td>This is his house.</td><td><button class="speak-btn" onclick="speak('This is his house.')">🔊</button></td></tr>
+          <tr><td><strong>Her</strong></td><td>dela</td><td>Ana is her mother.</td><td><button class="speak-btn" onclick="speak('Ana is her mother.')">🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎙️ Pronunciation Tip — Sons finais em -er e -or</h2>
+    <div class="pron">
+      🔊 <strong>Dica EasyWay:</strong> O <strong>-er</strong> no final <em>não</em> soa como "ÉR" forte.<br/>
+      O som é fraco e relaxado: <strong>muh-ther</strong>, <strong>sis-ter</strong>.<br/>
+      Pratique clicando nas palavras abaixo! 👇
+    </div>
+    <div class="pron-grid">
+      <div class="pron-card" onclick="speak('mother')"><div class="word">mother</div><div class="phonetic">/ ˈmʌð.ər /</div></div>
+      <div class="pron-card" onclick="speak('father')"><div class="word">father</div><div class="phonetic">/ ˈfɑː.ðər /</div></div>
+      <div class="pron-card" onclick="speak('sister')"><div class="word">sister</div><div class="phonetic">/ ˈsɪs.tər /</div></div>
+      <div class="pron-card" onclick="speak('brother')"><div class="word">brother</div><div class="phonetic">/ ˈbrʌð.ər /</div></div>
+      <div class="pron-card" onclick="speak('teacher')"><div class="word">teacher</div><div class="phonetic">/ ˈtiː.tʃər /</div></div>
+      <div class="pron-card" onclick="speak('daughter')"><div class="word">daughter</div><div class="phonetic">/ ˈdɔː.tər /</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ READING ═══ -->
+
+<section id="reading">
+  <div class="sec-label">
+    <div class="sec-num">📖</div>
+    <div class="sec-tag">Reading</div>
+  </div>
+  <div class="card">
+    <h2>📖 Reading — This is my family</h2>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <button class="speak-btn" style="padding:8px 16px;border-radius:999px;border:2px solid var(--green);font-size:.88rem;font-weight:600;color:var(--gd)" onclick="readStory()">▶ Read Aloud</button>
+      <button class="speak-btn" style="padding:6px 13px;border-radius:999px;font-size:.8rem;" onclick="setSpeed(0.75)">🐢 Slow</button>
+      <button class="speak-btn" style="padding:6px 13px;border-radius:999px;font-size:.8rem;" onclick="setSpeed(1)">Normal</button>
+      <button class="speak-btn" style="padding:6px 13px;border-radius:999px;font-size:.8rem;" onclick="setSpeed(1.3)">🐇 Fast</button>
+    </div>
+    <div class="reading-box">
+      <p>This is my family.</p>
+      <p>I have a brother, his name is Paulo, a sister, her name is Sandra and a baby girl, her name is Samanta.</p>
+      <p>I live with my parents.</p>
+      <p>I love my family.</p>
+    </div>
+    <div class="family-img">👨‍👩‍👧‍👦</div>
+  </div>
+</section>
+
+<!-- ═══ LISTENING ═══ -->
+
+<section id="listening">
+  <div class="sec-label">
+    <div class="sec-num">👂</div>
+    <div class="sec-tag">Listening</div>
+  </div>
+  <div class="card">
+    <h2>👂 Listening Practice</h2>
+    <div class="tip">💡 Clique em 🔊 para ouvir cada frase. Repita em voz alta!</div>
+    <ul class="listen-list">
+      <li><span>This is my family.</span><button class="speak-btn" onclick="speak('This is my family.')">🔊</button></li>
+      <li><span>I have one brother.</span><button class="speak-btn" onclick="speak('I have one brother.')">🔊</button></li>
+      <li><span>I live with my parents.</span><button class="speak-btn" onclick="speak('I live with my parents.')">🔊</button></li>
+      <li><span>I love my family.</span><button class="speak-btn" onclick="speak('I love my family.')">🔊</button></li>
+      <li><span>I never do the laundry.</span><button class="speak-btn" onclick="speak('I never do the laundry.')">🔊</button></li>
+      <li><span>I always do the dishes.</span><button class="speak-btn" onclick="speak('I always do the dishes.')">🔊</button></li>
+      <li><span>I have coffee in the morning.</span><button class="speak-btn" onclick="speak('I have coffee in the morning.')">🔊</button></li>
+      <li><span>She has lunch at noon.</span><button class="speak-btn" onclick="speak('She has lunch at noon.')">🔊</button></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ EXERCISES ═══ -->
+
+<section id="exercises">
+  <div class="sec-label">
+    <div class="sec-num">✏️</div>
+    <div class="sec-tag">Exercises</div>
+  </div>
+
+  <!-- EX 1: Fill in -->
+
+  <div class="card">
+    <h2>A. Complete the sentences:</h2>
+    <div class="tip">💡 Type the correct word and press Enter to check!</div>
+    <ul class="ex-list" id="exA">
+      <li>1. This is <input class="fill-input" data-answer="my" placeholder="___" onkeydown="checkFill(event,this)"/> mother. (minha)<div class="feedback"></div></li>
+      <li>2. I <input class="fill-input" data-answer="have" placeholder="___" onkeydown="checkFill(event,this)"/> two sisters and one brother.<div class="feedback"></div></li>
+      <li>3. Ana is <input class="fill-input" data-answer="her" placeholder="___" onkeydown="checkFill(event,this)"/> mother. (dela)<div class="feedback"></div></li>
+      <li>4. This is <input class="fill-input" data-answer="his" placeholder="___" onkeydown="checkFill(event,this)"/> house. (dele)<div class="feedback"></div></li>
+      <li>5. I <input class="fill-input" data-answer="do" placeholder="___" onkeydown="checkFill(event,this)"/> my homework every day.<div class="feedback"></div></li>
+      <li>6. I have <input class="fill-input" data-answer="chicken" placeholder="___" onkeydown="checkFill(event,this)"/> for lunch. (frango)<div class="feedback"></div></li>
+      <li>7. She <input class="fill-input" data-answer="has" placeholder="___" onkeydown="checkFill(event,this)"/> breakfast every morning.<div class="feedback"></div></li>
+    </ul>
+  </div>
+
+  <!-- EX 2: Match -->
+
+  <div class="card">
+    <h2>B. Match — English ↔ Português</h2>
+    <div class="tip">💡 Tap an English word, then tap the matching Portuguese word!</div>
+    <div class="match-wrap">
+      <div class="match-col" id="matchEng">
+        <div class="match-item" data-pair="1" data-col="eng" onclick="selectMatch(this)">grandparents</div>
+        <div class="match-item" data-pair="2" data-col="eng" onclick="selectMatch(this)">laundry</div>
+        <div class="match-item" data-pair="3" data-col="eng" onclick="selectMatch(this)">siblings</div>
+        <div class="match-item" data-pair="4" data-col="eng" onclick="selectMatch(this)">daughter</div>
+        <div class="match-item" data-pair="5" data-col="eng" onclick="selectMatch(this)">I have dinner</div>
+      </div>
+      <div class="match-col" id="matchPt">
+        <div class="match-item" data-pair="3" data-col="pt" onclick="selectMatch(this)">irmãos</div>
+        <div class="match-item" data-pair="5" data-col="pt" onclick="selectMatch(this)">eu janto</div>
+        <div class="match-item" data-pair="1" data-col="pt" onclick="selectMatch(this)">avós</div>
+        <div class="match-item" data-pair="4" data-col="pt" onclick="selectMatch(this)">filha</div>
+        <div class="match-item" data-pair="2" data-col="pt" onclick="selectMatch(this)">roupa / lavagem</div>
+      </div>
+    </div>
+    <p id="matchScore" style="margin-top:12px;font-size:.88rem;color:var(--green);font-weight:600"></p>
+  </div>
+
+  <!-- EX 3: Quiz "have" -->
+
+  <div class="card">
+    <h2>C. Quiz — Choose the correct meaning of "have"</h2>
+    <div id="quizArea">
+      <!-- generated by JS -->
+    </div>
+    <button onclick="checkQuiz()" style="background:var(--gold);color:#fff;border:none;padding:9px 22px;border-radius:999px;cursor:pointer;font-size:.88rem;font-weight:700;margin-top:10px">Check Answers</button>
+    <p id="quizResult" style="margin-top:10px;font-size:.9rem;font-weight:600"></p>
+  </div>
+
+  <!-- EX 4: True or False -->
+
+  <div class="card">
+    <h2>D. True or False — Reading</h2>
+    <div class="tip">💡 Based on the reading text above!</div>
+    <div id="tfArea"></div>
+    <button onclick="checkTF()" style="background:var(--blue);color:#fff;border:none;padding:9px 22px;border-radius:999px;cursor:pointer;font-size:.88rem;font-weight:700;margin-top:4px">Check</button>
+    <p id="tfResult" style="margin-top:10px;font-size:.9rem;font-weight:600"></p>
+  </div>
+</section>
+
+<!-- ═══ SPEAKING ═══ -->
+
+<section id="speaking">
+  <div class="sec-label">
+    <div class="sec-num">🗣️</div>
+    <div class="sec-tag">Speaking</div>
+  </div>
+  <div class="card">
+    <h2>🗣️ Conversation — Family</h2>
+    <div class="tip">💡 Pratique com seu professor! Clique em 🔊 para ouvir cada fala.</div>
+    <div class="conv-box">
+      <p><span class="conv-a">A:</span> Do you have brothers or sisters? <button class="speak-btn" onclick="speak('Do you have brothers or sisters?')">🔊</button></p>
+      <p><span class="conv-b">B:</span> No, I don't. I'm an only child. <button class="speak-btn" onclick="speak(&quot;No, I don't. I'm an only child.&quot;)">🔊</button></p>
+      <p><span class="conv-a">A:</span> Do you live with your parents? <button class="speak-btn" onclick="speak('Do you live with your parents?')">🔊</button></p>
+      <p><span class="conv-b">B:</span> No, I don't. I live with my grandparents. <button class="speak-btn" onclick="speak(&quot;No, I don't. I live with my grandparents.&quot;)">🔊</button></p>
+      <p><span class="conv-a">A:</span> What do you have for breakfast? <button class="speak-btn" onclick="speak('What do you have for breakfast?')">🔊</button></p>
+      <p><span class="conv-b">B:</span> I have coffee and bread every morning. <button class="speak-btn" onclick="speak('I have coffee and bread every morning.')">🔊</button></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WRITING ═══ -->
+
+<section id="writing">
+  <div class="sec-label">
+    <div class="sec-num">📝</div>
+    <div class="sec-tag">Writing</div>
+  </div>
+  <div class="card">
+    <h2>📝 Write About You!</h2>
+    <div class="tip">💡 Complete as frases sobre você mesmo(a)!</div>
+    <ul class="ex-list">
+      <li>
+        <label style="font-weight:600">I have...</label>
+        <textarea class="writing-input" id="w1" placeholder="Ex: I have one brother and two sisters."></textarea>
+      </li>
+      <li>
+        <label style="font-weight:600">I always...</label>
+        <textarea class="writing-input" id="w2" placeholder="Ex: I always do the dishes at home."></textarea>
+      </li>
+      <li>
+        <label style="font-weight:600">I do...</label>
+        <textarea class="writing-input" id="w3" placeholder="Ex: I do my homework in the evening."></textarea>
+      </li>
+      <li>
+        <label style="font-weight:600">For breakfast, I have...</label>
+        <textarea class="writing-input" id="w4" placeholder="Ex: For breakfast, I have eggs and orange juice."></textarea>
+      </li>
+      <li>
+        <label style="font-weight:600">This is my family — describe it:</label>
+        <textarea class="writing-input" id="w5" style="min-height:90px" placeholder="Ex: This is my family. I have a mother, a father and one sister. Her name is Ana..."></textarea>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ SUBMIT ═══ -->
+
+<section id="submit">
+  <div class="submit-card">
+    <h2>📧 Enviar Respostas para o Professor</h2>
+    <p>Digite seu nome e envie! O professor receberá tudo no e-mail. 🎓</p>
+    <input class="name-input" id="studentName" type="text" placeholder="Seu nome completo..."/>
+    <br/>
+    <button class="submit-btn" id="submitBtn" onclick="submitAll()">📤 Enviar Respostas</button>
+    <div class="submit-msg" id="submitMsg"></div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <strong>EasyWay Escola de Idiomas</strong> · Unit 2 – Daily Life · Lesson 7 · Keep going! 🏆
+</footer>
+
+<script>
+/* ═══════════ EMAILJS ═══════════ */
+const EJS_SERVICE  = 'YOUR_SERVICE_ID';
+const EJS_TEMPLATE = 'YOUR_TEMPLATE_ID';
+const EJS_KEY      = 'YOUR_PUBLIC_KEY';
+emailjs.init(EJS_KEY);
+
+/* ═══════════ SPEECH ═══════════ */
+let voices=[], readSpeed=1, isReading=false;
+function loadVoices(){ voices=window.speechSynthesis.getVoices(); }
+window.speechSynthesis.onvoiceschanged=loadVoices; loadVoices();
+function getUSVoice(){
+  return voices.find(v=>v.lang==='en-US'&&/samantha|zira|susan|jenny|aria|kate/i.test(v.name))
+      || voices.find(v=>v.lang==='en-US')
+      || voices.find(v=>v.lang.startsWith('en'))
+      || null;
+}
+function speak(text,rate){
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=rate||1.0; u.pitch=1.0;
+  const v=getUSVoice(); if(v) u.voice=v;
+  window.speechSynthesis.speak(u);
+}
+function setSpeed(s){ readSpeed=s; }
+function readStory(){
+  const txt="This is my family. I have a brother, his name is Paulo, a sister, her name is Sandra and a baby girl, her name is Samanta. I live with my parents. I love my family.";
+  speak(txt, readSpeed);
+}
+
+/* ═══════════ SCORE ═══════════ */
+let score=0;
+function addScore(n){ score+=n; document.getElementById('scoreDisplay').textContent=score; }
+
+/* ═══════════ EXERCISE A: Fill in ═══════════ */
+function checkFill(e,input){
+  if(e.key!=='Enter') return;
+  const correct=input.dataset.answer.trim().toLowerCase();
+  const val=input.value.trim().toLowerCase();
+  const fb=input.nextElementSibling;
+  if(val===correct){
+    input.classList.add('correct'); input.classList.remove('wrong');
+    fb.textContent='✅ Correct!'; fb.className='feedback ok';
+    if(!input.dataset.scored){ input.dataset.scored='1'; addScore(1); }
+  } else {
+    input.classList.add('wrong'); input.classList.remove('correct');
+    fb.textContent=`❌ Try again! Hint: starts with "${correct[0].toUpperCase()}"`;
+    fb.className='feedback no';
+  }
+}
+
+/* ═══════════ EXERCISE B: Match ═══════════ */
+let selectedMatch=null, matchCorrect=0;
+function selectMatch(el){
+  if(el.classList.contains('matched')) return;
+  if(selectedMatch===null){
+    if(selectedMatch) selectedMatch.classList.remove('selected');
+    selectedMatch=el; el.classList.add('selected');
+  } else {
+    if(el===selectedMatch){ el.classList.remove('selected'); selectedMatch=null; return; }
+    if(el.dataset.col===selectedMatch.dataset.col){
+      selectedMatch.classList.remove('selected'); selectedMatch=el; el.classList.add('selected'); return;
+    }
+    if(el.dataset.pair===selectedMatch.dataset.pair){
+      el.classList.add('matched'); selectedMatch.classList.remove('selected'); selectedMatch.classList.add('matched');
+      matchCorrect++; selectedMatch=null;
+      document.getElementById('matchScore').textContent=`✅ ${matchCorrect}/5 matched!`;
+      if(matchCorrect===5){ addScore(3); document.getElementById('matchScore').textContent='🎉 Perfect! All matched! +3 points'; }
+    } else {
+      el.classList.add('wrong-flash'); selectedMatch.classList.add('wrong-flash');
+      setTimeout(()=>{ el.classList.remove('wrong-flash','selected'); selectedMatch&&selectedMatch.classList.remove('wrong-flash','selected'); selectedMatch=null; },600);
+    }
+  }
+}
+
+/* ═══════════ EXERCISE C: Quiz ═══════════ */
+const quizData=[
+  { q:'I _____ coffee every morning.', opts:['do coffee','have coffee','am coffee','visit coffee'], a:1, tip:'have = tomar/beber' },
+  { q:'She _____ lunch at school.', opts:['does','visits','has','is'], a:2, tip:'has = 3ª pessoa de have' },
+  { q:'We _____ dinner at 7pm.', opts:['do','have','visit','are'], a:1, tip:'have dinner = jantar' },
+  { q:'I _____ chicken for lunch.', opts:['visit','do','have','am'], a:2, tip:'have = comer' },
+];
+(function buildQuiz(){
+  const area=document.getElementById('quizArea');
+  quizData.forEach((q,i)=>{
+    const div=document.createElement('div'); div.className='quiz-item'; div.dataset.i=i;
+    let html=`<div class="quiz-q">${i+1}. ${q.q}</div><div class="quiz-opts">`;
+    q.opts.forEach((o,j)=>{ html+=`<button class="quiz-opt" data-qi="${i}" data-oi="${j}" onclick="pickQuiz(this)">${o}</button>`; });
+    html+=`</div><div class="feedback" id="qfb${i}"></div>`;
+    div.innerHTML=html; area.appendChild(div);
+  });
+})();
+const quizAnswers={};
+function pickQuiz(btn){
+  const qi=btn.dataset.qi;
+  document.querySelectorAll(`[data-qi="${qi}"]`).forEach(b=>{ b.classList.remove('selected'); b.style.fontWeight=''; });
+  btn.classList.add('selected'); btn.style.fontWeight='700';
+  quizAnswers[qi]=parseInt(btn.dataset.oi);
+}
+function checkQuiz(){
+  let correct=0;
+  quizData.forEach((q,i)=>{
+    const fb=document.getElementById('qfb'+i);
+    const btns=document.querySelectorAll(`[data-qi="${i}"]`);
+    btns.forEach(b=>b.disabled=true);
+    if(quizAnswers[i]===q.a){
+      correct++;
+      btns[q.a].classList.add('correct');
+      fb.textContent='✅ Correct! '+q.tip; fb.className='feedback ok';
+    } else {
+      if(quizAnswers[i]!==undefined) btns[quizAnswers[i]].classList.add('wrong');
+      btns[q.a].classList.add('correct');
+      fb.textContent='❌ The answer is: '+quizData[i].opts[q.a]+' — '+q.tip; fb.className='feedback no';
+    }
+  });
+  const res=document.getElementById('quizResult');
+  res.textContent=`Result: ${correct}/${quizData.length} correct!`;
+  res.style.color= correct===quizData.length ? '#27ae60' : '#c0392b';
+  if(correct===quizData.length) addScore(2);
+}
+
+/* ═══════════ EXERCISE D: True/False ═══════════ */
+const tfData=[
+  { s:'The narrator has one brother.', answer:false, explanation:'He has a brother (Paulo), a sister (Sandra) and a baby girl (Samanta). That\'s one brother ✅ — True!' },
+  { s:'The sister\'s name is Samanta.', answer:false, explanation:'Samanta is the baby girl. The sister\'s name is Sandra.' },
+  { s:'The narrator lives with his/her parents.', answer:true, explanation:'Yes! "I live with my parents."' },
+  { s:'His brother\'s name is Paulo.', answer:true, explanation:'Yes! "I have a brother, his name is Paulo."' },
+];
+(function buildTF(){
+  const area=document.getElementById('tfArea');
+  tfData.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.style.cssText='margin-bottom:14px;background:#f9f9f9;border-radius:10px;padding:12px 14px;border:1px solid var(--border)';
+    div.innerHTML=`<p style="font-size:.9rem;margin-bottom:8px"><strong>${i+1}.</strong> ${item.s}</p>
+      <div style="display:flex;gap:8px">
+        <button class="quiz-opt" style="flex:1" data-tfi="${i}" data-val="true" onclick="pickTF(this)">✅ True</button>
+        <button class="quiz-opt" style="flex:1" data-tfi="${i}" data-val="false" onclick="pickTF(this)">❌ False</button>
+      </div>
+      <div class="feedback" id="tffb${i}"></div>`;
+    area.appendChild(div);
+  });
+})();
+const tfAnswers={};
+function pickTF(btn){
+  const i=btn.dataset.tfi;
+  document.querySelectorAll(`[data-tfi="${i}"]`).forEach(b=>b.style.fontWeight='');
+  btn.style.fontWeight='700'; tfAnswers[i]=btn.dataset.val==='true';
+}
+function checkTF(){
+  let correct=0;
+  tfData.forEach((item,i)=>{
+    const fb=document.getElementById('tffb'+i);
+    const btns=document.querySelectorAll(`[data-tfi="${i}"]`);
+    btns.forEach(b=>b.disabled=true);
+    if(tfAnswers[i]===item.answer){
+      correct++;
+      fb.textContent='✅ Correct! '+item.explanation; fb.className='feedback ok';
+    } else {
+      fb.textContent='❌ '+item.explanation; fb.className='feedback no';
+    }
+  });
+  const res=document.getElementById('tfResult');
+  res.textContent=`Result: ${correct}/${tfData.length} correct!`;
+  res.style.color=correct===tfData.length?'#27ae60':'#c0392b';
+  if(correct===tfData.length) addScore(2);
+}
+
+/* ═══════════ COLLECT & SUBMIT ═══════════ */
+function collectAll(){
+  // Ex A
+  let exA='';
+  document.querySelectorAll('#exA li').forEach((li,i)=>{
+    const inp=li.querySelector('.fill-input');
+    const ok=inp.classList.contains('correct')?'✅':'❌';
+    exA+=`${i+1}. "${inp.value||'(em branco)'}" ${ok}\n`;
+  });
+  // Writing
+  const writing=[
+    'I have: '+( document.getElementById('w1').value||'(em branco)'),
+    'I always: '+(document.getElementById('w2').value||'(em branco)'),
+    'I do: '+(document.getElementById('w3').value||'(em branco)'),
+    'Breakfast: '+(document.getElementById('w4').value||'(em branco)'),
+    'Family description: '+(document.getElementById('w5').value||'(em branco)'),
+  ].join('\n');
+  return { exA, writing };
+}
+
+async function submitAll(){
+  const name=document.getElementById('studentName').value.trim();
+  const msg=document.getElementById('submitMsg');
+  const btn=document.getElementById('submitBtn');
+  if(!name){ msg.textContent='⚠️ Digite seu nome antes de enviar!'; msg.style.color='#f39c12'; return; }
+  const {exA,writing}=collectAll();
+  btn.disabled=true; btn.textContent='⏳ Enviando...';
+  msg.textContent=''; msg.style.color='#fff';
+  try {
+    await emailjs.send(EJS_SERVICE, EJS_TEMPLATE,{
+      student_name:name, score, lesson:'Unit 2 – Daily Life – Lesson 7',
+      exercise_a:exA, exercise_b:'(Match – verificar score na tela)', exercise_c:'(Quiz – verificar score na tela)',
+      exercise_d:'(True/False – verificar score na tela)', writing,
+      to_email:'profhesione@gmail.com'
+    });
+    msg.textContent='✅ Enviado com sucesso! O professor receberá tudo. Ótimo trabalho! 🎉';
+    btn.textContent='✅ Enviado!';
+  } catch(err){
+    console.error(err);
+    msg.textContent='❌ Erro ao enviar. Tente novamente.';
+    msg.style.color='#ffc0c0';
+    btn.disabled=false; btn.textContent='📤 Enviar Respostas';
+  }
+}
+</script>
+
+</body>
+</html>
