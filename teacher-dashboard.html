@@ -225,6 +225,8 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('students', this)">👥 Meus Alunos</button>
             <button class="tab-btn" onclick="switchTab('register', this)">➕ Cadastrar Aluno</button>
+            <button class="tab-btn" onclick="switchTab('attendance', this)">📋 Chamada</button>
+            <button class="tab-btn" onclick="switchTab('planning', this)">📝 Planejamento</button>
             <button class="tab-btn" onclick="switchTab('grades', this)">📊 Notas</button>
             <button class="tab-btn" onclick="switchTab('reports', this)">📈 Relatórios</button>
         </div>
@@ -234,6 +236,95 @@
             <div class="card">
                 <h2>Meus Alunos</h2>
                 <div id="studentsList"></div>
+            </div>
+        </div>
+
+        <!-- Aba: Chamada -->
+        <div id="attendance" class="tab-content">
+            <div class="card">
+                <h2>Registrar Chamada</h2>
+                <div id="attendanceSuccess" class="success-msg"></div>
+                <div id="attendanceError" class="error-msg"></div>
+                
+                <div class="form-group">
+                    <label for="attendanceDate">Data da Aula *</label>
+                    <input type="date" id="attendanceDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="attendanceLesson">Aula/Tópico *</label>
+                    <input type="text" id="attendanceLesson" placeholder="Ex: Unit 1 - Lesson 1" required>
+                </div>
+                
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Presença</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTable"></tbody>
+                </table>
+                
+                <button onclick="saveAttendance()" style="margin-top: 20px;">Salvar Chamada</button>
+            </div>
+        </div>
+
+        <!-- Aba: Planejamento -->
+        <div id="planning" class="tab-content">
+            <div class="card">
+                <h2>Planejamento de Aulas</h2>
+                <div id="planningSuccess" class="success-msg"></div>
+                <div id="planningError" class="error-msg"></div>
+                
+                <form onsubmit="createLesson(event)">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="lessonDate">Data da Aula *</label>
+                            <input type="date" id="lessonDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lessonLevel">Nível *</label>
+                            <select id="lessonLevel" required>
+                                <option value="">Selecione um nível</option>
+                                <option value="A1">A1 - Iniciante</option>
+                                <option value="A2">A2 - Elementar</option>
+                                <option value="B1">B1 - Intermediário</option>
+                                <option value="B2">B2 - Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonTitle">Título da Aula *</label>
+                        <input type="text" id="lessonTitle" placeholder="Ex: Unit 1 - Greetings" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonObjectives">Objetivos da Aula *</label>
+                        <textarea id="lessonObjectives" rows="3" placeholder="Descreva os objetivos da aula..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonContent">Conteúdo/Tópicos *</label>
+                        <textarea id="lessonContent" rows="3" placeholder="Descreva o conteúdo que será abordado..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonActivities">Atividades Propostas *</label>
+                        <textarea id="lessonActivities" rows="3" placeholder="Descreva as atividades que serão realizadas..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lessonResources">Recursos Necessários</label>
+                        <textarea id="lessonResources" rows="2" placeholder="Materiais, livros, vídeos, etc..."></textarea>
+                    </div>
+                    
+                    <button type="submit">Criar Plano de Aula</button>
+                </form>
+                
+                <h3 style="margin-top: 30px; margin-bottom: 20px;">Planos de Aula Criados</h3>
+                <div id="lessonsList"></div>
             </div>
         </div>
 
@@ -552,8 +643,119 @@
             originalSwitchTab(tabName, btn);
             if (tabName === 'reports') {
                 displayReports();
+            } else if (tabName === 'attendance') {
+                displayAttendanceTable();
+            } else if (tabName === 'planning') {
+                displayLessons();
             }
         };
+
+        // Funções de Chamada
+        function displayAttendanceTable() {
+            const table = document.getElementById('attendanceTable');
+            table.innerHTML = students.map(s => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>
+                        <input type="checkbox" id="attendance-${s.id}" checked>
+                        <label for="attendance-${s.id}" style="margin-left: 5px;">Presente</label>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function saveAttendance() {
+            const date = document.getElementById('attendanceDate').value;
+            const lesson = document.getElementById('attendanceLesson').value;
+            
+            if (!date || !lesson) {
+                alert('Preencha a data e o tópico da aula');
+                return;
+            }
+            
+            const attendance = {};
+            students.forEach(s => {
+                attendance[s.id] = document.getElementById('attendance-' + s.id).checked;
+            });
+            
+            const record = { date, lesson, attendance, timestamp: new Date().toISOString() };
+            
+            let records = JSON.parse(localStorage.getItem('attendanceRecords') || '[]');
+            records.push(record);
+            localStorage.setItem('attendanceRecords', JSON.stringify(records));
+            
+            document.getElementById('attendanceSuccess').textContent = '✅ Chamada salva com sucesso!';
+            document.getElementById('attendanceSuccess').classList.add('show');
+            
+            setTimeout(() => {
+                document.getElementById('attendanceSuccess').classList.remove('show');
+                document.getElementById('attendanceDate').value = '';
+                document.getElementById('attendanceLesson').value = '';
+            }, 2000);
+        }
+
+        // Funções de Planejamento
+        async function createLesson(event) {
+            event.preventDefault();
+            
+            const lesson = {
+                date: document.getElementById('lessonDate').value,
+                level: document.getElementById('lessonLevel').value,
+                title: document.getElementById('lessonTitle').value,
+                objectives: document.getElementById('lessonObjectives').value,
+                content: document.getElementById('lessonContent').value,
+                activities: document.getElementById('lessonActivities').value,
+                resources: document.getElementById('lessonResources').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            let lessons = JSON.parse(localStorage.getItem('lessonPlans') || '[]');
+            lessons.push(lesson);
+            localStorage.setItem('lessonPlans', JSON.stringify(lessons));
+            
+            document.getElementById('planningSuccess').textContent = '✅ Plano de aula criado com sucesso!';
+            document.getElementById('planningSuccess').classList.add('show');
+            
+            event.target.reset();
+            
+            setTimeout(() => {
+                document.getElementById('planningSuccess').classList.remove('show');
+                displayLessons();
+            }, 2000);
+        }
+
+        function displayLessons() {
+            const lessons = JSON.parse(localStorage.getItem('lessonPlans') || '[]');
+            const list = document.getElementById('lessonsList');
+            
+            if (lessons.length === 0) {
+                list.innerHTML = '<p style="color: #999;">Nenhum plano de aula criado ainda.</p>';
+                return;
+            }
+            
+            list.innerHTML = lessons.reverse().map((l, i) => `
+                <div class="report-card">
+                    <h3>📚 ${l.title}</h3>
+                    <p><strong>Data:</strong> ${new Date(l.date).toLocaleDateString('pt-BR')}</p>
+                    <p><strong>Nível:</strong> ${l.level}</p>
+                    <p><strong>Objetivos:</strong> ${l.objectives}</p>
+                    <p><strong>Conteúdo:</strong> ${l.content}</p>
+                    <p><strong>Atividades:</strong> ${l.activities}</p>
+                    ${l.resources ? `<p><strong>Recursos:</strong> ${l.resources}</p>` : ''}
+                    <button class="action-btn delete-btn" onclick="deleteLesson(${i})" style="margin-top: 10px;">Deletar</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteLesson(index) {
+            if (!confirm('Tem certeza que deseja deletar este plano?')) return;
+            
+            let lessons = JSON.parse(localStorage.getItem('lessonPlans') || '[]');
+            lessons.splice(lessons.length - 1 - index, 1);
+            localStorage.setItem('lessonPlans', JSON.stringify(lessons));
+            
+            displayLessons();
+        }
 
         function logout() {
             localStorage.clear();
