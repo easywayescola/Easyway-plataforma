@@ -77,13 +77,7 @@
         </div>
     </div>
     <script>
-        // Limpa sessão ao abrir login
-        localStorage.removeItem('token');
-        localStorage.removeItem('userType');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('studentLevel');
-
-        const API = 'https://easyway-plataforma-production.up.railway.app/api';
+        const API = 'http://localhost:8080/api';
         function switchTab(tab, btn) {
             document.querySelectorAll('.login-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.login-tab').forEach(el => el.classList.remove('active'));
@@ -107,8 +101,9 @@
                 if (!r.ok) { showError('studentError', data.error || 'Credenciais inválidas.'); btn.disabled=false; btn.textContent='Entrar como Aluno'; return; }
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userType', 'student');
-                localStorage.setItem('userName', data.student ? data.student.name : (data.name || ''));
-                localStorage.setItem('studentLevel', data.level || 'A1');
+                localStorage.setItem('userName', (data.student && data.student.name) || data.name || '');
+                localStorage.setItem('studentLevel', (data.student && data.student.level) || data.level || 'A1');
+                localStorage.setItem('studentId', (data.student && data.student.id) || data.id || '');
                 document.getElementById('studentSuccess').textContent='Login realizado! Redirecionando...';
                 document.getElementById('studentSuccess').classList.add('show');
                 setTimeout(() => window.location.href='student-dashboard.html', 1200);
@@ -126,7 +121,8 @@
                 if (!r.ok) { showError('teacherError', data.error || 'Credenciais inválidas.'); btn.disabled=false; btn.textContent='Entrar como Professor'; return; }
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userType', 'teacher');
-                localStorage.setItem('userName', data.student ? data.student.name : (data.name || ''));
+                localStorage.setItem('userName', (data.teacher && data.teacher.name) || data.name || '');
+                localStorage.setItem('teacherId', (data.teacher && data.teacher.id) || data.id || '');
                 document.getElementById('teacherSuccess').textContent='Login realizado! Redirecionando...';
                 document.getElementById('teacherSuccess').classList.add('show');
                 setTimeout(() => window.location.href='teacher-dashboard.html', 1200);
