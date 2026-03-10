@@ -174,6 +174,67 @@
   .footer small { color:rgba(255,255,255,0.3); font-size:12px; margin-top:5px; display:block; }
 
   @keyframes fadeIn { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;} }
+
+  /* ── MOBILE FIXES ─────────────────────────────── */
+  *, *::before, *::after { -webkit-tap-highlight-color: transparent; }
+  body { padding-bottom: 80px; -webkit-text-size-adjust: 100%; }
+
+  /* Inputs 16px evita zoom iOS */
+  input, select { font-size: 16px !important; }
+
+  /* Botões touch-friendly */
+  .audio-btn {
+    width: 44px !important; height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.06) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    font-size: 20px !important;
+  }
+  .check-btn, .dialogue-play-btn, .story-audio-bar button {
+    min-height: 48px !important; font-size: 15px !important;
+  }
+  @media(max-width:599px){
+    .check-btn { width: 100% !important; }
+    .dialogue-play-btn { width: 100% !important; justify-content: center !important; }
+    .translation-item { grid-template-columns: 1fr !important; display: flex !important; flex-direction: column !important; }
+    .vocab-grid { grid-template-columns: 1fr !important; }
+    .vocab-card { min-height: 52px !important; padding: 14px 14px 24px !important; }
+    .vocab-card .word { font-size: 16px !important; }
+    .vocab-card .meaning { font-size: 15px !important; }
+    .story-card { font-size: 16px !important; padding: 18px 16px !important; }
+    .practice-item { font-size: 16px !important; padding: 14px 14px !important; }
+    .section { padding: 32px 14px !important; }
+    .phrases-grid { grid-template-columns: 1fr 1fr !important; }
+    .fill { font-size: 16px !important; min-width: 85px !important; }
+    .question-item input { font-size: 16px !important; padding: 8px 0 !important; }
+    .trans-source { font-size: 15px !important; padding: 12px 14px !important; }
+    .translation-item input { padding: 12px 14px !important; border-radius: 10px !important; }
+    .verbs-table { font-size: 13px !important; }
+    .verbs-table td, .verbs-table th { padding: 8px 10px !important; }
+    .section-label h2 { font-size: 20px !important; }
+    .hero h1 { font-size: clamp(26px,8vw,48px) !important; }
+    body { padding-bottom: 80px !important; }
+  }
+
+  /* Bottom Nav */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #1A0A00; display: flex; justify-content: space-around;
+    align-items: center; padding: 8px 4px 12px; z-index: 500;
+    box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .bottom-nav a {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: rgba(255,255,255,0.45); text-decoration: none;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
+    min-width: 48px; padding: 4px 6px; border-radius: 10px; transition: all 0.2s;
+  }
+  .bottom-nav a .nav-icon { font-size: 20px; line-height: 1; }
+  .bottom-nav a.active { color: #FFB300; background: rgba(255,179,0,0.12); }
+  @media(min-width:600px){ .bottom-nav { display: none !important; } body { padding-bottom: 0 !important; } }
+  /* ── END MOBILE FIXES ─── */
+
 </style>
 </head>
 <body>
@@ -434,18 +495,22 @@
     });
   }, 100);
 
-  let currentAudio=null, storyPlaying=false, storySpd=0.9;
-  function speakEL(text,lang,onEnd){
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
-    const url='https://translate.google.com/translate_tts?ie=UTF-8&tl='+(lang||'en-US')+'&client=tw-ob&q='+encodeURIComponent(text);
-    const audio=new Audio(url);
-    audio.playbackRate=storySpd;currentAudio=audio;
-    if(onEnd)audio.onended=onEnd;
-    audio.onerror=()=>{if(onEnd)onEnd();};
-    audio.play().catch(()=>{if(onEnd)onEnd();});
+    // ── Web Speech API TTS ──────────────────────────
+  let storyPlaying = false, storySpd = 1, currentUtterance = null;
+
+  function speakEL(text, lang, onEnd) {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = lang || 'en-US';
+    utter.rate = storySpd;
+    utter.pitch = 1;
+    currentUtterance = utter;
+    if (onEnd) utter.onend = onEnd;
+    window.speechSynthesis.speak(utter);
   }
-  function speak(t){speakEL(t,'en-US');}
-  function speakPT(t){speakEL(t,'pt-BR');}
+  function speak(t)   { speakEL(t, 'en-US'); }
+  function speakPT(t) { speakEL(t, 'pt-BR'); }
+  function stopSpeech() { window.speechSynthesis.cancel(); }
   function rv(card){
     card.classList.toggle('revealed');
     card.querySelector('.hint').textContent=card.classList.contains('revealed')?'click to hide':'click to reveal';
@@ -476,7 +541,7 @@
   }
   function toggleStory(){
     if(storyPlaying){
-      storyPlaying=false;if(currentAudio){currentAudio.pause();currentAudio=null;}
+      storyPlaying=false;window.speechSynthesis.cancel();
       document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
       document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
       document.getElementById('storyPlayBtn').classList.remove('active');
@@ -519,10 +584,47 @@
   }
   function playDialogue(){
     document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='0');
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
+    window.speechSynthesis.cancel();
     playDialogueSeq(0);
   }
   document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='1');
+</script>
+
+<nav class="bottom-nav">
+  <a href="#warmup" class="nav-link"><span class="nav-icon">🔥</span>Warm Up</a>
+  <a href="#vocab" class="nav-link"><span class="nav-icon">👪</span>Vocab</a>
+  <a href="#verbs" class="nav-link"><span class="nav-icon">🔄</span>Verbs</a>
+  <a href="#story" class="nav-link"><span class="nav-icon">📖</span>Story</a>
+  <a href="#practice" class="nav-link"><span class="nav-icon">✏️</span>Practice</a>
+</nav>
+
+  // Bottom nav active highlight
+  (function(){
+    var links = document.querySelectorAll('.bottom-nav a');
+    var ids = Array.from(links).map(a => a.getAttribute('href').replace('#',''));
+    window.addEventListener('scroll', function(){
+      var cur = '';
+      ids.forEach(function(id){
+        var el = document.getElementById(id);
+        if(el && el.getBoundingClientRect().top < window.innerHeight * 0.5) cur = id;
+      });
+      links.forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('href') === '#'+cur);
+      });
+    });
+  })();
+  // Close keyboard on fill-in correct (if not already)
+  document.querySelectorAll('.fill').forEach(function(inp){
+    var orig = inp.getAttribute('onkeydown');
+    // blur after correct already in cf() — just ensure inputmode
+    inp.setAttribute('inputmode','text');
+    inp.setAttribute('autocomplete','off');
+  });
+  document.querySelectorAll('.question-item input, .translation-item input').forEach(function(inp){
+    inp.setAttribute('inputmode','text');
+    inp.setAttribute('autocomplete','off');
+  });
+
 </script>
 </body>
 </html>
