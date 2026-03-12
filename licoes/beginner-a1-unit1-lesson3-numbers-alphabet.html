@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1 – Lesson 3: Numbers & Alphabet | EasyWay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#3B7FD8;--red:#E63946;--green:#22c55e;--gold:#FFB300;--navy:#1e293b;--light:#EFF6FF;--orange:#ea580c;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:#f8fafc;color:var(--navy);min-height:100vh;}
+  .lh{background:linear-gradient(135deg,var(--orange),var(--gold));color:white;padding:1.2rem 1.5rem;}
+  .lh-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+  .lh-logo{font-weight:900;font-size:1.3rem;}
+  .lh-info{text-align:right;}
+  .lh-title{font-weight:900;font-size:1rem;}
+  .lh-sub{font-size:.8rem;opacity:.85;}
+  .back-btn{background:rgba(255,255,255,.2);color:white;border:none;padding:.4rem .9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;text-decoration:none;display:inline-block;}
+  .pbar-wrap{max-width:780px;margin:.8rem auto 0;padding:0 1.5rem;}
+  .pbar{background:rgba(255,255,255,.25);height:7px;border-radius:4px;}
+  .pbar-fill{background:white;height:100%;border-radius:4px;transition:width .5s;}
+  .pbar-lbl{text-align:right;font-size:.75rem;opacity:.8;margin-top:.2rem;}
+  .main{max-width:780px;margin:0 auto;padding:1.5rem;}
+  .section{background:white;border-radius:18px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 2px 16px rgba(0,0,0,.06);display:none;}
+  .section.active{display:block;}
+  .stag{display:inline-block;background:var(--light);color:var(--blue);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;padding:.3rem .8rem;border-radius:50px;margin-bottom:.8rem;}
+  .section h2{font-size:1.15rem;color:var(--navy);margin-bottom:.8rem;}
+  .section p{color:#475569;line-height:1.7;margin-bottom:.7rem;font-size:.95rem;}
+  /* Number grid */
+  .num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:.5rem 0 1rem;}
+  .num-card{background:linear-gradient(135deg,var(--orange),var(--gold));color:white;border-radius:12px;padding:.8rem;text-align:center;cursor:pointer;border:3px solid transparent;transition:all .2s;}
+  .num-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(234,88,12,.3);}
+  .num-card.flipped{background:var(--light);color:var(--navy);}
+  .num-digit{font-size:1.4rem;font-weight:900;}
+  .num-word{font-size:.82rem;font-weight:700;margin-top:.2rem;display:none;}
+  .num-card.flipped .num-word{display:block;}
+  .num-card.flipped .num-digit{color:var(--orange);}
+  /* Fill blank */
+  .fill-line{font-size:1rem;line-height:2.8;margin-bottom:.3rem;}
+  .blank{border:none;border-bottom:2.5px solid var(--orange);background:transparent;font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:700;width:120px;text-align:center;outline:none;padding:.1rem .3rem;color:var(--navy);}
+  .blank.ok{border-bottom-color:var(--green);color:var(--green);}
+  .blank.ko{border-bottom-color:var(--red);color:var(--red);}
+  /* MC */
+  .q-block{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid #f1f5f9;}
+  .q-block:last-child{border:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-weight:700;margin-bottom:.7rem;font-size:.97rem;}
+  .opts{display:flex;flex-direction:column;gap:.45rem;}
+  .opt{padding:.65rem 1rem;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:600;text-align:left;background:white;transition:all .2s;}
+  .opt:hover:not([disabled]){border-color:var(--orange);background:#fff7ed;}
+  .opt.correct{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .opt.wrong{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  .opt.show-c{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .q-fb{margin-top:.5rem;font-size:.88rem;font-weight:700;display:none;}
+  .q-fb.show{display:block;}
+  .q-fb.ok{color:var(--green);}
+  .q-fb.ko{color:var(--red);}
+  /* TF */
+  .tf-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem;font-size:.93rem;flex-wrap:wrap;}
+  .tf-stmt{flex:1;min-width:200px;font-weight:600;}
+  .tf-btns{display:flex;gap:.4rem;}
+  .tf-btn{padding:.4rem .8rem;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;background:white;transition:all .2s;}
+  .tf-btn.sel-t{border-color:var(--blue);background:var(--light);color:var(--blue);}
+  .tf-btn.sel-f{border-color:var(--red);background:#fef2f2;color:var(--red);}
+  .tf-btn.correct-final{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .tf-btn.wrong-final{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  /* Phone game */
+  .phone-item{background:var(--light);border-radius:12px;padding:1rem;margin-bottom:.8rem;}
+  .phone-q{font-weight:700;font-size:1rem;margin-bottom:.6rem;}
+  .phone-digits{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .phone-digit-inp{width:52px;padding:.5rem;border:2px solid #e2e8f0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;text-align:center;outline:none;transition:border .2s;}
+  .phone-digit-inp:focus{border-color:var(--orange);}
+  .phone-digit-inp.ok{border-color:var(--green);background:#f0fdf4;}
+  .phone-digit-inp.ko{border-color:var(--red);background:#fef2f2;}
+  /* Buttons */
+  .btn-check{background:var(--orange);color:white;border:none;padding:.75rem 1.8rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;cursor:pointer;transition:all .2s;margin-top:1rem;}
+  .btn-check:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(234,88,12,.35);}
+  .btn-check:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+  /* Done */
+  .done-screen{text-align:center;padding:2.5rem 1rem;}
+  .done-trophy{font-size:5rem;animation:bounce .6s;}
+  @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+  .done-title{font-size:1.9rem;font-weight:900;margin:.5rem 0 .3rem;}
+  .done-sub{color:#64748b;font-size:1rem;margin-bottom:1.5rem;}
+  .score-ring{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 10px 30px rgba(234,88,12,.4);}
+  .score-pct{font-size:1.8rem;font-weight:900;line-height:1;}
+  .score-lbl{font-size:.7rem;opacity:.8;}
+  .score-msg{color:#64748b;margin-bottom:1.5rem;font-size:.97rem;}
+  .btn-dash{background:var(--green);color:white;padding:.8rem 2rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;text-decoration:none;border:none;cursor:pointer;}
+  @media(max-width:580px){.main{padding:1rem;}.section{padding:1.2rem;}.num-grid{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+<div class="lh">
+  <div class="lh-inner">
+    <div>
+      <div class="lh-logo">✨ EasyWay</div>
+      <a href="student-dashboard.html" class="back-btn" style="margin-top:.4rem;display:inline-block;">← Dashboard</a>
+    </div>
+    <div class="lh-info">
+      <div class="lh-title">A1 – Lesson 3</div>
+      <div class="lh-sub">Numbers & Alphabet 🔢</div>
+    </div>
+  </div>
+  <div class="pbar-wrap">
+    <div class="pbar"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="pbar-lbl" id="pbar-lbl">Section 1 of 5</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- SEC 1: Number Cards -->
+<div class="section active" id="s1">
+  <div class="stag">🔢 Numbers</div>
+  <h2>Click each number to see how to write it in English!</h2>
+  <div class="num-grid" id="num-grid"></div>
+  <button class="btn-check" onclick="goTo(2)">Next →</button>
+</div>
+
+<!-- SEC 2: Digit → Word -->
+<div class="section" id="s2">
+  <div class="stag">✏️ Activity 1 – Write the number in words</div>
+  <h2>Write the number as a word</h2>
+  <div id="d2w-container"></div>
+  <button class="btn-check" id="btn2" onclick="checkD2W()">Check ✓</button>
+</div>
+
+<!-- SEC 3: Word → Digit -->
+<div class="section" id="s3">
+  <div class="stag">🔢 Activity 2 – Write the number as a digit</div>
+  <h2>Write the digit(s)</h2>
+  <div id="w2d-container"></div>
+  <button class="btn-check" id="btn3" onclick="checkW2D()">Check ✓</button>
+</div>
+
+<!-- SEC 4: True or False -->
+<div class="section" id="s4">
+  <div class="stag">✅ Activity 3 – True or False</div>
+  <h2>Read and decide</h2>
+  <div id="tf-container"></div>
+  <button class="btn-check" id="btn4" onclick="checkTF()">Check ✓</button>
+</div>
+
+<!-- SEC 5: Phone Numbers (MC) -->
+<div class="section" id="s5">
+  <div class="stag">📞 Activity 4 – Phone Numbers</div>
+  <h2>Choose the correct number sequence</h2>
+  <div id="phone-container"></div>
+  <button class="btn-check" id="btn5" onclick="checkPhone()">Check ✓</button>
+</div>
+
+<!-- DONE -->
+<div class="section" id="s-done">
+  <div class="done-screen">
+    <div class="done-trophy">🏆</div>
+    <div class="done-title">Well done! 🎉</div>
+    <div class="done-sub">You have completed the lesson!</div>
+    <div class="score-ring"><div class="score-pct" id="final-pct">—</div><div class="score-lbl">SCORE</div></div>
+    <div class="score-msg" id="final-msg"></div>
+    <button class="btn-dash" onclick="window.location.href='student-dashboard.html'">← Back to Dashboard</button>
+  </div>
+</div>
+</div>
+
+<script>
+const API='https://easyway-plataforma-production.up.railway.app/api';
+let results=[];
+
+// ── NUMBER CARDS ───────────────────────────────────────────────────────────────
+const NUMS=[
+  [0,'zero'],[1,'one'],[2,'two'],[3,'three'],[4,'four'],[5,'five'],
+  [6,'six'],[7,'seven'],[8,'eight'],[9,'nine'],[10,'ten'],
+  [11,'eleven'],[12,'twelve'],[13,'thirteen'],[14,'fourteen'],[15,'fifteen'],
+  [16,'sixteen'],[17,'seventeen'],[18,'eighteen'],[19,'nineteen'],[20,'twenty']
+];
+function buildNums(){
+  document.getElementById('num-grid').innerHTML=NUMS.map(([d,w])=>`
+    <div class="num-card" onclick="flipNum(this)">
+      <div class="num-digit">${d}</div>
+      <div class="num-word">${w}</div>
+    </div>`).join('');
+}
+function flipNum(el){
+  el.classList.toggle('flipped');
+}
+
+// ── DIGIT → WORD ──────────────────────────────────────────────────────────────
+const D2W=[
+  [7,'seven'],[12,'twelve'],[20,'twenty'],[16,'sixteen'],[3,'three'],
+  [19,'nineteen'],[13,'thirteen'],[8,'eight'],[15,'fifteen'],[11,'eleven'],
+  [17,'seventeen'],[0,'zero']
+];
+function buildD2W(){
+  document.getElementById('d2w-container').innerHTML=D2W.map(([d,w],i)=>`
+    <div class="fill-line">${String.fromCharCode(97+i)}) ${d} → <input class="blank" id="d2w${i}" placeholder="in words" autocomplete="off"></div>
+  `).join('');
+}
+function checkD2W(){
+  let c=0;
+  D2W.forEach(([d,w],i)=>{
+    const inp=document.getElementById('d2w'+i);
+    const val=inp.value.trim().toLowerCase();
+    const ok=val===w;
+    inp.className='blank '+(ok?'ok':'ko');
+    inp.disabled=true;
+    if(!ok)inp.value=w;
+    if(ok)c++;
+    results.push({correct:ok,question:`${d} in words`,student_answer:val,correct_answer:w});
+  });
+  document.getElementById('btn2').disabled=true;
+  document.getElementById('btn2').textContent=`${c}/${D2W.length} correct!`;
+  setTimeout(()=>goTo(3),1600);
+}
+
+// ── WORD → DIGIT ──────────────────────────────────────────────────────────────
+const W2D=[
+  ['fourteen',14],['nine',9],['eighteen',18],['five',5],['twenty',20],
+  ['eleven',11],['zero',0],['sixteen',16],['two',2],['thirteen',13]
+];
+function buildW2D(){
+  document.getElementById('w2d-container').innerHTML=W2D.map(([w,d],i)=>`
+    <div class="fill-line">${String.fromCharCode(97+i)}) ${w} → <input class="blank" id="w2d${i}" placeholder="digit" autocomplete="off" style="width:70px"></div>
+  `).join('');
+}
+function checkW2D(){
+  let c=0;
+  W2D.forEach(([w,d],i)=>{
+    const inp=document.getElementById('w2d'+i);
+    const val=inp.value.trim();
+    const ok=val===String(d);
+    inp.className='blank '+(ok?'ok':'ko');
+    inp.disabled=true;
+    if(!ok)inp.value=d;
+    if(ok)c++;
+    results.push({correct:ok,question:`${w} as a digit`,student_answer:val,correct_answer:String(d)});
+  });
+  document.getElementById('btn3').disabled=true;
+  document.getElementById('btn3').textContent=`${c}/${W2D.length} correct!`;
+  setTimeout(()=>goTo(4),1600);
+}
+
+// ── TRUE / FALSE ───────────────────────────────────────────────────────────────
+const TF_DATA=[
+  {stmt:'7 in English is "seven".', ans:true},
+  {stmt:'12 in English is "eleven".', ans:false},
+  {stmt:'20 in English is "twenty".', ans:true},
+  {stmt:'"Nineteen" = 19.', ans:true},
+  {stmt:'14 in English is "thirteen".', ans:false},
+  {stmt:'"Fifteen" = 15.', ans:true},
+  {stmt:'20 in English is "twelve".', ans:false},
+  {stmt:'"Zero" = 0.', ans:true}
+];
+let tfSel={};
+function buildTF(){
+  document.getElementById('tf-container').innerHTML=TF_DATA.map((d,i)=>`
+    <div class="tf-row">
+      <div class="tf-stmt">${i+1}. ${d.stmt}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tft${i}" onclick="selTF(${i},'T')">TRUE</button>
+        <button class="tf-btn" id="tff${i}" onclick="selTF(${i},'F')">FALSE</button>
+      </div>
+    </div>`).join('');
+}
+function selTF(i,v){
+  if(document.getElementById('tft'+i).disabled)return;
+  tfSel[i]=v;
+  document.getElementById('tft'+i).className='tf-btn'+(v==='T'?' sel-t':'');
+  document.getElementById('tff'+i).className='tf-btn'+(v==='F'?' sel-f':'');
+}
+function checkTF(){
+  let c=0;
+  TF_DATA.forEach((d,i)=>{
+    const ans=tfSel[i],correct=d.ans?'T':'F';
+    const ok=ans===correct;
+    if(ok)c++;
+    ['tft'+i,'tff'+i].forEach(id=>document.getElementById(id).disabled=true);
+    const tB=document.getElementById('tft'+i),fB=document.getElementById('tff'+i);
+    if(ok){(d.ans?tB:fB).className='tf-btn correct-final';}
+    else{(ans==='T'?tB:fB).className='tf-btn wrong-final';(d.ans?tB:fB).className='tf-btn correct-final';}
+    results.push({correct:ok,question:d.stmt,student_answer:ans||'—',correct_answer:correct});
+  });
+  document.getElementById('btn4').disabled=true;
+  document.getElementById('btn4').textContent=`${c}/${TF_DATA.length} correct!`;
+  setTimeout(()=>goTo(5),1600);
+}
+
+// ── PHONE NUMBERS (MC) ────────────────────────────────────────────────────────
+const PHONE_DATA=[
+  {q:'nine – five – four – three',opts:['9-5-4-3','9-5-3-4','9-4-5-3','5-9-4-3'],correct:0},
+  {q:'seven – two – zero – eight',opts:['7-0-2-8','2-7-0-8','7-2-0-8','7-2-8-0'],correct:2},
+  {q:'six – one – nine – five – three',opts:['6-1-9-5-3','6-1-5-9-3','1-6-9-5-3','6-9-1-5-3'],correct:0},
+  {q:'one – eight – seven – four – two',opts:['1-7-8-4-2','1-8-7-4-2','8-1-7-4-2','1-8-4-7-2'],correct:1}
+];
+let phoneSel={};
+function buildPhone(){
+  document.getElementById('phone-container').innerHTML=PHONE_DATA.map((d,qi)=>`
+    <div class="q-block">
+      <div class="q-text">${qi+1}. "${d.q}"</div>
+      <div class="opts">${d.opts.map((o,oi)=>`
+        <button class="opt" id="ph${qi}_${oi}" onclick="selPhone(${qi},${oi})">${o}</button>
+      `).join('')}</div>
+      <div class="q-fb" id="pfb${qi}"></div>
+    </div>`).join('');
+}
+function selPhone(qi,oi){
+  if(document.getElementById(`ph${qi}_0`).disabled)return;
+  phoneSel[qi]=oi;
+  PHONE_DATA[qi].opts.forEach((_,i)=>{
+    document.getElementById(`ph${qi}_${i}`).style.background='';
+    document.getElementById(`ph${qi}_${i}`).style.borderColor='';
+  });
+  document.getElementById(`ph${qi}_${oi}`).style.background='#fff7ed';
+  document.getElementById(`ph${qi}_${oi}`).style.borderColor='var(--orange)';
+}
+function checkPhone(){
+  let c=0;
+  PHONE_DATA.forEach((d,qi)=>{
+    const sel=phoneSel[qi];
+    const fb=document.getElementById('pfb'+qi);
+    d.opts.forEach((_,oi)=>document.getElementById(`ph${qi}_${oi}`).disabled=true);
+    if(sel===undefined){fb.textContent="⚠️ Not answered.";fb.className='q-fb show ko';results.push({correct:false,question:d.q,student_answer:'—',correct_answer:d.opts[d.correct]});return;}
+    const ok=sel===d.correct;
+    if(ok){c++;document.getElementById(`ph${qi}_${sel}`).className='opt correct';}
+    else{document.getElementById(`ph${qi}_${sel}`).className='opt wrong';document.getElementById(`ph${qi}_${d.correct}`).className='opt show-c';}
+    fb.textContent=ok?'✅ Correct!':'❌ Check the correct answer.';
+    fb.className='q-fb show '+(ok?'ok':'ko');
+    results.push({correct:ok,question:d.q,student_answer:d.opts[sel],correct_answer:d.opts[d.correct]});
+  });
+  document.getElementById('btn5').disabled=true;
+  document.getElementById('btn5').textContent=`${c}/${PHONE_DATA.length} correct!`;
+  setTimeout(()=>showDone(),1800);
+}
+
+// ── NAV & DONE ─────────────────────────────────────────────────────────────────
+const TOTAL=5;
+function goTo(n){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s'+n).classList.add('active');
+  document.getElementById('pbar').style.width=(((n-1)/TOTAL)*100)+'%';
+  document.getElementById('pbar-lbl').textContent=`Section ${n} of ${TOTAL}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showDone(){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s-done').classList.add('active');
+  document.getElementById('pbar').style.width='100%';
+  document.getElementById('pbar-lbl').textContent='Completed! 🎉';
+  const total=results.length,correct=results.filter(r=>r.correct).length;
+  const pct=total?Math.round(correct/total*100):0;
+  document.getElementById('final-pct').textContent=pct+'%';
+  const msgs=[[90,'🌟 Excellent!'],[70,'👏 Great job!'],[50,'💪 Good effort!'],[0,'📖 Keep practicing!']];
+  document.getElementById('final-msg').textContent=msgs.find(([m])=>pct>=m)[1];
+  const token=localStorage.getItem('token');
+  if(token) fetch(`${API}/lessons/complete`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({lesson_id:'a1-lesson3-numbers',lesson_title:'A1 – Lesson 3: Numbers & Alphabet',score:correct,max_score:total,answers:{questions:results}})}).catch(()=>{});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+buildNums();buildD2W();buildW2D();buildTF();buildPhone();
+</script>
+</body>
+</html>
