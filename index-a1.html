@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWay – A1 Beginner Activities</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --orange: #E87722;
+    --dark: #1a1a2e;
+    --card-bg: #ffffff;
+    --text: #2d2d2d;
+    --soft: #fff8f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--soft);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+    padding: 2rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50px; left: -50px;
+    width: 200px; height: 200px;
+    background: var(--orange);
+    border-radius: 50%;
+    opacity: 0.1;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -30px;
+    width: 250px; height: 250px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0.08;
+  }
+
+  .logo-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .school-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .level-badge {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    color: white;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 0.5rem 1.8rem;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .wave {
+    display: block;
+    width: 100%;
+    margin-top: -1px;
+  }
+
+  main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1.5rem 1.2rem 3rem;
+  }
+
+  .unit-title {
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin: 2rem 0 0.8rem;
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--orange);
+  }
+
+  .lesson-grid {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .lesson-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1.5px solid transparent;
+  }
+
+  .lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232,119,34,0.15);
+    border-color: var(--orange);
+  }
+
+  .lesson-num {
+    min-width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 900;
+    font-size: 0.85rem;
+  }
+
+  .lesson-info { flex: 1; }
+
+  .lesson-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .lesson-tag {
+    font-size: 0.72rem;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .arrow {
+    color: var(--orange);
+    font-size: 1.2rem;
+    opacity: 0.6;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: #aaa;
+    font-size: 0.8rem;
+  }
+
+  footer span { color: var(--orange); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-text">EasyWay</div>
+  <div class="school-sub">Escola de Idiomas</div>
+  <div class="level-badge">⭐ A1 — Beginner</div>
+</header>
+
+<svg class="wave" viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#fff8f0" d="M0,20 C360,40 1080,0 1440,20 L1440,40 L0,40 Z"/>
+</svg>
+
+<main>
+
+  <div class="unit-title">Unit 1 — Hello World</div>
+  <div class="lesson-grid">
+    <a class="lesson-card" href="licoes/beginner-a1-unit1-lesson1-greetings.html" target="_blank">
+      <div class="lesson-num">L1</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Greetings</div>
+        <div class="lesson-tag">Unit 1 · Lesson 1</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit1-lesson2-personal-information.html" target="_blank">
+      <div class="lesson-num">L2</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Personal Information</div>
+        <div class="lesson-tag">Unit 1 · Lesson 2</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit1-lesson3-numbers-alphabet.html" target="_blank">
+      <div class="lesson-num">L3</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Numbers & Alphabet</div>
+        <div class="lesson-tag">Unit 1 · Lesson 3</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit1-lesson4-review.html" target="_blank">
+      <div class="lesson-num">R1</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Unit 1 Review</div>
+        <div class="lesson-tag">Unit 1 · Review</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+  </div>
+
+  <div class="unit-title">Unit 2 — My Day</div>
+  <div class="lesson-grid">
+    <a class="lesson-card" href="licoes/beginner-a1-unit2-lesson5-daily-routine.html" target="_blank">
+      <div class="lesson-num">L5</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Daily Routine</div>
+        <div class="lesson-tag">Unit 2 · Lesson 5</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit2-lesson6-time-activities.html" target="_blank">
+      <div class="lesson-num">L6</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Time & Activities</div>
+        <div class="lesson-tag">Unit 2 · Lesson 6</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit2-lesson7-work-occupations.html" target="_blank">
+      <div class="lesson-num">L7</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Work & Occupations</div>
+        <div class="lesson-tag">Unit 2 · Lesson 7</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit2-lesson8-review.html" target="_blank">
+      <div class="lesson-num">R2</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Unit 2 Review</div>
+        <div class="lesson-tag">Unit 2 · Review</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+  </div>
+
+  <div class="unit-title">Unit 4 — Food & Places</div>
+  <div class="lesson-grid">
+    <a class="lesson-card" href="licoes/beginner-a1-unit4-lesson13-food-preferences.html" target="_blank">
+      <div class="lesson-num">L13</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Food Preferences</div>
+        <div class="lesson-tag">Unit 4 · Lesson 13</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit4-lesson14-supermarket.html" target="_blank">
+      <div class="lesson-num">L14</div>
+      <div class="lesson-info">
+        <div class="lesson-name">At the Supermarket</div>
+        <div class="lesson-tag">Unit 4 · Lesson 14</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit4-lesson15-ordering-food.html" target="_blank">
+      <div class="lesson-num">L15</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Ordering Food</div>
+        <div class="lesson-tag">Unit 4 · Lesson 15</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+    <a class="lesson-card" href="licoes/beginner-a1-unit4-lesson16-review.html" target="_blank">
+      <div class="lesson-num">R4</div>
+      <div class="lesson-info">
+        <div class="lesson-name">Unit 4 Review</div>
+        <div class="lesson-tag">Unit 4 · Review</div>
+      </div>
+      <div class="arrow">›</div>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <span>EasyWay</span> Escola de Idiomas · Aracruz-ES
+</footer>
+
+</body>
+</html>
