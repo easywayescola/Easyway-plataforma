@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1 – Lesson 7: Work & Occupations | EasyWay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#3B7FD8;--red:#E63946;--green:#22c55e;--gold:#FFB300;--navy:#1e293b;--light:#EFF6FF;--rose:#e11d48;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:#f8fafc;color:var(--navy);min-height:100vh;}
+  .lh{background:linear-gradient(135deg,var(--rose),#f97316);color:white;padding:1.2rem 1.5rem;}
+  .lh-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+  .lh-logo{font-weight:900;font-size:1.3rem;}
+  .back-btn{background:rgba(255,255,255,.2);color:white;border:none;padding:.4rem .9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;text-decoration:none;display:inline-block;}
+  .lh-info{text-align:right;}
+  .lh-title{font-weight:900;font-size:1rem;}
+  .lh-sub{font-size:.8rem;opacity:.85;}
+  .pbar-wrap{max-width:780px;margin:.8rem auto 0;padding:0 1.5rem;}
+  .pbar{background:rgba(255,255,255,.25);height:7px;border-radius:4px;}
+  .pbar-fill{background:var(--gold);height:100%;border-radius:4px;transition:width .5s;}
+  .pbar-lbl{text-align:right;font-size:.75rem;opacity:.8;margin-top:.2rem;}
+  .main{max-width:780px;margin:0 auto;padding:1.5rem;}
+  .section{background:white;border-radius:18px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 2px 16px rgba(0,0,0,.06);display:none;}
+  .section.active{display:block;}
+  .stag{display:inline-block;background:#fff1f2;color:var(--rose);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;padding:.3rem .8rem;border-radius:50px;margin-bottom:.8rem;}
+  .section h2{font-size:1.15rem;color:var(--navy);margin-bottom:.8rem;}
+  .section p{color:#475569;line-height:1.7;margin-bottom:.7rem;font-size:.95rem;}
+  .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.7rem;margin:.5rem 0 1rem;}
+  .vc{background:#fff1f2;border-radius:12px;padding:.9rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;}
+  .vc:hover{border-color:var(--rose);}
+  .vc.flipped{background:var(--rose);color:white;}
+  .vc-en{font-weight:800;font-size:.95rem;}
+  .vc-pt{font-size:.8rem;color:#64748b;margin-top:.2rem;display:none;}
+  .vc.flipped .vc-pt{color:rgba(255,255,255,.85);}
+  .rule-box{background:linear-gradient(135deg,#fff1f2,#fff7ed);border-left:4px solid var(--rose);border-radius:10px;padding:1rem 1.2rem;margin:.5rem 0 1.2rem;}
+  .rule-row{display:flex;gap:.5rem;align-items:flex-start;margin-bottom:.4rem;font-size:.93rem;}
+  .rule-row:last-child{margin:0;}
+  .rule-key{background:var(--rose);color:white;font-weight:900;padding:.15rem .6rem;border-radius:6px;flex-shrink:0;font-size:.82rem;}
+  .rule-ex{font-weight:600;color:var(--navy);}
+  .q-block{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid #f1f5f9;}
+  .q-block:last-child{border:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-weight:700;margin-bottom:.7rem;font-size:.97rem;}
+  .opts{display:flex;flex-direction:column;gap:.45rem;}
+  .opt{padding:.65rem 1rem;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:600;text-align:left;background:white;transition:all .2s;}
+  .opt:hover:not([disabled]){border-color:var(--rose);background:#fff1f2;}
+  .opt.correct{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .opt.wrong{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  .opt.show-c{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .q-fb{margin-top:.5rem;font-size:.88rem;font-weight:700;display:none;}
+  .q-fb.show{display:block;}
+  .q-fb.ok{color:var(--green);}
+  .q-fb.ko{color:var(--red);}
+  .fill-line{font-size:1rem;line-height:2.8;margin-bottom:.3rem;}
+  .blank{border:none;border-bottom:2.5px solid var(--rose);background:transparent;font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:700;width:130px;text-align:center;outline:none;padding:.1rem .3rem;color:var(--navy);}
+  .blank.ok{border-bottom-color:var(--green);color:var(--green);}
+  .blank.ko{border-bottom-color:var(--red);color:var(--red);}
+  .tf-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem;font-size:.93rem;flex-wrap:wrap;}
+  .tf-stmt{flex:1;min-width:200px;font-weight:600;}
+  .tf-btns{display:flex;gap:.4rem;}
+  .tf-btn{padding:.4rem .8rem;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;background:white;transition:all .2s;}
+  .tf-btn.sel-t{border-color:var(--blue);background:var(--light);color:var(--blue);}
+  .tf-btn.sel-f{border-color:var(--red);background:#fef2f2;color:var(--red);}
+  .tf-btn.correct-final{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .tf-btn.wrong-final{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  .word-bank{display:flex;flex-wrap:wrap;gap:.45rem;min-height:44px;background:#f8fafc;padding:.7rem;border-radius:10px;margin-bottom:.6rem;}
+  .wchip{background:white;border:2px solid var(--rose);color:var(--rose);padding:.3rem .75rem;border-radius:50px;cursor:pointer;font-weight:700;font-size:.88rem;user-select:none;transition:all .15s;}
+  .wchip:hover{background:var(--rose);color:white;}
+  .wchip.used{opacity:.3;pointer-events:none;}
+  .sent-build{min-height:44px;background:#fff1f2;border:2px dashed #fecdd3;border-radius:10px;padding:.5rem .7rem;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem;}
+  .placed{background:var(--navy);color:white;padding:.3rem .75rem;border-radius:50px;cursor:pointer;font-weight:700;font-size:.88rem;}
+  .scr-fb{font-weight:700;font-size:.88rem;display:none;margin-top:.3rem;}
+  .scr-fb.show{display:block;}
+  .btn-check{background:var(--rose);color:white;border:none;padding:.75rem 1.8rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;cursor:pointer;transition:all .2s;margin-top:1rem;}
+  .btn-check:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(225,29,72,.35);}
+  .btn-check:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+  .done-screen{text-align:center;padding:2.5rem 1rem;}
+  .done-trophy{font-size:5rem;animation:bounce .6s;}
+  @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+  .done-title{font-size:1.9rem;font-weight:900;margin:.5rem 0 .3rem;}
+  .done-sub{color:#64748b;font-size:1rem;margin-bottom:1.5rem;}
+  .score-ring{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--rose),#f97316);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 10px 30px rgba(225,29,72,.4);}
+  .score-pct{font-size:1.8rem;font-weight:900;line-height:1;}
+  .score-lbl{font-size:.7rem;opacity:.8;}
+  .score-msg{color:#64748b;margin-bottom:1.5rem;font-size:.97rem;}
+  .btn-dash{background:var(--green);color:white;padding:.8rem 2rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;border:none;cursor:pointer;}
+  @media(max-width:580px){.main{padding:1rem;}.section{padding:1.2rem;}}
+
+.vc .audio-btn {
+  background:none;border:none;cursor:pointer;font-size:1rem;
+  padding:0 2px;vertical-align:middle;transition:transform 0.15s;display:inline;
+}
+.vc .audio-btn:hover{transform:scale(1.3);}
+</style>
+</head>
+<body>
+<div class="lh">
+  <div class="lh-inner">
+    <div>
+      <div class="lh-logo">✨ EasyWay</div>
+      <a href="student-dashboard.html" class="back-btn" style="margin-top:.4rem;display:inline-block;">← Dashboard</a>
+    </div>
+    <div class="lh-info">
+      <div class="lh-title">A1 – Lesson 7</div>
+      <div class="lh-sub">Work & Occupations 💼</div>
+    </div>
+  </div>
+  <div class="pbar-wrap">
+    <div class="pbar"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="pbar-lbl" id="pbar-lbl">Section 1 of 5</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- SEC 1: Vocab + Rule -->
+<div class="section active" id="s1">
+  <div class="stag">📚 Vocabulary & Rule</div>
+  <h2>A or AN? – Click the cards!</h2>
+  <div class="rule-box">
+    <div class="rule-row"><span class="rule-key">A</span><span class="rule-ex">before consonant sounds → <strong>a teacher, a doctor, a nurse</strong></span></div>
+    <div class="rule-row"><span class="rule-key">AN</span><span class="rule-ex">before vowel sounds (a,e,i,o,u) → <strong>an engineer, an architect, an actor</strong></span></div>
+  </div>
+  <div class="vocab-grid">
+    <div class="vc" onclick="flip(this)"><div class="vc-en">👩‍🏫 teacher<button class="audio-btn" onclick="event.stopPropagation();playAudio('👩‍🏫 teacher')" type="button"> 🔊</button></div><div class="vc-pt">professor(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">👨‍⚕️ doctor<button class="audio-btn" onclick="event.stopPropagation();playAudio('👨‍⚕️ doctor')" type="button"> 🔊</button></div><div class="vc-pt">médico(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">👮 police officer<button class="audio-btn" onclick="event.stopPropagation();playAudio('👮 police officer')" type="button"> 🔊</button></div><div class="vc-pt">policial</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">👷 engineer<button class="audio-btn" onclick="event.stopPropagation();playAudio('👷 engineer')" type="button"> 🔊</button></div><div class="vc-pt">engenheiro(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">🧑‍💼 lawyer<button class="audio-btn" onclick="event.stopPropagation();playAudio('🧑‍💼 lawyer')" type="button"> 🔊</button></div><div class="vc-pt">advogado(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">🧑‍🍳 chef / cook<button class="audio-btn" onclick="event.stopPropagation();playAudio('🧑‍🍳 chef   cook')" type="button"> 🔊</button></div><div class="vc-pt">chef / cozinheiro(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">💼 businessman<button class="audio-btn" onclick="event.stopPropagation();playAudio('💼 businessman')" type="button"> 🔊</button></div><div class="vc-pt">empresário</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">🧑‍🔧 mechanic<button class="audio-btn" onclick="event.stopPropagation();playAudio('🧑‍🔧 mechanic')" type="button"> 🔊</button></div><div class="vc-pt">mecânico</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">🧑‍💻 programmer<button class="audio-btn" onclick="event.stopPropagation();playAudio('🧑‍💻 programmer')" type="button"> 🔊</button></div><div class="vc-pt">programador(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">🏥 nurse<button class="audio-btn" onclick="event.stopPropagation();playAudio('🏥 nurse')" type="button"> 🔊</button></div><div class="vc-pt">enfermeiro(a)</div></div>
+  </div>
+  <button class="btn-check" onclick="goTo(2)">Next →</button>
+</div>
+
+<!-- SEC 2: A or AN fill -->
+<div class="section" id="s2">
+  <div class="stag">✏️ Activity 1 – A or AN?</div>
+  <h2>Fill in with <strong>a</strong> or <strong>an</strong></h2>
+  <div id="aan-container"></div>
+  <button class="btn-check" id="btn2" onclick="checkAaN()">Check ✓</button>
+</div>
+
+<!-- SEC 3: True or False -->
+<div class="section" id="s3">
+  <div class="stag">✅ Activity 2 – True or False</div>
+  <h2>Read and decide</h2>
+  <div id="tf-container"></div>
+  <button class="btn-check" id="btn3" onclick="checkTF()">Check ✓</button>
+</div>
+
+<!-- SEC 4: MC -->
+<div class="section" id="s4">
+  <div class="stag">🔎 Activity 3 – Choose the correct sentence</div>
+  <h2>Which sentence is correct?</h2>
+  <div id="mc-container"></div>
+  <button class="btn-check" id="btn4" onclick="checkMC()">Check ✓</button>
+</div>
+
+<!-- SEC 5: Unscramble -->
+<div class="section" id="s5">
+  <div class="stag">🔀 Activity 4 – Unscramble</div>
+  <h2>Put the words in order</h2>
+  <div id="scr-container"></div>
+  <button class="btn-check" id="btn5" onclick="checkScramble()">Check ✓</button>
+</div>
+
+<!-- DONE -->
+<div class="section" id="s-done">
+  <div class="done-screen">
+    <div class="done-trophy">🏆</div>
+    <div class="done-title">Well done! 🎉</div>
+    <div class="done-sub">You completed Lesson 7!</div>
+    <div class="score-ring"><div class="score-pct" id="final-pct">—</div><div class="score-lbl">SCORE</div></div>
+    <div class="score-msg" id="final-msg"></div>
+    <button class="btn-dash" onclick="window.location.href='student-dashboard.html'">← Back to Dashboard</button>
+  </div>
+</div>
+</div>
+
+<script>
+const API='https://easyway-plataforma-production.up.railway.app/api';
+let results=[];
+
+const AAN=[
+  {pre:'I am',blank:'a',post:'teacher.'},
+  {pre:'She is',blank:'an',post:'engineer.'},
+  {pre:'He is',blank:'a',post:'doctor.'},
+  {pre:'I am',blank:'a',post:'nurse.'},
+  {pre:'She is',blank:'an',post:'architect.'},
+  {pre:'He is',blank:'a',post:'mechanic.'},
+  {pre:'I am',blank:'a',post:'lawyer.'},
+  {pre:'She is',blank:'an',post:'actress.'},
+  {pre:'He is',blank:'a',post:'chef.'},
+  {pre:'I am',blank:'a',post:'programmer.'}
+];
+function buildAaN(){
+  document.getElementById('aan-container').innerHTML=AAN.map((d,i)=>`
+    <div class="fill-line">${d.pre} <input class="blank" id="aa${i}" placeholder="a/an" autocomplete="off" style="width:50px"> ${d.post}</div>
+  `).join('');
+}
+function checkAaN(){
+  let c=0;
+  AAN.forEach((d,i)=>{
+    const inp=document.getElementById('aa'+i);
+    const val=inp.value.trim().toLowerCase();
+    const ok=val===d.blank;
+    inp.className='blank '+(ok?'ok':'ko');
+    inp.disabled=true;
+    if(!ok)inp.value=d.blank;
+    if(ok)c++;
+    results.push({correct:ok,question:`${d.pre} ___ ${d.post}`,student_answer:val,correct_answer:d.blank});
+  });
+  document.getElementById('btn2').disabled=true;
+  document.getElementById('btn2').textContent=`${c}/${AAN.length} correct!`;
+  setTimeout(()=>goTo(3),1600);
+}
+
+const TF=[
+  {stmt:'"I am teacher" is correct.',ans:false},
+  {stmt:'"I am a teacher" is correct.',ans:true},
+  {stmt:'"an engineer" is correct (vowel sound).',ans:true},
+  {stmt:'"a engineer" is correct.',ans:false},
+  {stmt:'"What do you do?" asks about your profession.',ans:true},
+  {stmt:'"I am doctor" is correct.',ans:false},
+  {stmt:'"I\'m a nurse" = Eu sou enfermeira.',ans:true},
+  {stmt:'"a architect" is correct.',ans:false}
+];
+let tfSel={};
+function buildTF(){
+  document.getElementById('tf-container').innerHTML=TF.map((d,i)=>`
+    <div class="tf-row">
+      <div class="tf-stmt">${i+1}. ${d.stmt}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tft${i}" onclick="selTF(${i},'T')">TRUE</button>
+        <button class="tf-btn" id="tff${i}" onclick="selTF(${i},'F')">FALSE</button>
+      </div>
+    </div>`).join('');
+}
+function selTF(i,v){
+  if(document.getElementById('tft'+i).disabled)return;
+  tfSel[i]=v;
+  document.getElementById('tft'+i).className='tf-btn'+(v==='T'?' sel-t':'');
+  document.getElementById('tff'+i).className='tf-btn'+(v==='F'?' sel-f':'');
+}
+function checkTF(){
+  let c=0;
+  TF.forEach((d,i)=>{
+    const ans=tfSel[i],correct=d.ans?'T':'F',ok=ans===correct;
+    if(ok)c++;
+    ['tft'+i,'tff'+i].forEach(id=>document.getElementById(id).disabled=true);
+    const tB=document.getElementById('tft'+i),fB=document.getElementById('tff'+i);
+    if(ok){(d.ans?tB:fB).className='tf-btn correct-final';}
+    else{(ans==='T'?tB:fB).className='tf-btn wrong-final';(d.ans?tB:fB).className='tf-btn correct-final';}
+    results.push({correct:ok,question:d.stmt,student_answer:ans||'—',correct_answer:correct});
+  });
+  document.getElementById('btn3').disabled=true;
+  document.getElementById('btn3').textContent=`${c}/${TF.length} correct!`;
+  setTimeout(()=>goTo(4),1600);
+}
+
+const MC=[
+  {q:'How do you say "Eu sou professora"?',opts:['I am teacher.','I is a teacher.','I am a teacher.','I are a teacher.'],correct:2},
+  {q:'"What do you do?" is asking about…',opts:['your name','your nationality','your profession','your age'],correct:2},
+  {q:'Which is correct?',opts:['She is an doctor.','She is a doctor.','She are a doctor.','She am a doctor.'],correct:1},
+  {q:'Which is correct?',opts:['He is a engineer.','He is an engineer.','He am an engineer.','He are engineer.'],correct:1},
+  {q:'How do you say "Eu trabalho em uma escola"?',opts:['I work at school.','I work in a school.','I work school.','I working in a school.'],correct:1},
+  {q:'Which is correct?',opts:['I am mechanic.','I are a mechanic.','I am a mechanic.','I is a mechanic.'],correct:2}
+];
+let mcSel={};
+function buildMC(){
+  document.getElementById('mc-container').innerHTML=MC.map((d,qi)=>`
+    <div class="q-block">
+      <div class="q-text">${qi+1}. ${d.q}</div>
+      <div class="opts">${d.opts.map((o,oi)=>`<button class="opt" id="mc${qi}_${oi}" onclick="selMC(${qi},${oi})">${o}</button>`).join('')}</div>
+      <div class="q-fb" id="mcfb${qi}"></div>
+    </div>`).join('');
+}
+function selMC(qi,oi){
+  if(document.getElementById(`mc${qi}_0`).disabled)return;
+  mcSel[qi]=oi;
+  MC[qi].opts.forEach((_,i)=>{document.getElementById(`mc${qi}_${i}`).style.background='';document.getElementById(`mc${qi}_${i}`).style.borderColor='';});
+  document.getElementById(`mc${qi}_${oi}`).style.background='#fff1f2';
+  document.getElementById(`mc${qi}_${oi}`).style.borderColor='var(--rose)';
+}
+function checkMC(){
+  let c=0;
+  MC.forEach((d,qi)=>{
+    const sel=mcSel[qi];
+    d.opts.forEach((_,oi)=>document.getElementById(`mc${qi}_${oi}`).disabled=true);
+    const fb=document.getElementById('mcfb'+qi);
+    if(sel===undefined){fb.textContent='⚠️ Not answered.';fb.className='q-fb show ko';results.push({correct:false,question:d.q,student_answer:'—',correct_answer:d.opts[d.correct]});return;}
+    const ok=sel===d.correct;
+    if(ok){c++;document.getElementById(`mc${qi}_${sel}`).className='opt correct';}
+    else{document.getElementById(`mc${qi}_${sel}`).className='opt wrong';document.getElementById(`mc${qi}_${d.correct}`).className='opt show-c';}
+    fb.textContent=ok?'✅ Correct!':'❌ Check the correct answer.';
+    fb.className='q-fb show '+(ok?'ok':'ko');
+    results.push({correct:ok,question:d.q,student_answer:d.opts[sel],correct_answer:d.opts[d.correct]});
+  });
+  document.getElementById('btn4').disabled=true;
+  document.getElementById('btn4').textContent=`${c}/${MC.length} correct!`;
+  setTimeout(()=>goTo(5),1600);
+}
+
+const SCR=[
+  {words:['I','am','a','teacher.'],answer:'I am a teacher.'},
+  {words:['She','is','an','engineer.'],answer:'She is an engineer.'},
+  {words:['What','do','you','do?'],answer:'What do you do?'},
+  {words:['I','work','in','a','school.'],answer:'I work in a school.'},
+  {words:['He','is','a','doctor','at','the','hospital.'],answer:'He is a doctor at the hospital.'},
+  {words:['I','am','a','nurse.','I','work','at','night.'],answer:'I am a nurse. I work at night.'}
+];
+function buildScramble(){
+  document.getElementById('scr-container').innerHTML=SCR.map((s,si)=>{
+    const sh=[...s.words].sort(()=>Math.random()-.5);
+    return `<div style="margin-bottom:1.2rem;">
+      <div style="font-size:.82rem;color:#94a3b8;font-weight:700;margin-bottom:.4rem;">Sentence ${si+1}</div>
+      <div class="word-bank" id="bank${si}">${sh.map((w,wi)=>`<span class="wchip" id="chip${si}_${wi}" data-si="${si}" data-wi="${wi}" data-w="${w}" onclick="placeW(this)">${w}</span>`).join('')}</div>
+      <div class="sent-build" id="bld${si}"></div>
+      <button style="font-size:.78rem;color:#94a3b8;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;" onclick="clearBld(${si})">↺ Reset</button>
+      <div class="scr-fb" id="sfb${si}"></div>
+    </div>`;
+  }).join('');
+}
+function placeW(chip){if(chip.classList.contains('used'))return;chip.classList.add('used');const bld=document.getElementById('bld'+chip.dataset.si);const pl=document.createElement('span');pl.className='placed';pl.textContent=chip.dataset.w;pl.dataset.si=chip.dataset.si;pl.dataset.chipId=chip.id;pl.onclick=function(){returnW(this);};bld.appendChild(pl);}
+function returnW(pl){document.getElementById(pl.dataset.chipId).classList.remove('used');pl.remove();}
+function clearBld(si){document.getElementById('bld'+si).querySelectorAll('.placed').forEach(p=>{document.getElementById(p.dataset.chipId).classList.remove('used');p.remove();});}
+function checkScramble(){
+  let c=0;
+  SCR.forEach((s,si)=>{
+    const ans=[...document.getElementById('bld'+si).querySelectorAll('.placed')].map(p=>p.textContent).join(' ');
+    const ok=ans.toLowerCase()===s.answer.toLowerCase();
+    const fb=document.getElementById('sfb'+si);
+    if(ok){c++;fb.textContent='✅ Perfect!';fb.className='scr-fb show';fb.style.color='var(--green)';}
+    else{fb.innerHTML=`❌ Correct: <em>${s.answer}</em>`;fb.className='scr-fb show';fb.style.color='var(--red)';}
+    results.push({correct:ok,question:'Unscramble: '+s.words.join(' '),student_answer:ans,correct_answer:s.answer});
+  });
+  document.getElementById('btn5').disabled=true;
+  document.getElementById('btn5').textContent=`${c}/${SCR.length} correct!`;
+  setTimeout(()=>showDone(),1800);
+}
+
+const TOTAL=5;
+function goTo(n){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s'+n).classList.add('active');
+  document.getElementById('pbar').style.width=(((n-1)/TOTAL)*100)+'%';
+  document.getElementById('pbar-lbl').textContent=`Section ${n} of ${TOTAL}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showDone(){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s-done').classList.add('active');
+  document.getElementById('pbar').style.width='100%';
+  document.getElementById('pbar-lbl').textContent='Completed! 🎉';
+  const total=results.length,correct=results.filter(r=>r.correct).length;
+  const pct=total?Math.round(correct/total*100):0;
+  document.getElementById('final-pct').textContent=pct+'%';
+  const msgs=[[90,'🌟 Excellent!'],[70,'👏 Great job!'],[50,'💪 Good effort!'],[0,'📖 Keep practicing!']];
+  document.getElementById('final-msg').textContent=msgs.find(([m])=>pct>=m)[1];
+  const token=localStorage.getItem('token');
+  if(token) fetch(`${API}/lessons/complete`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({lesson_id:'a1-lesson7-occupations',lesson_title:'A1 – Lesson 7: Work & Occupations',score:correct,max_score:total,answers:{questions:results}})}).catch(()=>{});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function flip(el){el.classList.toggle('flipped');const pt=el.querySelector('.vc-pt');pt.style.display=pt.style.display==='none'||pt.style.display===''?'block':'none';}
+buildAaN();buildTF();buildMC();buildScramble();
+</script>
+
+<script>
+const _ew_audio = {};
+function playAudio(text){
+  const b64 = _ew_audio[text];
+  if(!b64){console.warn('No audio for:',text);return;}
+  const a = new Audio('data:audio/mpeg;base64,'+b64);
+  a.play();
+}
+</script>
+</body>
+</html>

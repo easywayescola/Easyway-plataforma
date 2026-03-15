@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A1 – Lesson 1: Greetings | EasyWay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#3B7FD8;--red:#E63946;--green:#22c55e;--gold:#FFB300;--navy:#1e293b;--light:#EFF6FF;--purple:#7C3AED;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:#f8fafc;color:var(--navy);min-height:100vh;}
+  .lh{background:linear-gradient(135deg,#1d4ed8,#7C3AED);color:white;padding:1.2rem 1.5rem;}
+  .lh-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+  .lh-logo{font-weight:900;font-size:1.3rem;letter-spacing:-0.5px;}
+  .lh-info{text-align:right;}
+  .lh-title{font-weight:900;font-size:1rem;}
+  .lh-sub{font-size:.8rem;opacity:.85;}
+  .back-btn{background:rgba(255,255,255,.2);color:white;border:none;padding:.4rem .9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;text-decoration:none;display:inline-block;}
+  .pbar-wrap{max-width:780px;margin:.8rem auto 0;padding:0 1.5rem;}
+  .pbar{background:rgba(255,255,255,.25);height:7px;border-radius:4px;}
+  .pbar-fill{background:var(--gold);height:100%;border-radius:4px;transition:width .5s;}
+  .pbar-lbl{text-align:right;font-size:.75rem;opacity:.8;margin-top:.2rem;}
+  .main{max-width:780px;margin:0 auto;padding:1.5rem;}
+  .section{background:white;border-radius:18px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 2px 16px rgba(0,0,0,.06);display:none;}
+  .section.active{display:block;}
+  .stag{display:inline-block;background:var(--light);color:var(--blue);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;padding:.3rem .8rem;border-radius:50px;margin-bottom:.8rem;}
+  .section h2{font-size:1.15rem;color:var(--navy);margin-bottom:.8rem;}
+  .section p{color:#475569;line-height:1.7;margin-bottom:.7rem;font-size:.95rem;}
+  /* Vocab cards */
+  .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.7rem;margin:.5rem 0 1rem;}
+  .vc{background:var(--light);border-radius:12px;padding:.9rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;}
+  .vc:hover{border-color:var(--blue);}
+  .vc.flipped{background:#1d4ed8;color:white;}
+  .vc-en{font-weight:800;font-size:.95rem;}
+  .vc-pt{font-size:.8rem;color:#64748b;margin-top:.2rem;}
+  .vc.flipped .vc-pt{color:rgba(255,255,255,.85);}
+  /* Radio options */
+  .q-block{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid #f1f5f9;}
+  .q-block:last-child{border:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-weight:700;margin-bottom:.7rem;font-size:.97rem;}
+  .opts{display:flex;flex-direction:column;gap:.45rem;}
+  .opt{padding:.65rem 1rem;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:600;text-align:left;background:white;transition:all .2s;}
+  .opt:hover:not([disabled]){border-color:var(--blue);background:var(--light);}
+  .opt.correct{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .opt.wrong{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  .opt.show-c{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .q-fb{margin-top:.5rem;font-size:.88rem;font-weight:700;display:none;}
+  .q-fb.show{display:block;}
+  .q-fb.ok{color:var(--green);}
+  .q-fb.ko{color:var(--red);}
+  /* Fill blank */
+  .fill-line{font-size:1rem;line-height:2.8;margin-bottom:.3rem;}
+  .blank{border:none;border-bottom:2.5px solid var(--blue);background:transparent;font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:700;width:110px;text-align:center;outline:none;padding:.1rem .3rem;color:var(--navy);}
+  .blank.ok{border-bottom-color:var(--green);color:var(--green);}
+  .blank.ko{border-bottom-color:var(--red);color:var(--red);}
+  /* Match */
+  .match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.5rem 0;}
+  .match-col{display:flex;flex-direction:column;gap:.5rem;}
+  .match-item{padding:.6rem .9rem;border-radius:10px;font-weight:700;font-size:.88rem;cursor:pointer;border:2px solid #e2e8f0;background:white;transition:all .2s;text-align:center;}
+  .match-item.selected{border-color:var(--blue);background:var(--light);}
+  .match-item.matched{border-color:var(--green);background:#f0fdf4;color:#166534;cursor:default;}
+  .match-item.wrong-match{border-color:var(--red);background:#fef2f2;animation:shake .3s;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  /* Unscramble */
+  .word-bank{display:flex;flex-wrap:wrap;gap:.45rem;min-height:44px;background:#f8fafc;padding:.7rem;border-radius:10px;margin-bottom:.6rem;}
+  .wchip{background:white;border:2px solid var(--blue);color:var(--blue);padding:.3rem .75rem;border-radius:50px;cursor:pointer;font-weight:700;font-size:.88rem;user-select:none;transition:all .15s;}
+  .wchip:hover{background:var(--blue);color:white;}
+  .wchip.used{opacity:.3;pointer-events:none;}
+  .sent-build{min-height:44px;background:var(--light);border:2px dashed #cbd5e1;border-radius:10px;padding:.5rem .7rem;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem;}
+  .placed{background:var(--navy);color:white;padding:.3rem .75rem;border-radius:50px;cursor:pointer;font-weight:700;font-size:.88rem;}
+  .scr-fb{font-weight:700;font-size:.88rem;display:none;margin-top:.3rem;}
+  .scr-fb.show{display:block;}
+  /* Buttons */
+  .btn-check{background:var(--blue);color:white;border:none;padding:.75rem 1.8rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;cursor:pointer;transition:all .2s;margin-top:1rem;}
+  .btn-check:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(59,127,216,.35);}
+  .btn-check:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+  /* True/False */
+  .tf-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem;font-size:.93rem;}
+  .tf-stmt{flex:1;font-weight:600;}
+  .tf-btns{display:flex;gap:.4rem;}
+  .tf-btn{padding:.4rem .8rem;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;background:white;transition:all .2s;}
+  .tf-btn:hover:not([disabled]){border-color:var(--blue);}
+  .tf-btn.sel-t{border-color:var(--blue);background:var(--light);color:var(--blue);}
+  .tf-btn.sel-f{border-color:var(--red);background:#fef2f2;color:var(--red);}
+  .tf-btn.correct-final{border-color:var(--green)!important;background:#f0fdf4!important;color:#166534!important;}
+  .tf-btn.wrong-final{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important;}
+  /* Completion */
+  .done-screen{text-align:center;padding:2.5rem 1rem;}
+  .done-trophy{font-size:5rem;animation:bounce .6s;}
+  @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+  .done-title{font-size:1.9rem;font-weight:900;margin:.5rem 0 .3rem;}
+  .done-sub{color:#64748b;font-size:1rem;margin-bottom:1.5rem;}
+  .score-ring{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,var(--purple));color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 10px 30px rgba(29,78,216,.4);}
+  .score-pct{font-size:1.8rem;font-weight:900;line-height:1;}
+  .score-lbl{font-size:.7rem;opacity:.8;}
+  .score-msg{color:#64748b;margin-bottom:1.5rem;font-size:.97rem;}
+  .btn-dash{display:inline-block;background:var(--green);color:white;padding:.8rem 2rem;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;text-decoration:none;border:none;cursor:pointer;}
+  @media(max-width:580px){.main{padding:1rem;}.section{padding:1.2rem;}.match-wrap{grid-template-columns:1fr;}}
+
+.vc .audio-btn {
+  background:none;border:none;cursor:pointer;font-size:1rem;
+  padding:0 2px;vertical-align:middle;transition:transform 0.15s;display:inline;
+}
+.vc .audio-btn:hover{transform:scale(1.3);}
+</style>
+</head>
+<body>
+<div class="lh">
+  <div class="lh-inner">
+    <div>
+      <div class="lh-logo">✨ EasyWay</div>
+      <a href="student-dashboard.html" class="back-btn" style="margin-top:.4rem;display:inline-block;">← Dashboard</a>
+    </div>
+    <div class="lh-info">
+      <div class="lh-title">A1 – Lesson 1</div>
+      <div class="lh-sub">Greetings & Introductions 👋</div>
+    </div>
+  </div>
+  <div class="pbar-wrap">
+    <div class="pbar"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="pbar-lbl" id="pbar-lbl">Section 1 of 5</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- SEC 1: Vocabulary -->
+<div class="section active" id="s1">
+  <div class="stag">📚 Vocabulary</div>
+  <h2>Click the cards to see the translation!</h2>
+  <div class="vocab-grid">
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Hello / Hi<button class="audio-btn" onclick="event.stopPropagation();playAudio('Hello   Hi')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Olá / Oi</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Good morning<button class="audio-btn" onclick="event.stopPropagation();playAudio('Good morning')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Bom dia</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Good afternoon<button class="audio-btn" onclick="event.stopPropagation();playAudio('Good afternoon')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Boa tarde</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Good evening<button class="audio-btn" onclick="event.stopPropagation();playAudio('Good evening')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Boa noite (chegada)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Good night<button class="audio-btn" onclick="event.stopPropagation();playAudio('Good night')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Boa noite (dormir)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Nice to meet you<button class="audio-btn" onclick="event.stopPropagation();playAudio('Nice to meet you')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Prazer em te conhecer</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">How are you?<button class="audio-btn" onclick="event.stopPropagation();playAudio('How are you?')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Como você está?</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">I am fine<button class="audio-btn" onclick="event.stopPropagation();playAudio('I am fine')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Eu estou bem</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">See you later<button class="audio-btn" onclick="event.stopPropagation();playAudio('See you later')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Até mais</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">Goodbye / Bye<button class="audio-btn" onclick="event.stopPropagation();playAudio('Goodbye   Bye')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Tchau / Adeus</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">This / That<button class="audio-btn" onclick="event.stopPropagation();playAudio('This   That')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Este(a) / Aquele(a)</div></div>
+    <div class="vc" onclick="flip(this)"><div class="vc-en">My name is…<button class="audio-btn" onclick="event.stopPropagation();playAudio('My name is…')" type="button"> 🔊</button></div><div class="vc-pt" style="display:none">Meu nome é…</div></div>
+  </div>
+  <button class="btn-check" onclick="goTo(2)">Next →</button>
+</div>
+
+<!-- SEC 2: AM or ARE -->
+<div class="section" id="s2">
+  <div class="stag">✏️ Activity 1 – AM or ARE</div>
+  <h2>Complete with <strong>am</strong> or <strong>are</strong></h2>
+  <div id="am-are-container"></div>
+  <button class="btn-check" id="btn2" onclick="checkAmAre()">Check ✓</button>
+</div>
+
+<!-- SEC 3: True or False -->
+<div class="section" id="s3">
+  <div class="stag">✅ Activity 2 – True or False</div>
+  <h2>Read and choose True or False</h2>
+  <div id="tf-container"></div>
+  <button class="btn-check" id="btn3" onclick="checkTF()">Check ✓</button>
+</div>
+
+<!-- SEC 4: Unscramble -->
+<div class="section" id="s4">
+  <div class="stag">🔀 Activity 3 – Unscramble</div>
+  <h2>Put the words in order to make a sentence</h2>
+  <div id="scr-container"></div>
+  <button class="btn-check" id="btn4" onclick="checkScramble()">Check ✓</button>
+</div>
+
+<!-- SEC 5: Dialogue Order (Multiple Choice) -->
+<div class="section" id="s5">
+  <div class="stag">💬 Activity 4 – Translate</div>
+  <h2>Choose the correct translation</h2>
+  <div id="trans-container"></div>
+  <button class="btn-check" id="btn5" onclick="checkTrans()">Check ✓</button>
+</div>
+
+<!-- DONE -->
+<div class="section" id="s-done">
+  <div class="done-screen">
+    <div class="done-trophy">🏆</div>
+    <div class="done-title">Well done! 🎉</div>
+    <div class="done-sub">You have completed the lesson!</div>
+    <div class="score-ring"><div class="score-pct" id="final-pct">—</div><div class="score-lbl">SCORE</div></div>
+    <div class="score-msg" id="final-msg"></div>
+    <button class="btn-dash" onclick="window.location.href='student-dashboard.html'">← Back to Dashboard</button>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+const API = 'https://easyway-plataforma-production.up.railway.app/api';
+let results = [];
+let curSec = 1;
+const TOTAL_SECS = 5;
+
+// ── AM / ARE ─────────────────────────────────────────────────────────────────
+const AA_DATA = [
+  { pre:'I', blank:'am', post:'from Brazil.' },
+  { pre:'You', blank:'are', post:'my friend.' },
+  { pre:'I', blank:'am', post:'Maria.' },
+  { pre:'You', blank:'are', post:'fine, thank you.' },
+  { pre:'I', blank:'am', post:'happy today.' },
+  { pre:'You', blank:'are', post:'a student.' },
+  { pre:'I', blank:'am', post:'great!' },
+  { pre:'You', blank:'are', post:'very nice.' }
+];
+function buildAmAre() {
+  document.getElementById('am-are-container').innerHTML = AA_DATA.map((d,i)=>`
+    <div class="fill-line">${d.pre} <input class="blank" id="aa${i}" placeholder="am/are" autocomplete="off"> ${d.post}</div>
+  `).join('');
+}
+function checkAmAre() {
+  let c=0;
+  AA_DATA.forEach((d,i)=>{
+    const inp=document.getElementById('aa'+i);
+    const val=inp.value.trim().toLowerCase();
+    const ok=val===d.blank;
+    inp.className='blank '+(ok?'ok':'ko');
+    inp.disabled=true;
+    if(!ok) inp.value=d.blank;
+    if(ok)c++;
+    results.push({correct:ok,question:`${d.pre} ___ ${d.post}`,student_answer:val,correct_answer:d.blank});
+  });
+  document.getElementById('btn2').disabled=true;
+  document.getElementById('btn2').textContent=`${c}/${AA_DATA.length} correct!`;
+  setTimeout(()=>goTo(3),1600);
+}
+
+// ── TRUE / FALSE ──────────────────────────────────────────────────────────────
+const TF_DATA = [
+  { stmt:'"Good night" means Good evening (chegada à noite).', ans:false },
+  { stmt:'"My name is Ana" is correct English.', ans:true },
+  { stmt:'"Nice to meet you" is a fixed expression.', ans:true },
+  { stmt:'"You are" means "Você é/está".', ans:true },
+  { stmt:'"Goodbye" means "Bom dia".', ans:false },
+  { stmt:'"I am fine" is a correct sentence.', ans:true },
+  { stmt:'"Hi" and "Hello" are both greetings.', ans:true },
+  { stmt:'"That" means "este / esta" (near you).', ans:false }
+];
+let tfSel={};
+function buildTF(){
+  document.getElementById('tf-container').innerHTML=TF_DATA.map((d,i)=>`
+    <div class="tf-row">
+      <div class="tf-stmt">${i+1}. ${d.stmt}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tft${i}" onclick="selTF(${i},'T')">TRUE</button>
+        <button class="tf-btn" id="tff${i}" onclick="selTF(${i},'F')">FALSE</button>
+      </div>
+    </div>`).join('');
+}
+function selTF(i,v){
+  if(document.getElementById('tft'+i).disabled)return;
+  tfSel[i]=v;
+  document.getElementById('tft'+i).className='tf-btn'+(v==='T'?' sel-t':'');
+  document.getElementById('tff'+i).className='tf-btn'+(v==='F'?' sel-f':'');
+}
+function checkTF(){
+  let c=0;
+  TF_DATA.forEach((d,i)=>{
+    const ans=tfSel[i];
+    const correct=d.ans?'T':'F';
+    const ok=ans===correct;
+    if(ok)c++;
+    ['tft'+i,'tff'+i].forEach(id=>{ const b=document.getElementById(id); b.disabled=true; });
+    const tBtn=document.getElementById('tft'+i);
+    const fBtn=document.getElementById('tff'+i);
+    if(ok){ (d.ans?tBtn:fBtn).className='tf-btn correct-final'; }
+    else {
+      (ans==='T'?tBtn:fBtn).className='tf-btn wrong-final';
+      (d.ans?tBtn:fBtn).className='tf-btn correct-final';
+    }
+    results.push({correct:ok,question:d.stmt,student_answer:ans||'—',correct_answer:correct});
+  });
+  document.getElementById('btn3').disabled=true;
+  document.getElementById('btn3').textContent=`${c}/${TF_DATA.length} correct!`;
+  setTimeout(()=>goTo(4),1600);
+}
+
+// ── UNSCRAMBLE ────────────────────────────────────────────────────────────────
+const SCR_DATA = [
+  { words:["What's","your","name?"], answer:"What's your name?" },
+  { words:["I","am","Ana!"], answer:"I am Ana!" },
+  { words:["Nice","to","meet","you!"], answer:"Nice to meet you!" },
+  { words:["This","is","my","friend","John."], answer:"This is my friend John." },
+  { words:["How","are","you","today?"], answer:"How are you today?" },
+  { words:["I","am","fine,","thanks!"], answer:"I am fine, thanks!" }
+];
+let scrPlaced={};
+function buildScramble(){
+  document.getElementById('scr-container').innerHTML=SCR_DATA.map((s,si)=>{
+    const shuffled=[...s.words].sort(()=>Math.random()-.5);
+    return `<div style="margin-bottom:1.2rem;">
+      <div style="font-size:.82rem;color:#94a3b8;font-weight:700;margin-bottom:.4rem;">Sentence ${si+1}</div>
+      <div class="word-bank" id="bank${si}">${shuffled.map((w,wi)=>
+        `<span class="wchip" id="chip${si}_${wi}" data-si="${si}" data-wi="${wi}" data-w="${w}" onclick="placeW(this)">${w}</span>`
+      ).join('')}</div>
+      <div class="sent-build" id="bld${si}"></div>
+      <button style="font-size:.78rem;color:#94a3b8;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;" onclick="clearBld(${si})">↺ Reset</button>
+      <div class="scr-fb" id="sfb${si}"></div>
+    </div>`;
+  }).join('');
+  scrPlaced=SCR_DATA.map(()=>[]);
+}
+function placeW(chip){
+  if(chip.classList.contains('used'))return;
+  const si=chip.dataset.si, wi=chip.dataset.wi, w=chip.dataset.w;
+  chip.classList.add('used');
+  const bld=document.getElementById('bld'+si);
+  const pl=document.createElement('span');
+  pl.className='placed'; pl.textContent=w;
+  pl.dataset.si=si; pl.dataset.wi=wi; pl.dataset.chipId=chip.id;
+  pl.onclick=function(){returnW(this);};
+  bld.appendChild(pl);
+}
+function returnW(pl){
+  document.getElementById(pl.dataset.chipId).classList.remove('used');
+  pl.remove();
+}
+function clearBld(si){
+  document.getElementById('bld'+si).querySelectorAll('.placed').forEach(p=>{
+    document.getElementById(p.dataset.chipId).classList.remove('used');
+    p.remove();
+  });
+}
+function checkScramble(){
+  let c=0;
+  SCR_DATA.forEach((s,si)=>{
+    const bld=document.getElementById('bld'+si);
+    const ans=[...bld.querySelectorAll('.placed')].map(p=>p.textContent).join(' ');
+    const ok=ans.toLowerCase()===s.answer.toLowerCase();
+    const fb=document.getElementById('sfb'+si);
+    if(ok){c++;fb.textContent='✅ Perfect!';fb.className='scr-fb show';fb.style.color='var(--green)';}
+    else{fb.innerHTML=`❌ Correct: <em>${s.answer}</em>`;fb.className='scr-fb show';fb.style.color='var(--red)';}
+    results.push({correct:ok,question:'Unscramble: '+s.words.join(' '),student_answer:ans,correct_answer:s.answer});
+  });
+  document.getElementById('btn4').disabled=true;
+  document.getElementById('btn4').textContent=`${c}/${SCR_DATA.length} correct!`;
+  setTimeout(()=>goTo(5),1800);
+}
+
+// ── TRANSLATE (MC) ────────────────────────────────────────────────────────────
+const TRANS_DATA = [
+  { q:'Hello! Good morning!', opts:['Tchau! Boa noite!','Olá! Bom dia!','Boa tarde! Até mais!','Oi! Boa tarde!'], correct:1 },
+  { q:'My name is Ana.', opts:['My name are Ana.','Her name is Ana.','Meu nome é Ana.','I name is Ana.'], correct:2 },
+  { q:'Nice to meet you!', opts:['Nice to see you!','Prazer em te conhecer!','See you later!','Good to meet!'], correct:1 },
+  { q:'How are you today?', opts:['Como você está hoje?','O que você faz hoje?','Onde você está?','Quem é você?'], correct:0 },
+  { q:'I am fine, thank you!', opts:['I am happy, thanks!','Eu estou bem, obrigado!','Eu sou Ana!','I fine am!'], correct:1 },
+  { q:'This is my friend, John.', opts:['That is my friend.','Este é meu amigo, João.','He is my brother.','Here is John.'], correct:1 }
+];
+let transSel={};
+function buildTrans(){
+  document.getElementById('trans-container').innerHTML=TRANS_DATA.map((d,qi)=>`
+    <div class="q-block">
+      <div class="q-text">${qi+1}. "${d.q}"</div>
+      <div class="opts">${d.opts.map((o,oi)=>`
+        <button class="opt" id="to${qi}_${oi}" onclick="selTrans(${qi},${oi})">${o}</button>
+      `).join('')}</div>
+      <div class="q-fb" id="tfb${qi}"></div>
+    </div>`).join('');
+}
+function selTrans(qi,oi){
+  if(document.getElementById(`to${qi}_0`).disabled)return;
+  transSel[qi]=oi;
+  TRANS_DATA[qi].opts.forEach((_,i)=>{
+    document.getElementById(`to${qi}_${i}`).style.background='';
+    document.getElementById(`to${qi}_${i}`).style.borderColor='';
+  });
+  document.getElementById(`to${qi}_${oi}`).style.background='var(--light)';
+  document.getElementById(`to${qi}_${oi}`).style.borderColor='var(--blue)';
+}
+function checkTrans(){
+  let c=0;
+  TRANS_DATA.forEach((d,qi)=>{
+    const sel=transSel[qi];
+    const fb=document.getElementById('tfb'+qi);
+    d.opts.forEach((_,oi)=>document.getElementById(`to${qi}_${oi}`).disabled=true);
+    if(sel===null||sel===undefined){
+      fb.textContent="⚠️ You didn't answer."; fb.className='q-fb show ko';
+      results.push({correct:false,question:d.q,student_answer:'—',correct_answer:d.opts[d.correct]});
+      return;
+    }
+    const ok=sel===d.correct;
+    if(ok){c++;document.getElementById(`to${qi}_${sel}`).className='opt correct';}
+    else{
+      document.getElementById(`to${qi}_${sel}`).className='opt wrong';
+      document.getElementById(`to${qi}_${d.correct}`).className='opt show-c';
+    }
+    fb.textContent=ok?'✅ Correct!':'❌ Check the correct answer above.';
+    fb.className='q-fb show '+(ok?'ok':'ko');
+    results.push({correct:ok,question:d.q,student_answer:d.opts[sel],correct_answer:d.opts[d.correct]});
+  });
+  document.getElementById('btn5').disabled=true;
+  document.getElementById('btn5').textContent=`${c}/${TRANS_DATA.length} correct!`;
+  setTimeout(()=>showDone(),1800);
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function goTo(n){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s'+n).classList.add('active');
+  curSec=n;
+  const pct=((n-1)/TOTAL_SECS)*100;
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('pbar-lbl').textContent=`Section ${n} of ${TOTAL_SECS}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showDone(){
+  document.querySelector('.section.active').classList.remove('active');
+  document.getElementById('s-done').classList.add('active');
+  document.getElementById('pbar').style.width='100%';
+  document.getElementById('pbar-lbl').textContent='Completed! 🎉';
+  const total=results.length, correct=results.filter(r=>r.correct).length;
+  const pct=total?Math.round(correct/total*100):0;
+  document.getElementById('final-pct').textContent=pct+'%';
+  const msgs=[
+    [90,'🌟 Excellent! Outstanding performance!'],
+    [70,'👏 Great job! Keep it up!'],
+    [50,'💪 Good effort! Review the wrong answers.'],
+    [0,'📖 Keep practicing — you\'re getting there!']
+  ];
+  document.getElementById('final-msg').textContent=msgs.find(([min])=>pct>=min)[1];
+  // Save
+  const token=localStorage.getItem('token');
+  if(token){
+    fetch(`${API}/lessons/complete`,{method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({lesson_id:'a1-lesson1-greetings',lesson_title:'A1 – Lesson 1: Greetings',score:correct,max_score:total,answers:{questions:results}})
+    }).catch(()=>{});
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function flip(el){
+  el.classList.toggle('flipped');
+  const pt=el.querySelector('.vc-pt');
+  pt.style.display=pt.style.display==='none'?'block':'none';
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildAmAre();
+buildTF();
+buildScramble();
+buildTrans();
+document.getElementById('pbar-lbl').textContent='Section 1 of '+TOTAL_SECS;
+</script>
+
+<script>
+const _ew_audio = {};
+function playAudio(text){
+  const b64 = _ew_audio[text];
+  if(!b64){console.warn('No audio for:',text);return;}
+  const a = new Audio('data:audio/mpeg;base64,'+b64);
+  a.play();
+}
+</script>
+</body>
+</html>
