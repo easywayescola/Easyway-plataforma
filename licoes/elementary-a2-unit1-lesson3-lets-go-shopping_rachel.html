@@ -465,9 +465,10 @@
     });
   }, 100);
 
-  // TTS using Web Speech API
+  // TTS using ElevenLabs API
   let currentAudio = null, storyPlaying = false, storySpd = 0.9;
-  const synth = window.speechSynthesis;
+  const EL_API_KEY = 'sk_0c50353e8a56d753ff903083032a1c963be64125afc7fffd';
+  const EL_VOICE_ID = '21m00Tcm4TlvDq8ikWAM'; // Rachel
   
   function speakEL(text, lang, onEnd) {
     if(synth.speaking) synth.cancel();
