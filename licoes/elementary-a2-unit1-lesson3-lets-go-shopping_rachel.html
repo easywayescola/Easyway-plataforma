@@ -465,17 +465,18 @@
     });
   }, 100);
 
-  // TTS
+  // TTS using Web Speech API
   let currentAudio = null, storyPlaying = false, storySpd = 0.9;
+  const synth = window.speechSynthesis;
+  
   function speakEL(text, lang, onEnd) {
-    if(currentAudio) { currentAudio.pause(); currentAudio = null; }
-    const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=' + (lang||'en-US') + '&client=tw-ob&q=' + encodeURIComponent(text);
-    const audio = new Audio(url);
-    audio.playbackRate = storySpd;
-    currentAudio = audio;
-    if(onEnd) audio.onended = onEnd;
-    audio.onerror = () => { if(onEnd) onEnd(); };
-    audio.play().catch(()=>{ if(onEnd) onEnd(); });
+    if(synth.speaking) synth.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang || 'en-US';
+    utterance.rate = storySpd;
+    utterance.onend = onEnd;
+    utterance.onerror = onEnd;
+    synth.speak(utterance);
   }
   function speak(t) { speakEL(t, 'en-US'); }
   function speakPT(t) { speakEL(t, 'pt-BR'); }
