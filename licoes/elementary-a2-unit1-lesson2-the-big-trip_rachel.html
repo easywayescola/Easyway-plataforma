@@ -490,7 +490,7 @@
     const el = document.getElementById(id);
     if(el) { el.style.background='rgba(41,182,246,0.15)'; el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
   }
-  function spk(i) {
+  async function spk(i) {
     if(!storyPlaying) return;
     if(i >= paras.length) {
       storyPlaying=false; document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
@@ -498,7 +498,7 @@
       document.getElementById('storyPlayBtn').classList.remove('active'); return;
     }
     hl(paras[i].id);
-    speakEL(paras[i].t, 'en-US', () => { if(storyPlaying) spk(i+1); });
+    await speakEL(paras[i].t, 'en-US', () => { if(storyPlaying) spk(i+1); });
   }
   function toggleStory() {
     if(storyPlaying) {
