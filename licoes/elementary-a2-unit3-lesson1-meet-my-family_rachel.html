@@ -435,14 +435,23 @@
   }, 100);
 
   let currentAudio=null, storyPlaying=false, storySpd=0.9;
-  function speakEL(text,lang,onEnd){
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
-    const url='https://translate.google.com/translate_tts?ie=UTF-8&tl='+(lang||'en-US')+'&client=tw-ob&q='+encodeURIComponent(text);
-    const audio=new Audio(url);
-    audio.playbackRate=storySpd;currentAudio=audio;
-    if(onEnd)audio.onended=onEnd;
-    audio.onerror=()=>{if(onEnd)onEnd();};
-    audio.play().catch(()=>{if(onEnd)onEnd();});
+  const EL_API_KEY='sk_0c50353e8a56d753ff903083032a1c963be64125afc7fffd';
+  const EL_VOICE_ID='21m00Tcm4TlvDq8ikWAM';
+  async function speakEL(text,lang,onEnd){
+    try{
+      const response=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EL_VOICE_ID}`,{
+        method:'POST',
+        headers:{'xi-api-key':EL_API_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({text:text,model_id:'eleven_turbo_v2_5',voice_settings:{stability:0.5,similarity_boost:0.75}})
+      });
+      const audioBlob=await response.blob();
+      const audioUrl=URL.createObjectURL(audioBlob);
+      if(currentAudio)currentAudio.pause();
+      currentAudio=new Audio(audioUrl);
+      currentAudio.onended=onEnd;
+      currentAudio.onerror=onEnd;
+      currentAudio.play().catch(onEnd);
+    }catch(e){console.error('TTS error:',e);if(onEnd)onEnd();}
   }
   function speak(t){speakEL(t,'en-US');}
   function speakPT(t){speakEL(t,'pt-BR');}
@@ -464,7 +473,7 @@
     const el=document.getElementById(id);
     if(el){el.style.background='rgba(255,138,101,0.18)';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
   }
-  function spk(i){
+  async function spk(i){
     if(!storyPlaying)return;
     if(i>=paras.length){
       storyPlaying=false;document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
@@ -472,7 +481,7 @@
       document.getElementById('storyPlayBtn').classList.remove('active');return;
     }
     hl(paras[i].id);
-    speakEL(paras[i].t,'en-US',()=>{if(storyPlaying)spk(i+1);});
+    await speakEL(paras[i].t,'en-US',()=>{if(storyPlaying)spk(i+1);});
   }
   function toggleStory(){
     if(storyPlaying){
