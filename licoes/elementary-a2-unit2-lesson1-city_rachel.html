@@ -345,16 +345,31 @@
 
   // TTS
   let currentAudio = null, storyPlaying = false, storySpeed = 0.9;
+  const EL_API_KEY = 'sk_0c50353e8a56d753ff903083032a1c963be64125afc7fffd';
+  const EL_VOICE_ID = '21m00Tcm4TlvDq8ikWAM';
 
-  function speakEL(text, onEnd) {
-    if(currentAudio) { currentAudio.pause(); currentAudio = null; }
-    const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=' + encodeURIComponent(text);
-    const audio = new Audio(url);
-    audio.playbackRate = storySpeed;
-    currentAudio = audio;
-    if(onEnd) audio.onended = onEnd;
-    audio.onerror = () => { if(onEnd) onEnd(); };
-    audio.play().catch(() => { if(onEnd) onEnd(); });
+  async function speakEL(text, onEnd) {
+    try {
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EL_VOICE_ID}`, {
+        method: 'POST',
+        headers: {
+          'xi-api-key': EL_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: text,
+          model_id: 'eleven_turbo_v2_5',
+          voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+        })
+      });
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      if(currentAudio) currentAudio.pause();
+      currentAudio = new Audio(audioUrl);
+      currentAudio.onended = onEnd;
+      currentAudio.onerror = onEnd;
+      currentAudio.play().catch(onEnd);
+    } catch(e) { console.error('TTS error:', e); if(onEnd) onEnd(); }
   }
 
   function speak(text) { speakEL(text); }
@@ -385,7 +400,7 @@
 
   function clearHighlight() { document.querySelectorAll('.story-card p').forEach(p => p.style.background = ''); }
 
-  function speakParagraph(index) {
+  async function speakParagraph(index) {
     if(!storyPlaying) return;
     if(index >= storyParas.length) {
       storyPlaying = false; clearHighlight();
@@ -395,7 +410,7 @@
       return;
     }
     highlightPara(storyParas[index].id);
-    speakEL(storyParas[index].text, () => { if(storyPlaying) speakParagraph(index + 1); });
+    await speakEL(storyParas[index].text, () => { if(storyPlaying) speakParagraph(index + 1); });
   }
 
   function toggleStory() {
