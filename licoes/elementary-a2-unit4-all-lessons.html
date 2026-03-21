@@ -937,12 +937,7 @@ function showLesson(n) {
   document.querySelector('.tab-btn[data-lesson="' + n + '"]').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-const synth = window.speechSynthesis;
-let currentBtn = null;
-function getEnVoice() {
-  const voices = synth.getVoices();
-  return voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en')) || voices[0];
-}
+let currentAudio = null, currentBtn = null;
 function getTextToSpeak(btn) {
   const v = btn.closest('.vocab-card');
   if (v) return v.querySelector('.vocab-en')?.textContent?.trim() || '';
@@ -955,19 +950,20 @@ function getTextToSpeak(btn) {
   return '';
 }
 function stopSpeech() {
-  synth.cancel();
-  if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; currentBtn = null; }
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = '🔊'; currentBtn = null; }
 }
 function playAudio(btn) {
   if (currentBtn === btn) { stopSpeech(); return; }
   stopSpeech();
   const text = getTextToSpeak(btn);
   if (!text) return;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.voice = getEnVoice(); utter.lang = 'en-US'; utter.rate = 0.88; utter.pitch = 1.05;
-  btn.classList.add('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>⏹'; currentBtn = btn;
-  utter.onend = utter.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; if (currentBtn === btn) currentBtn = null; };
-  if (synth.getVoices().length === 0) { synth.addEventListener('voiceschanged', () => synth.speak(utter), { once: true }); } else { synth.speak(utter); }
+  const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=' + encodeURIComponent(text);
+  const audio = new Audio(url);
+  currentAudio = audio;
+  btn.classList.add('playing'); btn.innerHTML = '⏹'; currentBtn = btn;
+  audio.onended = audio.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; };
+  audio.play().catch(() => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
 }
 function checkBlanks(btn) {
   const card = btn.closest('.section-body');
