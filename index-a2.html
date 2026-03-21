@@ -1,271 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EasyWay – A2 Elementary Activities</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<title>EasyWay - Elementary A2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --orange: #E87722;
-    --dark: #1a1a2e;
-    --card-bg: #ffffff;
-    --text: #2d2d2d;
-    --soft: #fff8f0;
-    --teal: #0d7377;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--soft);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  header {
-    background: linear-gradient(135deg, #0d7377 0%, #14a085 100%);
-    padding: 2rem 1.5rem 3rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  header::before {
-    content: '';
-    position: absolute;
-    top: -50px; left: -50px;
-    width: 200px; height: 200px;
-    background: var(--gold);
-    border-radius: 50%;
-    opacity: 0.15;
-  }
-
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; right: -30px;
-    width: 250px; height: 250px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.05;
-  }
-
-  .logo-text {
-    font-family: 'Pacifico', cursive;
-    font-size: 2rem;
-    color: var(--gold);
-    margin-bottom: 0.3rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .school-sub {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
-  }
-
-  .level-badge {
-    display: inline-block;
-    margin-top: 1.5rem;
-    background: rgba(255,255,255,0.2);
-    border: 2px solid var(--gold);
-    color: var(--gold);
-    font-size: 1rem;
-    font-weight: 800;
-    padding: 0.5rem 1.8rem;
-    border-radius: 50px;
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .wave {
-    display: block;
-    width: 100%;
-    margin-top: -1px;
-  }
-
-  main {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 1.5rem 1.2rem 3rem;
-  }
-
-  .unit-title {
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin: 2rem 0 0.8rem;
-    padding-left: 0.5rem;
-    border-left: 3px solid var(--teal);
-  }
-
-  .lesson-grid {
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .lesson-card {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 1rem 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    color: var(--text);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1.5px solid transparent;
-  }
-
-  .lesson-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(13,115,119,0.15);
-    border-color: var(--teal);
-  }
-
-  .lesson-num {
-    min-width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--teal), #14a085);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 900;
-    font-size: 0.85rem;
-  }
-
-  .lesson-info { flex: 1; }
-
-  .lesson-name {
-    font-weight: 700;
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  .lesson-tag {
-    font-size: 0.72rem;
-    color: #999;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .arrow {
-    color: var(--teal);
-    font-size: 1.2rem;
-    opacity: 0.6;
-  }
-
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: #aaa;
-    font-size: 0.8rem;
-  }
-
-  footer span { color: var(--teal); font-weight: 700; }
+  :root{--navy:#001A33;--blue:#29B6F6;--gold:#FFB300;--green:#26C281;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:#F4F7FA;min-height:100vh;color:var(--navy);}
+  .topbar{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+  .topbar-logo{font-size:1.6rem;font-weight:900;color:white;}
+  .topbar-logo span{color:var(--gold);}
+  .main{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+  h1{font-size:1.8rem;margin-bottom:0.5rem;}
+  .subtitle{color:#888;margin-bottom:2rem;}
+  .section{margin-bottom:2.5rem;}
+  .section-title{font-size:1.1rem;font-weight:900;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:3px solid var(--green);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
+  .card{background:white;border-radius:16px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,26,51,0.08);text-decoration:none;color:var(--navy);transition:all 0.2s;display:flex;flex-direction:column;gap:0.5rem;border-left:4px solid var(--green);}
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,26,51,0.15);}
+  .card-unit{font-size:0.75rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;}
+  .card-title{font-size:1rem;font-weight:800;}
+  .badge{font-size:0.8rem;font-weight:700;color:white;padding:0.2rem 0.6rem;border-radius:50px;align-self:flex-start;background:var(--green);}
+  .arrow{color:var(--green);font-size:1.2rem;margin-top:0.3rem;}
+  @media(max-width:600px){.main{padding:1rem;}.cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+<div class="topbar">
+  <div class="topbar-logo">Easy<span>Way</span></div>
+  <a href="atividades.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-weight:700;font-size:0.9rem;">&larr; Voltar</a>
+</div>
+<div class="main">
+  <h1>Elementary A2</h1>
+  <p class="subtitle">Escolha sua unidade e comece a praticar!</p>
 
-<header>
-  <div class="logo-text">EasyWay</div>
-  <div class="school-sub">Escola de Idiomas</div>
-  <div class="level-badge">🌟 A2 — Elementary</div>
-</header>
-
-<svg class="wave" viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#fff8f0" d="M0,20 C360,40 1080,0 1440,20 L1440,40 L0,40 Z"/>
-</svg>
-
-<main>
-
-  <div class="unit-title">Unit 1 — Everyday Life</div>
-  <div class="lesson-grid">
-    <a class="lesson-card" href="licoes/elementary-a2-unit1-lesson1-daily-routine_rachel.html" target="_blank">
-      <div class="lesson-num">L1</div>
-      <div class="lesson-info">
-        <div class="lesson-name">Daily Routine</div>
-        <div class="lesson-tag">Unit 1 · Lesson 1</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
-    <a class="lesson-card" href="licoes/elementary-a2-unit1-lesson2-movie-night_rachel.html" target="_blank">
-      <div class="lesson-num">L2</div>
-      <div class="lesson-info">
-        <div class="lesson-name">Movie Night</div>
-        <div class="lesson-tag">Unit 1 · Lesson 2</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
-    <a class="lesson-card" href="licoes/elementary-a2-unit1-lesson2-the-big-trip_rachel.html" target="_blank">
-      <div class="lesson-num">L2b</div>
-      <div class="lesson-info">
-        <div class="lesson-name">The Big Trip</div>
-        <div class="lesson-tag">Unit 1 · Lesson 2b</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
-    <a class="lesson-card" href="licoes/elementary-a2-unit1-lesson3-lets-go-shopping_rachel.html" target="_blank">
-      <div class="lesson-num">L3</div>
-      <div class="lesson-info">
-        <div class="lesson-name">Let's Go Shopping</div>
-        <div class="lesson-tag">Unit 1 · Lesson 3</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
+  <div class="section">
+    <div class="section-title">Unit 1 - Everyday Life</div>
+    <div class="cards">
+      <a href="licoes/elementary-a2-unit1-lesson1-daily-routine_rachel.html" class="card">
+        <div class="card-unit">Lesson 1</div>
+        <div class="card-title">Daily Routines</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit1-lesson2-movie-night_rachel.html" class="card">
+        <div class="card-unit">Lesson 2</div>
+        <div class="card-title">Movie Night</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit1-lesson2-the-big-trip_rachel.html" class="card">
+        <div class="card-unit">Lesson 2B</div>
+        <div class="card-title">The Big Trip</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit1-lesson3-food-adventure_rachel.html" class="card">
+        <div class="card-unit">Lesson 3</div>
+        <div class="card-title">Food Adventure</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+    </div>
   </div>
 
-  <div class="unit-title">Unit 2 — Around Town</div>
-  <div class="lesson-grid">
-    <a class="lesson-card" href="licoes/elementary-a2-unit2-lesson1-city_rachel.html" target="_blank">
-      <div class="lesson-num">L1</div>
-      <div class="lesson-info">
-        <div class="lesson-name">City Life</div>
-        <div class="lesson-tag">Unit 2 · Lesson 1</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
-    <a class="lesson-card" href="licoes/elementary-a2-unit2-lesson4-lets-review_rachel.html" target="_blank">
-      <div class="lesson-num">R2</div>
-      <div class="lesson-info">
-        <div class="lesson-name">Let's Review</div>
-        <div class="lesson-tag">Unit 2 · Review</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
+  <div class="section">
+    <div class="section-title">Unit 2 - Out & About</div>
+    <div class="cards">
+      <a href="licoes/elementary-a2-unit2-lesson1-city-explorer_rachel.html" class="card">
+        <div class="card-unit">Lesson 1</div>
+        <div class="card-title">City Explorer</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit2-lesson2-lets-go-shopping_rachel.html" class="card">
+        <div class="card-unit">Lesson 2</div>
+        <div class="card-title">Let's Go Shopping!</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit2-lesson3-the-big-trip_rachel.html" class="card">
+        <div class="card-unit">Lesson 3</div>
+        <div class="card-title">The Big Trip</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+      <a href="licoes/elementary-a2-unit2-lesson4-lets-review.html" class="card">
+        <div class="card-unit">Lesson 4</div>
+        <div class="card-title">Let's Review!</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+    </div>
   </div>
 
-  <div class="unit-title">Unit 3 — People & Relationships</div>
-  <div class="lesson-grid">
-    <a class="lesson-card" href="licoes/elementary-a2-unit3-lesson1-meet-my-family_rachel.html" target="_blank">
-      <div class="lesson-num">L1</div>
-      <div class="lesson-info">
-        <div class="lesson-name">Meet My Family</div>
-        <div class="lesson-tag">Unit 3 · Lesson 1</div>
-      </div>
-      <div class="arrow">›</div>
-    </a>
+  <div class="section">
+    <div class="section-title">Unit 3 - People & Feelings</div>
+    <div class="cards">
+      <a href="licoes/elementary-a2-unit3-all-lessons.html" class="card">
+        <div class="card-unit">All Lessons</div>
+        <div class="card-title">People & Feelings</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+    </div>
   </div>
 
-</main>
+  <div class="section">
+    <div class="section-title">Unit 4 - The World Around Us</div>
+    <div class="cards">
+      <a href="licoes/elementary-a2-unit4-all-lessons.html" class="card">
+        <div class="card-unit">All Lessons</div>
+        <div class="card-title">The World Around Us</div>
+        <div class="badge">A2</div><div class="arrow">&#8594;</div>
+      </a>
+    </div>
+  </div>
 
-<footer>
-  <span>EasyWay</span> Escola de Idiomas · Aracruz-ES
-</footer>
-
+</div>
 </body>
 </html>
