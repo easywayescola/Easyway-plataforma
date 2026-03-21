@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWay A2 – Unit 4: The World Around Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --blue: #1A73E8;
+  --blue-light: #E8F0FE;
+  --blue-mid: #4FC3F7;
+  --purple: #7B2FBE;
+  --purple-light: #F3E8FF;
+  --teal: #00897B;
+  --teal-light: #E0F2F1;
+  --orange: #E65100;
+  --orange-light: #FFF3E0;
+  --red: #C62828;
+  --red-light: #FFEBEE;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --yellow: #F9A825;
+  --yellow-light: #FFFDE7;
+  --gray: #546E7A;
+  --gray-light: #ECEFF1;
+  --white: #FFFFFF;
+  --shadow: 0 4px 20px rgba(0,0,0,0.1);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #E3F2FD 0%, #EDE7F6 50%, #E8F5E9 100%);
+  min-height: 100vh;
+  color: #263238;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+  color: white;
+  text-align: center;
+  padding: 24px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.site-header h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(22px, 5vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+.site-header p {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-top: 4px;
+  position: relative;
+}
+.badge {
+  display: inline-block;
+  background: white;
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-right: 8px;
+}
+
+/* ── TABS ── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.tab-unit-sep {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-right: 2px solid #EEF0F2;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  min-width: 22px;
+}
+.tab-unit-sep.u1 { background: #FFF3E0; color: #E65100; border-right-color: #FFCC80; }
+.tab-unit-sep.u2 { background: #E0F2F1; color: #00695C; border-right-color: #80CBC4; }
+.tab-unit-sep.u3 { background: #F3E5F5; color: #6A1B9A; border-right-color: #CE93D8; }
+.tab-unit-sep.u4 { background: #E8F5E9; color: #1B5E20; border-right-color: #A5D6A7; }
+.tab-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 14px 12px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--gray);
+  border-bottom: 3px solid transparent;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  line-height: 1.3;
+  text-align: center;
+}
+.tab-btn:hover { background: var(--gray-light); }
+.tab-btn.active[data-lesson="0"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="1"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="2"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="3"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="4"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="5"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="6"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="7"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="8"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="9"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="10"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="11"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="12"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="13"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="14"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="15"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.iframe-panel { display:none; width:100%; height:calc(100vh - 110px); border:none; }
+.lesson-panel.iframe-active { display:block; padding:0; max-width:100%; }
+.tab-icon { display: block; font-size: 20px; margin-bottom: 2px; }
+
+/* ── LESSON PANEL ── */
+.lesson-panel { display: none; padding: 24px 16px 48px; max-width: 900px; margin: 0 auto; }
+.lesson-panel.active { display: block; }
+
+/* ── LESSON BANNER ── */
+.lesson-banner {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.lesson-banner::after {
+  content: attr(data-emoji);
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 64px;
+  opacity: 0.25;
+}
+.lesson-banner.orange { background: linear-gradient(135deg, #E65100, #FF8F00); }
+.lesson-banner.red    { background: linear-gradient(135deg, #B71C1C, #E53935); }
+.lesson-banner.blue   { background: linear-gradient(135deg, #1565C0, #1E88E5); }
+.lesson-banner.teal   { background: linear-gradient(135deg, #00695C, #00897B); }
+.lesson-banner small  { font-size: 12px; opacity: 0.85; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.lesson-banner h2     { font-family: 'Baloo 2', sans-serif; font-size: clamp(20px,5vw,30px); font-weight: 800; line-height: 1.1; }
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.section-header.purple { background: linear-gradient(90deg, #6A1B9A, #9C27B0); }
+.section-header.blue   { background: linear-gradient(90deg, #1565C0, #42A5F5); }
+.section-header.sky    { background: linear-gradient(90deg, #0277BD, #29B6F6); }
+.section-header.green  { background: linear-gradient(90deg, #2E7D32, #66BB6A); }
+.section-header.orange { background: linear-gradient(90deg, #E65100, #FF9800); }
+.section-header.red    { background: linear-gradient(90deg, #B71C1C, #EF5350); }
+.section-header.teal   { background: linear-gradient(90deg, #00695C, #26A69A); }
+.section-header.pink   { background: linear-gradient(90deg, #880E4F, #E91E63); }
+.section-body { padding: 20px; }
+
+/* ── AUDIO BUTTON ── */
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--blue-mid);
+  background: var(--blue-light);
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.audio-btn:hover { background: var(--blue); color: white; transform: scale(1.1); }
+.audio-btn.playing { background: var(--blue); color: white; animation: pulse 0.6s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.12); } }
+.audio-pill {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #263238;
+  color: white;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-family: 'Nunito', sans-serif;
+  z-index: 10;
+}
+.audio-btn.playing .audio-pill { display: block; }
+
+/* ── VERBS TABLE ── */
+.verbs-table { width: 100%; border-collapse: collapse; }
+.verbs-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: white;
+}
+.verbs-table th:nth-child(1) { background: #4527A0; }
+.verbs-table th:nth-child(2) { background: #6A1B9A; }
+.verbs-table th:nth-child(3) { background: #AD1457; }
+.verbs-table th:nth-child(4) { background: #1565C0; width: 44px; }
+.verbs-table td { padding: 10px 14px; border-bottom: 1px solid #EEF0F2; font-size: 15px; }
+.verbs-table tr:last-child td { border-bottom: none; }
+.verbs-table tr:hover td { background: var(--blue-light); }
+.verb-past { font-weight: 800; color: var(--purple); }
+.verb-example { color: var(--gray); font-style: italic; }
+.verb-audio-cell { text-align: center; }
+
+/* ── VOCAB GRID ── */
+.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.vocab-card {
+  border: 2px solid #E3E8FF;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+.vocab-card:hover { border-color: var(--blue-mid); box-shadow: 0 4px 12px rgba(74,144,226,0.15); transform: translateY(-2px); }
+.vocab-text { flex: 1; min-width: 0; }
+.vocab-en { font-weight: 800; font-size: 15px; color: #263238; }
+.vocab-pt { font-size: 12px; color: var(--gray); margin-top: 1px; }
+
+/* ── STORY TEXT ── */
+.story-title { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 18px; color: #1A237E; margin-bottom: 16px; text-align: center; }
+.story-para {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--blue-light);
+  border-radius: 10px;
+  line-height: 1.65;
+  font-size: 15px;
+}
+.story-para .audio-btn { margin-top: 2px; }
+
+/* ── QUESTIONS ── */
+.questions-title { font-weight: 800; font-size: 15px; margin: 20px 0 12px; color: #1A237E; }
+.question-item { margin-bottom: 12px; }
+.question-item label { font-size: 14px; font-weight: 700; color: #37474F; display: block; margin-bottom: 4px; }
+.question-input {
+  width: 100%;
+  border: 2px solid #CFD8DC;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+.question-input:focus { outline: none; border-color: var(--blue); }
+
+/* ── FILL IN THE BLANK ── */
+.exercise-intro { font-size: 14px; font-weight: 700; color: #455A64; margin-bottom: 14px; }
+.blank-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  background: var(--gray-light);
+  border-radius: 10px;
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+.blank-num { font-weight: 800; color: var(--purple); min-width: 20px; }
+.blank-input {
+  border: 2px solid #B0BEC5;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  width: 120px;
+  text-align: center;
+  transition: border 0.2s, background 0.2s;
+}
+.blank-input:focus { outline: none; border-color: var(--blue); }
+.blank-input.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; }
+.blank-input.wrong   { background: #FFEBEE; border-color: #EF5350; color: #C62828; }
+.hint { font-size: 12px; color: #90A4AE; font-style: italic; }
+
+.check-btn {
+  margin-top: 14px;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 12px rgba(26,115,232,0.35);
+}
+.check-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.score-badge {
+  display: none;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: var(--green-light);
+  border: 2px solid #A5D6A7;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--green);
+  text-align: center;
+}
+.score-badge.visible { display: block; }
+
+/* ── TRANSLATION TABLE ── */
+.trans-table { width: 100%; border-collapse: collapse; }
+.trans-table tr:nth-child(odd) { background: var(--blue-light); }
+.trans-table tr:nth-child(even) { background: white; }
+.trans-table td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid #E8EAF6; vertical-align: middle; }
+.trans-table td:first-child { font-weight: 700; color: #1A237E; width: 50%; }
+.trans-answer {
+  color: transparent;
+  background: #C5CAE9;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  padding: 2px 6px;
+  transition: all 0.2s;
+  display: inline-block;
+  min-width: 80px;
+}
+.trans-answer.revealed { color: var(--green); background: var(--green-light); cursor: default; }
+.reveal-hint { font-size: 11px; color: var(--gray); margin-bottom: 8px; font-style: italic; }
+
+/* ── DIALOGUE ── */
+.dialogue-title { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 16px; color: #1A237E; margin-bottom: 14px; text-align: center; }
+.dialogue-lines { display: flex; flex-direction: column; gap: 8px; }
+.dialogue-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.dialogue-line.a { background: var(--blue-light); border-left: 4px solid var(--blue); flex-direction: row; }
+.dialogue-line.b { background: var(--purple-light); border-left: 4px solid var(--purple); flex-direction: row; }
+.dialogue-line.c { background: var(--teal-light); border-left: 4px solid var(--teal); }
+.speaker-name { font-weight: 800; font-size: 13px; min-width: 64px; color: #455A64; padding-top: 1px; }
+.dialogue-text { flex: 1; }
+.dialogue-audio { margin-left: auto; flex-shrink: 0; }
+
+/* ── WARM UP ── */
+.warmup-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.warmup-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  background: var(--yellow-light);
+  border-left: 4px solid var(--yellow);
+  border-radius: 0 10px 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4E342E;
+}
+.warmup-num { font-weight: 800; color: var(--orange); }
+
+/* ── OBJECTIVES ── */
+.obj-list { display: flex; flex-direction: column; gap: 8px; }
+.obj-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #37474F; }
+.obj-check { width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; flex-shrink: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .vocab-grid { grid-template-columns: repeat(2, 1fr); }
+  .verbs-table td, .verbs-table th { padding: 8px 10px; font-size: 13px; }
+  .blank-input { width: 90px; }
+  .tab-btn { min-width: 110px; font-size: 12px; padding: 12px 8px; }
+}
+
+/* ── FOOTER ── */
+.lesson-footer { text-align: center; padding: 24px; color: var(--gray); font-size: 13px; font-weight: 600; }
+
+/* animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.lesson-panel.active { animation: fadeIn 0.35s ease; }
+
+.tab-btn.active[data-lesson="0"]{color:#1B5E20;border-color:#1B5E20;background:#E8F5E9;}
+.tab-btn.active[data-lesson="1"]{color:#1B5E20;border-color:#1B5E20;background:#E8F5E9;}
+.tab-btn.active[data-lesson="2"]{color:#1B5E20;border-color:#1B5E20;background:#E8F5E9;}
+.tab-btn.active[data-lesson="3"]{color:#1B5E20;border-color:#1B5E20;background:#E8F5E9;}
+
+</style>
+</head>
+<body>
+<header class="site-header" style="background:linear-gradient(135deg,#1B5E20 0%,#1B5E20cc 100%);">
+  <h1><span class="badge">A2 · U4</span>EasyWay – The World Around Us</h1>
+  <p>Elementary English · Past Simple · 4 Lessons</p>
+</header>
+<nav class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-lesson="0" onclick="showLesson(0)">
+    <span class="tab-icon">⚽</span>Sport &amp; Adventures
+  </button>
+  <button class="tab-btn" data-lesson="1" onclick="showLesson(1)">
+    <span class="tab-icon">📚</span>School Days
+  </button>
+  <button class="tab-btn" data-lesson="2" onclick="showLesson(2)">
+    <span class="tab-icon">🎵</span>Weekend Vibes
+  </button>
+  <button class="tab-btn" data-lesson="3" onclick="showLesson(3)">
+    <span class="tab-icon">🎯</span>Review U4
+  </button>
+</nav>
+
+<section class="lesson-panel active" id="lesson-0">
+
+  <div class="lesson-banner" data-emoji="⚽" style="background:linear-gradient(135deg,#1B5E20,#43A047);">
+    <small>Unit 4 · Lesson 1</small>
+    <h2>Sport &amp; Adventures</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1B5E20,#43A047);">🎯 What will you learn?</div>
+    <div class="section-body"><div class="obj-list">
+      <div class="obj-item"><span class="obj-check">✓</span>Talk about sports and physical activities</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Use 4 new verbs in the past simple</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Understand a short text about a soccer game</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Translate sentences about sports</div>
+    </div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1B5E20,#43A047);">🔥 Warm Up</div>
+    <div class="section-body"><ul class="warmup-list">
+      <li class="warmup-item"><span class="warmup-num">1.</span>Do you like sports? What is your favorite sport?</li>
+      <li class="warmup-item"><span class="warmup-num">2.</span>When was the last time you played a sport or did exercise?</li>
+      <li class="warmup-item"><span class="warmup-num">3.</span>Who is your favorite athlete or sports team?</li>
+    </ul></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header purple">📖 Useful Verbs</div>
+    <div class="section-body" style="padding:0">
+      <table class="verbs-table">
+        <thead><tr><th>Present</th><th>Past</th><th>Example</th><th>🔊</th></tr></thead>
+        <tbody>
+          <tr><td>to play (sports)</td><td class="verb-past">played</td><td class="verb-example">We played soccer.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to win</td><td class="verb-past">won</td><td class="verb-example">My team won the match.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to run</td><td class="verb-past">ran</td><td class="verb-example">I ran in the park.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to kick</td><td class="verb-past">kicked</td><td class="verb-example">He kicked the ball.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#2E7D32,#66BB6A);">🗝️ Key Words</div>
+    <div class="section-body">
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">stadium</div><div class="vocab-pt">estádio</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">team</div><div class="vocab-pt">time/equipe</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">score</div><div class="vocab-pt">placar/pontuação</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">coach</div><div class="vocab-pt">técnico/treinador</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">referee</div><div class="vocab-pt">árbitro</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">match</div><div class="vocab-pt">partida</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">champion</div><div class="vocab-pt">campeão</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">teammate</div><div class="vocab-pt">colega de time</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">fair</div><div class="vocab-pt">justo/imparcial</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">trophy</div><div class="vocab-pt">troféu</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header sky">📖 Story Time</div>
+    <div class="section-body">
+      <div class="story-title">The Big Match ⚽</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last Saturday was the big match! My team played against the champions. We arrived at the stadium early. The coach talked to everyone.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>In the first part, we ran a lot but the score was zero. I kicked the ball three times. My friend Tom played very well. The referee was very fair.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>In the second part, Tom kicked the ball and we scored! The stadium was so loud! We ran and ran. We felt so tired but happy.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>At the end, we won the match! The coach gave us the trophy. We were the new champions! It was the best day ever!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. When was the big match?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. Who kicked the ball in the second part?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. What was the final score situation?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. What did the coach give the team?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1B5E20,#43A047);">✏️ Practice Time – Complete the Sentence</div>
+    <div class="section-body">
+      <p class="exercise-intro">A. Write the correct past form of the verb in parentheses:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>We <input class="blank-input" data-answer="played" placeholder="…"> (play) basketball yesterday afternoon.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>My team <input class="blank-input" data-answer="won" placeholder="…"> (win) the championship last year.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>I <input class="blank-input" data-answer="ran" placeholder="…"> (run) five kilometers this morning.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>The player <input class="blank-input" data-answer="kicked" placeholder="…"> (kick) the ball very hard.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1B5E20,#43A047);">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>We played soccer last Sunday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós jogamos futebol no último domingo.</span></td></tr>
+        <tr><td>I ran in the park yesterday morning.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu corri no parque ontem de manhã.</span></td></tr>
+        <tr><td>My team won the trophy last month.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Meu time ganhou o troféu mês passado.</span></td></tr>
+        <tr><td>The champion ran very fast.</td><td><span class="trans-answer" onclick="revealAnswer(this)">O campeão correu muito rápido.</span></td></tr>
+        <tr><td>She kicked the ball to her teammate.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela chutou a bola para a colega de time.</span></td></tr>
+        <tr><td>We played tennis two days ago.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós jogamos tênis dois dias atrás.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Meu time ganhou a partida ontem.</td><td><span class="trans-answer" onclick="revealAnswer(this)">My team won the match yesterday.</span></td></tr>
+        <tr><td>Ele chutou a bola três vezes.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He kicked the ball three times.</span></td></tr>
+        <tr><td>Nós jogamos vôlei na praia.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We played volleyball on the beach.</span></td></tr>
+        <tr><td>O árbitro foi muito justo.</td><td><span class="trans-answer" onclick="revealAnswer(this)">The referee was very fair.</span></td></tr>
+        <tr><td>Eles ganharam o campeonato.</td><td><span class="trans-answer" onclick="revealAnswer(this)">They won the championship.</span></td></tr>
+        <tr><td>Eu corri no estádio ontem à noite.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I ran in the stadium last night.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header pink">🎬 Dialogue – After the Game</div>
+    <div class="section-body">
+      <div class="dialogue-lines">
+        <div class="dialogue-line c"><span class="speaker-name">Coach:</span><span class="dialogue-text">Great game, team! You played so well today.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Alex:</span><span class="dialogue-text">Thank you, coach! I kicked the ball three times.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line c"><span class="speaker-name">Coach:</span><span class="dialogue-text">Yes! And the team played together perfectly.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Mia:</span><span class="dialogue-text">We won because everyone helped!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line c"><span class="speaker-name">Coach:</span><span class="dialogue-text">Exactly! You all won as a team.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Alex:</span><span class="dialogue-text">When is the next match, coach?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line c"><span class="speaker-name">Coach:</span><span class="dialogue-text">Next Saturday! Rest well and come back ready!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-panel" id="lesson-1">
+
+  <div class="lesson-banner blue" data-emoji="📚">
+    <small>Unit 4 · Lesson 2</small>
+    <h2>School Days</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">🎯 What will you learn?</div>
+    <div class="section-body"><div class="obj-list">
+      <div class="obj-item"><span class="obj-check">✓</span>Talk about school and studying</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Use 4 new verbs in the past simple</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Understand a short text about school</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Translate sentences about learning</div>
+    </div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">🔥 Warm Up</div>
+    <div class="section-body"><ul class="warmup-list">
+      <li class="warmup-item"><span class="warmup-num">1.</span>What is your favorite subject at school? Why?</li>
+      <li class="warmup-item"><span class="warmup-num">2.</span>Do you like to study? Where do you usually study?</li>
+      <li class="warmup-item"><span class="warmup-num">3.</span>What was the last exam or test you took?</li>
+    </ul></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header purple">📖 Useful Verbs</div>
+    <div class="section-body" style="padding:0">
+      <table class="verbs-table">
+        <thead><tr><th>Present</th><th>Past</th><th>Example</th><th>🔊</th></tr></thead>
+        <tbody>
+          <tr><td>to study</td><td class="verb-past">studied</td><td class="verb-example">I studied math.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to learn</td><td class="verb-past">learned</td><td class="verb-example">She learned English.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to write</td><td class="verb-past">wrote</td><td class="verb-example">We wrote an essay.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to read</td><td class="verb-past">read</td><td class="verb-example">He read a book.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">🗝️ Key Words</div>
+    <div class="section-body">
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">notebook</div><div class="vocab-pt">caderno</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">homework</div><div class="vocab-pt">dever de casa</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">exam</div><div class="vocab-pt">prova</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">grade</div><div class="vocab-pt">nota</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">classroom</div><div class="vocab-pt">sala de aula</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">library</div><div class="vocab-pt">biblioteca</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">subject</div><div class="vocab-pt">matéria</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">formula</div><div class="vocab-pt">fórmula</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">chapter</div><div class="vocab-pt">capítulo</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">math</div><div class="vocab-pt">matemática</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">deadline</div><div class="vocab-pt">prazo final</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header sky">📖 Story Time</div>
+    <div class="section-body">
+      <div class="story-title">Exam Week 📝</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last week was exam week at school. Every day was busy!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Monday, I studied for the math exam. I wrote all the formulas in my notebook. I learned many new things.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Tuesday, I went to the library. I read three chapters of the history book. My friend Lisa studied with me. We learned together.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Wednesday was the big math exam. I wrote all the answers. I felt nervous but ready!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Thursday, the teacher gave us our grades. I learned that I did very well! Lisa won the best grade in the class. We were so happy! Now I learned that studying is very important!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. What did the narrator study on Monday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. Where did they go on Tuesday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. When was the big math exam?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. Who won the best grade in the class?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">✏️ Practice Time – Complete the Sentence</div>
+    <div class="section-body">
+      <p class="exercise-intro">A. Write the correct past form of the verb in parentheses:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>I <input class="blank-input" data-answer="studied" placeholder="…"> (study) English for two hours yesterday.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="learned" placeholder="…"> (learn) to play the piano last year.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>We <input class="blank-input" data-answer="wrote" placeholder="…"> (write) a long essay for homework.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>He <input class="blank-input" data-answer="read" placeholder="…"> (read) an interesting book last weekend.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>I studied for the exam last night.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu estudei para a prova ontem à noite.</span></td></tr>
+        <tr><td>We wrote in our notebooks yesterday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós escrevemos nos cadernos ontem.</span></td></tr>
+        <tr><td>She learned a new language last year.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela aprendeu um novo idioma no ano passado.</span></td></tr>
+        <tr><td>They wrote the homework together.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles fizeram a lição de casa juntos.</span></td></tr>
+        <tr><td>I read three chapters yesterday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu li três capítulos ontem.</span></td></tr>
+        <tr><td>We studied together for the test.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós estudamos juntos para a prova.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela aprendeu muito na aula.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She learned a lot in class.</span></td></tr>
+        <tr><td>Ele leu o livro inteiro em dois dias.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He read the entire book in two days.</span></td></tr>
+        <tr><td>Eu estudei na biblioteca ontem.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I studied in the library yesterday.</span></td></tr>
+        <tr><td>Nós aprendemos matemática na escola.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We learned math at school.</span></td></tr>
+        <tr><td>Ela escreveu uma redação incrível.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She wrote an amazing essay.</span></td></tr>
+        <tr><td>Ele leu o jornal de manhã.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He read the newspaper in the morning.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header pink">🎬 Dialogue – Talking About Exams</div>
+    <div class="section-body">
+      <div class="dialogue-lines">
+        <div class="dialogue-line c"><span class="speaker-name">Teacher:</span><span class="dialogue-text">How did you study for the exam?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Laura:</span><span class="dialogue-text">I studied in the library every day. I wrote many notes!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line c"><span class="speaker-name">Teacher:</span><span class="dialogue-text">Excellent! Did you read all the chapters?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Laura:</span><span class="dialogue-text">Yes! I read everything. I learned so much.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line c"><span class="speaker-name">Teacher:</span><span class="dialogue-text">I can see that! You did very well.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Laura:</span><span class="dialogue-text">Thank you! I want to study more for the next one.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-panel" id="lesson-2">
+
+  <div class="lesson-banner teal" data-emoji="🎵">
+    <small>Unit 4 · Lesson 3</small>
+    <h2>Weekend Vibes</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header teal">🎯 What will you learn?</div>
+    <div class="section-body"><div class="obj-list">
+      <div class="obj-item"><span class="obj-check">✓</span>Talk about relaxation and free time</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Use 4 new verbs in the past simple</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Understand a short text about a relaxing weekend</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Translate sentences about rest and entertainment</div>
+    </div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header teal">🔥 Warm Up</div>
+    <div class="section-body"><ul class="warmup-list">
+      <li class="warmup-item"><span class="warmup-num">1.</span>What do you usually do on weekends?</li>
+      <li class="warmup-item"><span class="warmup-num">2.</span>Do you like to listen to music? What kind?</li>
+      <li class="warmup-item"><span class="warmup-num">3.</span>When was the last time you took a nap or slept late?</li>
+    </ul></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header purple">📖 Useful Verbs</div>
+    <div class="section-body" style="padding:0">
+      <table class="verbs-table">
+        <thead><tr><th>Present</th><th>Past</th><th>Example</th><th>🔊</th></tr></thead>
+        <tbody>
+          <tr><td>to listen</td><td class="verb-past">listened</td><td class="verb-example">I listened to music.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to call</td><td class="verb-past">called</td><td class="verb-example">She called her friend.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to sleep</td><td class="verb-past">slept</td><td class="verb-example">We slept late.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to wake</td><td class="verb-past">woke</td><td class="verb-example">He woke at noon.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header teal">🗝️ Key Words</div>
+    <div class="section-body">
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">concert</div><div class="vocab-pt">show / concerto</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">playlist</div><div class="vocab-pt">lista de reprodução</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">alarm</div><div class="vocab-pt">alarme</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">pillow</div><div class="vocab-pt">travesseiro</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">lyrics</div><div class="vocab-pt">letra da música</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">relaxation</div><div class="vocab-pt">relaxamento</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">rhythm</div><div class="vocab-pt">ritmo</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header sky">📖 Story Time</div>
+    <div class="section-body">
+      <div class="story-title">The Perfect Lazy Weekend 😴</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last weekend was perfect for relaxation!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Saturday morning, I woke up at eleven. No alarm! I felt so rested. I listened to my favorite playlist while I ate breakfast.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>In the afternoon, my friend Loren called me. We talked for one hour. She invited me to a concert at night. I was so excited!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>At the concert, we listened to amazing music. The rhythm was fantastic! I learned all the lyrics of the new songs.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Sunday, I slept until noon. I took a long nap in the afternoon too. My pillow was so comfortable! I called my mom before bed. She asked about my weekend. I told her it was the most relaxing weekend ever!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. What time did the narrator wake on Saturday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. Who called the narrator in the afternoon?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. What did they do at night on Saturday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. What did the narrator do on Sunday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header teal">✏️ Practice Time – Complete the Sentence</div>
+    <div class="section-body">
+      <p class="exercise-intro">A. Write the correct past form of the verb in parentheses:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>I <input class="blank-input" data-answer="listened" placeholder="…"> (listen) to music all day yesterday.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="called" placeholder="…"> (call) her parents last night.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>We <input class="blank-input" data-answer="slept" placeholder="…"> (sleep) very well last weekend.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>He <input class="blank-input" data-answer="woke" placeholder="…"> (wake) early this morning.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header teal">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>I listened to the new album yesterday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu escutei o novo álbum ontem.</span></td></tr>
+        <tr><td>We slept until noon on Sunday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós dormimos até o meio-dia no domingo.</span></td></tr>
+        <tr><td>She called me two days ago.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela me ligou dois dias atrás.</span></td></tr>
+        <tr><td>They slept on the sofa last night.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles dormiram no sofá ontem à noite.</span></td></tr>
+        <tr><td>I woke at six this morning.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu acordei às seis esta manhã.</span></td></tr>
+        <tr><td>He listened to the concert on the radio.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ele ouviu o concerto no rádio.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela ligou para o amigo dela ontem à noite.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She called her friend last night.</span></td></tr>
+        <tr><td>Ele acordou cedo para o trabalho.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He woke up early for work.</span></td></tr>
+        <tr><td>Eu escutei música o dia todo.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I listened to music all day.</span></td></tr>
+        <tr><td>Nós acordamos tarde no fim de semana.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We woke up late on the weekend.</span></td></tr>
+        <tr><td>Ela ouviu a playlist nova.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She listened to the new playlist.</span></td></tr>
+        <tr><td>Eu liguei para minha mãe ontem.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I called my mom yesterday.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header pink">🎬 Dialogue – Making Weekend Plans</div>
+    <div class="section-body">
+      <div class="dialogue-lines">
+        <div class="dialogue-line a"><span class="speaker-name">Nina:</span><span class="dialogue-text">What did you do last weekend?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Leo:</span><span class="dialogue-text">I slept until noon! I was so tired.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Nina:</span><span class="dialogue-text">Lucky! I woke up early and called my friend.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Leo:</span><span class="dialogue-text">What did you do together?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Nina:</span><span class="dialogue-text">We listened to music and went to a concert at night.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Leo:</span><span class="dialogue-text">Sounds great! I just slept all day!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-panel" id="lesson-3">
+
+  <div class="lesson-banner" data-emoji="🎯" style="background:linear-gradient(135deg,#1A237E,#3949AB);">
+    <small>Unit 4 · Lesson 4</small>
+    <h2>Let&#39;s Review! – Unit 4</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1A237E,#3949AB);">📖 Story Time – Review</div>
+    <div class="section-body">
+      <div class="story-title">My Busy Week 🗓️</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last week was very busy but fun! On Monday morning, I woke early. I studied for my math exam in the library. I wrote many notes in my notebook. I learned so much!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Wednesday, my team played a big soccer match. We ran a lot on the field. I kicked the ball twice and we won! The coach gave us all a trophy. We felt like champions!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Friday night, my friend called me. We went to a concert together. I listened to my favorite band. The music was incredible! I learned all the lyrics by the end.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Saturday, I slept until noon. I took a long nap in the afternoon. I was so tired from the week! I woke in the evening and read a book. It was a perfect mix of study, sports and fun!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. What did the narrator do on Monday morning?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. When did the team play soccer?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. What happened on Friday night?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. What did the narrator do on Saturday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1A237E,#3949AB);">✏️ Practice A – All Unit 4 Verbs</div>
+    <div class="section-body">
+      <p class="exercise-intro">Write the verb in the past form:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>Yesterday, I <input class="blank-input" data-answer="played" placeholder="…"> (play) tennis.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="studied" placeholder="…"> (study) for the exam last night.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>We <input class="blank-input" data-answer="listened" placeholder="…"> (listen) to music in the morning.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>He <input class="blank-input" data-answer="won" placeholder="…"> (win) the match two days ago.</div>
+      <div class="blank-item"><span class="blank-num">5.</span>They <input class="blank-input" data-answer="read" placeholder="…"> (read) the book last weekend.</div>
+      <div class="blank-item"><span class="blank-num">6.</span>I <input class="blank-input" data-answer="woke" placeholder="…"> (wake) very late on Sunday.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1A237E,#3949AB);">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>I played soccer last Saturday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu joguei futebol no último sábado.</span></td></tr>
+        <tr><td>We listened to music yesterday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós ouvimos música ontem.</span></td></tr>
+        <tr><td>She read a book last weekend.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela leu um livro no fim de semana passado.</span></td></tr>
+        <tr><td>They ran in the park two days ago.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles correram no parque dois dias atrás.</span></td></tr>
+        <tr><td>He slept until noon on Sunday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ele dormiu até o meio-dia no domingo.</span></td></tr>
+        <tr><td>I learned English last year.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu aprendi inglês no ano passado.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela estudou para a prova ontem à noite.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She studied for the exam last night.</span></td></tr>
+        <tr><td>Ele ganhou o troféu na semana passada.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He won the trophy last week.</span></td></tr>
+        <tr><td>Nós acordamos cedo ontem de manhã.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We woke up early yesterday morning.</span></td></tr>
+        <tr><td>Eu escrevi no meu caderno ontem.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I wrote in my notebook yesterday.</span></td></tr>
+        <tr><td>Ela ligou para mim ontem à noite.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She called me last night.</span></td></tr>
+        <tr><td>Nós jogamos basquete no fim de semana.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We played basketball on the weekend.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#1A237E,#3949AB);">✍️ Write Your Perfect Week!</div>
+    <div class="section-body">
+      <p class="exercise-intro">Write 6–8 sentences about your perfect week. Use verbs from Unit 4, time expressions and parts of the day:</p>
+      <div class="question-item"><label>Monday:</label><input class="question-input" type="text" placeholder="On Monday, I…"></div>
+      <div class="question-item"><label>Wednesday:</label><input class="question-input" type="text" placeholder="On Wednesday, I…"></div>
+      <div class="question-item"><label>Friday:</label><input class="question-input" type="text" placeholder="On Friday, I…"></div>
+      <div class="question-item"><label>Weekend:</label><input class="question-input" type="text" placeholder="Last weekend, I…"></div>
+    </div>
+  </div>
+</section>
+
+
+<div class="lesson-footer">EasyWay Escola de Idiomas · A2 · Unit 4 · 🎓</div>
+<script>
+function showLesson(n) {
+  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lesson-' + n).classList.add('active');
+  document.querySelector('.tab-btn[data-lesson="' + n + '"]').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+const synth = window.speechSynthesis;
+let currentBtn = null;
+function getEnVoice() {
+  const voices = synth.getVoices();
+  return voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en')) || voices[0];
+}
+function getTextToSpeak(btn) {
+  const v = btn.closest('.vocab-card');
+  if (v) return v.querySelector('.vocab-en')?.textContent?.trim() || '';
+  const tr = btn.closest('tr');
+  if (tr) { const c = tr.querySelectorAll('td'); if (c.length >= 3) return c[0].textContent.trim() + '. Past: ' + c[1].textContent.trim() + '. Example: ' + c[2].textContent.trim(); }
+  const sp = btn.closest('.story-para');
+  if (sp) return sp.querySelector('span')?.textContent?.trim() || '';
+  const dl = btn.closest('.dialogue-line');
+  if (dl) return dl.querySelector('.dialogue-text')?.textContent?.trim() || '';
+  return '';
+}
+function stopSpeech() {
+  synth.cancel();
+  if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; currentBtn = null; }
+}
+function playAudio(btn) {
+  if (currentBtn === btn) { stopSpeech(); return; }
+  stopSpeech();
+  const text = getTextToSpeak(btn);
+  if (!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.voice = getEnVoice(); utter.lang = 'en-US'; utter.rate = 0.88; utter.pitch = 1.05;
+  btn.classList.add('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>⏹'; currentBtn = btn;
+  utter.onend = utter.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; if (currentBtn === btn) currentBtn = null; };
+  if (synth.getVoices().length === 0) { synth.addEventListener('voiceschanged', () => synth.speak(utter), { once: true }); } else { synth.speak(utter); }
+}
+function checkBlanks(btn) {
+  const card = btn.closest('.section-body');
+  const inputs = card.querySelectorAll('.blank-input');
+  let correct = 0;
+  inputs.forEach(inp => { const u = inp.value.trim().toLowerCase(), a = inp.dataset.answer.toLowerCase(); inp.classList.remove('correct','wrong'); if (u === a) { inp.classList.add('correct'); correct++; } else if (u !== '') inp.classList.add('wrong'); });
+  const badge = card.querySelector('.score-badge'); badge.classList.add('visible');
+  if (correct === inputs.length) { badge.textContent = '🎉 Perfect! ' + correct + '/' + inputs.length + ' correct!'; badge.style.cssText = 'display:block;background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32'; }
+  else { badge.textContent = '📝 ' + correct + '/' + inputs.length + ' correct. Try again!'; badge.style.cssText = 'display:block;background:#FFF8E1;border-color:#FFE082;color:#F57F17'; }
+}
+function revealAnswer(el) { el.classList.add('revealed'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWay A2 – Unit 3: People &amp; Feelings</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --blue: #1A73E8;
+  --blue-light: #E8F0FE;
+  --blue-mid: #4FC3F7;
+  --purple: #7B2FBE;
+  --purple-light: #F3E8FF;
+  --teal: #00897B;
+  --teal-light: #E0F2F1;
+  --orange: #E65100;
+  --orange-light: #FFF3E0;
+  --red: #C62828;
+  --red-light: #FFEBEE;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --yellow: #F9A825;
+  --yellow-light: #FFFDE7;
+  --gray: #546E7A;
+  --gray-light: #ECEFF1;
+  --white: #FFFFFF;
+  --shadow: 0 4px 20px rgba(0,0,0,0.1);
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #E3F2FD 0%, #EDE7F6 50%, #E8F5E9 100%);
+  min-height: 100vh;
+  color: #263238;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+  color: white;
+  text-align: center;
+  padding: 24px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.site-header h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(22px, 5vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+.site-header p {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-top: 4px;
+  position: relative;
+}
+.badge {
+  display: inline-block;
+  background: white;
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-right: 8px;
+}
+
+/* ── TABS ── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.tab-unit-sep {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-right: 2px solid #EEF0F2;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  min-width: 22px;
+}
+.tab-unit-sep.u1 { background: #FFF3E0; color: #E65100; border-right-color: #FFCC80; }
+.tab-unit-sep.u2 { background: #E0F2F1; color: #00695C; border-right-color: #80CBC4; }
+.tab-unit-sep.u3 { background: #F3E5F5; color: #6A1B9A; border-right-color: #CE93D8; }
+.tab-unit-sep.u4 { background: #E8F5E9; color: #1B5E20; border-right-color: #A5D6A7; }
+.tab-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 14px 12px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--gray);
+  border-bottom: 3px solid transparent;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  line-height: 1.3;
+  text-align: center;
+}
+.tab-btn:hover { background: var(--gray-light); }
+.tab-btn.active[data-lesson="0"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="1"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="2"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="3"] { color: #E65100; border-color: #E65100; background: #FFF3E0; }
+.tab-btn.active[data-lesson="4"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="5"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="6"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="7"] { color: #00695C; border-color: #00695C; background: #E0F2F1; }
+.tab-btn.active[data-lesson="8"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="9"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="10"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="11"] { color: #6A1B9A; border-color: #6A1B9A; background: #F3E5F5; }
+.tab-btn.active[data-lesson="12"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="13"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="14"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.tab-btn.active[data-lesson="15"] { color: #1B5E20; border-color: #1B5E20; background: #E8F5E9; }
+.iframe-panel { display:none; width:100%; height:calc(100vh - 110px); border:none; }
+.lesson-panel.iframe-active { display:block; padding:0; max-width:100%; }
+.tab-icon { display: block; font-size: 20px; margin-bottom: 2px; }
+
+/* ── LESSON PANEL ── */
+.lesson-panel { display: none; padding: 24px 16px 48px; max-width: 900px; margin: 0 auto; }
+.lesson-panel.active { display: block; }
+
+/* ── LESSON BANNER ── */
+.lesson-banner {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.lesson-banner::after {
+  content: attr(data-emoji);
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 64px;
+  opacity: 0.25;
+}
+.lesson-banner.orange { background: linear-gradient(135deg, #E65100, #FF8F00); }
+.lesson-banner.red    { background: linear-gradient(135deg, #B71C1C, #E53935); }
+.lesson-banner.blue   { background: linear-gradient(135deg, #1565C0, #1E88E5); }
+.lesson-banner.teal   { background: linear-gradient(135deg, #00695C, #00897B); }
+.lesson-banner small  { font-size: 12px; opacity: 0.85; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.lesson-banner h2     { font-family: 'Baloo 2', sans-serif; font-size: clamp(20px,5vw,30px); font-weight: 800; line-height: 1.1; }
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.section-header.purple { background: linear-gradient(90deg, #6A1B9A, #9C27B0); }
+.section-header.blue   { background: linear-gradient(90deg, #1565C0, #42A5F5); }
+.section-header.sky    { background: linear-gradient(90deg, #0277BD, #29B6F6); }
+.section-header.green  { background: linear-gradient(90deg, #2E7D32, #66BB6A); }
+.section-header.orange { background: linear-gradient(90deg, #E65100, #FF9800); }
+.section-header.red    { background: linear-gradient(90deg, #B71C1C, #EF5350); }
+.section-header.teal   { background: linear-gradient(90deg, #00695C, #26A69A); }
+.section-header.pink   { background: linear-gradient(90deg, #880E4F, #E91E63); }
+.section-body { padding: 20px; }
+
+/* ── AUDIO BUTTON ── */
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--blue-mid);
+  background: var(--blue-light);
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.audio-btn:hover { background: var(--blue); color: white; transform: scale(1.1); }
+.audio-btn.playing { background: var(--blue); color: white; animation: pulse 0.6s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.12); } }
+.audio-pill {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #263238;
+  color: white;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-family: 'Nunito', sans-serif;
+  z-index: 10;
+}
+.audio-btn.playing .audio-pill { display: block; }
+
+/* ── VERBS TABLE ── */
+.verbs-table { width: 100%; border-collapse: collapse; }
+.verbs-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: white;
+}
+.verbs-table th:nth-child(1) { background: #4527A0; }
+.verbs-table th:nth-child(2) { background: #6A1B9A; }
+.verbs-table th:nth-child(3) { background: #AD1457; }
+.verbs-table th:nth-child(4) { background: #1565C0; width: 44px; }
+.verbs-table td { padding: 10px 14px; border-bottom: 1px solid #EEF0F2; font-size: 15px; }
+.verbs-table tr:last-child td { border-bottom: none; }
+.verbs-table tr:hover td { background: var(--blue-light); }
+.verb-past { font-weight: 800; color: var(--purple); }
+.verb-example { color: var(--gray); font-style: italic; }
+.verb-audio-cell { text-align: center; }
+
+/* ── VOCAB GRID ── */
+.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.vocab-card {
+  border: 2px solid #E3E8FF;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+.vocab-card:hover { border-color: var(--blue-mid); box-shadow: 0 4px 12px rgba(74,144,226,0.15); transform: translateY(-2px); }
+.vocab-text { flex: 1; min-width: 0; }
+.vocab-en { font-weight: 800; font-size: 15px; color: #263238; }
+.vocab-pt { font-size: 12px; color: var(--gray); margin-top: 1px; }
+
+/* ── STORY TEXT ── */
+.story-title { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 18px; color: #1A237E; margin-bottom: 16px; text-align: center; }
+.story-para {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--blue-light);
+  border-radius: 10px;
+  line-height: 1.65;
+  font-size: 15px;
+}
+.story-para .audio-btn { margin-top: 2px; }
+
+/* ── QUESTIONS ── */
+.questions-title { font-weight: 800; font-size: 15px; margin: 20px 0 12px; color: #1A237E; }
+.question-item { margin-bottom: 12px; }
+.question-item label { font-size: 14px; font-weight: 700; color: #37474F; display: block; margin-bottom: 4px; }
+.question-input {
+  width: 100%;
+  border: 2px solid #CFD8DC;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+.question-input:focus { outline: none; border-color: var(--blue); }
+
+/* ── FILL IN THE BLANK ── */
+.exercise-intro { font-size: 14px; font-weight: 700; color: #455A64; margin-bottom: 14px; }
+.blank-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  background: var(--gray-light);
+  border-radius: 10px;
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+.blank-num { font-weight: 800; color: var(--purple); min-width: 20px; }
+.blank-input {
+  border: 2px solid #B0BEC5;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  width: 120px;
+  text-align: center;
+  transition: border 0.2s, background 0.2s;
+}
+.blank-input:focus { outline: none; border-color: var(--blue); }
+.blank-input.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; }
+.blank-input.wrong   { background: #FFEBEE; border-color: #EF5350; color: #C62828; }
+.hint { font-size: 12px; color: #90A4AE; font-style: italic; }
+
+.check-btn {
+  margin-top: 14px;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 12px rgba(26,115,232,0.35);
+}
+.check-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.score-badge {
+  display: none;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: var(--green-light);
+  border: 2px solid #A5D6A7;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--green);
+  text-align: center;
+}
+.score-badge.visible { display: block; }
+
+/* ── TRANSLATION TABLE ── */
+.trans-table { width: 100%; border-collapse: collapse; }
+.trans-table tr:nth-child(odd) { background: var(--blue-light); }
+.trans-table tr:nth-child(even) { background: white; }
+.trans-table td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid #E8EAF6; vertical-align: middle; }
+.trans-table td:first-child { font-weight: 700; color: #1A237E; width: 50%; }
+.trans-answer {
+  color: transparent;
+  background: #C5CAE9;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  padding: 2px 6px;
+  transition: all 0.2s;
+  display: inline-block;
+  min-width: 80px;
+}
+.trans-answer.revealed { color: var(--green); background: var(--green-light); cursor: default; }
+.reveal-hint { font-size: 11px; color: var(--gray); margin-bottom: 8px; font-style: italic; }
+
+/* ── DIALOGUE ── */
+.dialogue-title { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 16px; color: #1A237E; margin-bottom: 14px; text-align: center; }
+.dialogue-lines { display: flex; flex-direction: column; gap: 8px; }
+.dialogue-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.dialogue-line.a { background: var(--blue-light); border-left: 4px solid var(--blue); flex-direction: row; }
+.dialogue-line.b { background: var(--purple-light); border-left: 4px solid var(--purple); flex-direction: row; }
+.dialogue-line.c { background: var(--teal-light); border-left: 4px solid var(--teal); }
+.speaker-name { font-weight: 800; font-size: 13px; min-width: 64px; color: #455A64; padding-top: 1px; }
+.dialogue-text { flex: 1; }
+.dialogue-audio { margin-left: auto; flex-shrink: 0; }
+
+/* ── WARM UP ── */
+.warmup-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.warmup-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  background: var(--yellow-light);
+  border-left: 4px solid var(--yellow);
+  border-radius: 0 10px 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4E342E;
+}
+.warmup-num { font-weight: 800; color: var(--orange); }
+
+/* ── OBJECTIVES ── */
+.obj-list { display: flex; flex-direction: column; gap: 8px; }
+.obj-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #37474F; }
+.obj-check { width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; flex-shrink: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .vocab-grid { grid-template-columns: repeat(2, 1fr); }
+  .verbs-table td, .verbs-table th { padding: 8px 10px; font-size: 13px; }
+  .blank-input { width: 90px; }
+  .tab-btn { min-width: 110px; font-size: 12px; padding: 12px 8px; }
+}
+
+/* ── FOOTER ── */
+.lesson-footer { text-align: center; padding: 24px; color: var(--gray); font-size: 13px; font-weight: 600; }
+
+/* animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.lesson-panel.active { animation: fadeIn 0.35s ease; }
+
+.tab-btn.active[data-lesson="0"]{color:#6A1B9A;border-color:#6A1B9A;background:#F3E5F5;}
+.tab-btn.active[data-lesson="1"]{color:#6A1B9A;border-color:#6A1B9A;background:#F3E5F5;}
+.tab-btn.active[data-lesson="2"]{color:#6A1B9A;border-color:#6A1B9A;background:#F3E5F5;}
+.tab-btn.active[data-lesson="3"]{color:#6A1B9A;border-color:#6A1B9A;background:#F3E5F5;}
+
+</style>
+</head>
+<body>
+<header class="site-header" style="background:linear-gradient(135deg,#6A1B9A 0%,#6A1B9Acc 100%);">
+  <h1><span class="badge">A2 · U3</span>EasyWay – People &amp; Feelings</h1>
+  <p>Elementary English · Past Simple · 4 Lessons</p>
+</header>
+<nav class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-lesson="0" onclick="showLesson(0)">
+    <span class="tab-icon">👨‍👩‍👧</span>Meet My Family
+  </button>
+  <button class="tab-btn" data-lesson="1" onclick="showLesson(1)">
+    <span class="tab-icon">🎉</span>Good Times
+  </button>
+  <button class="tab-btn" data-lesson="2" onclick="showLesson(2)">
+    <span class="tab-icon">😰</span>Bad Days
+  </button>
+  <button class="tab-btn" data-lesson="3" onclick="showLesson(3)">
+    <span class="tab-icon">🎯</span>Review U3
+  </button>
+</nav>
+
+<section class="lesson-panel active" id="lesson-PLACEHOLDER">
+<style>
+
+  :root {
+    --bg: #FFF5F0;
+    --dark: #1A0800;
+    --brown: #5D4037;
+    --terra: #BF360C;
+    --orange: #E64A19;
+    --gold: #FFB300;
+    --cream: #FBE9E7;
+    --paper: #FFF8F5;
+    --teal: #00695C;
+    --light: #FBE9E7;
+    --warm: #FF8A65;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); overflow-x: hidden; }
+
+  .progress-bar { position:fixed; top:0; left:0; height:3px; background:var(--warm); transition:width 0.3s; z-index:999; }
+
+  .logo-text { text-align:center; }
+  .logo-text .main-name {
+    font-family: 'Dancing Script', cursive; font-size: 42px; color: #29B6F6;
+    line-height: 1; text-shadow: 2px 2px 0px rgba(0,0,0,0.3); position: relative;
+  }
+  .logo-text .main-name::after {
+    content:''; position:absolute; bottom:2px; left:10%; right:10%;
+    height:3px; background:linear-gradient(to right,transparent,#E53935,transparent);
+  }
+  .logo-text .school-name {
+    font-family:'DM Sans',sans-serif; font-size:13px; color:#E53935;
+    letter-spacing:3px; text-transform:uppercase; font-weight:700; margin-top:4px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1A0800 0%, #4E342E 50%, #BF360C 100%);
+    padding: 36px 30px 50px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::before { content:'👨‍👩‍👧'; position:absolute; font-size:180px; opacity:0.05; top:-20px; right:-20px; line-height:1; }
+  .hero::after  { content:'🏠'; position:absolute; font-size:120px; opacity:0.05; bottom:-10px; left:-10px; line-height:1; }
+  .hero-logo-wrap { position:relative; margin-bottom:20px; }
+  .hero-tags { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:16px; position:relative; }
+  .tag { display:inline-block; padding:5px 14px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; }
+  .tag-outline { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25); color:white; }
+  .tag-gold { background:var(--gold); color:var(--dark); }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(26px,5vw,56px); color:white; line-height:1.06; position:relative; }
+  .hero h1 span { color:#FFCCBC; }
+  .hero-sub { color:rgba(255,255,255,0.6); font-size:13px; margin-top:10px; position:relative; }
+  .hero-nav { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:26px; position:relative; }
+  .hero-nav a { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; text-decoration:none; padding:7px 14px; border-radius:6px; font-size:12px; transition:all 0.2s; }
+  .hero-nav a:hover { background:var(--gold); border-color:var(--gold); color:var(--dark); }
+
+  /* SECTIONS */
+  .section { max-width:860px; margin:0 auto; padding:50px 22px; opacity:0; transform:translateY(26px); transition:opacity 0.6s, transform 0.6s; }
+  .section.visible { opacity:1; transform:none; }
+  .section-label { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .section-label .num { width:34px; height:34px; background:var(--terra); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:15px; font-weight:700; flex-shrink:0; }
+  .section-label h2 { font-family:'Playfair Display',serif; font-size:23px; }
+  .section-label .subtitle { font-size:11px; color:var(--terra); letter-spacing:2px; text-transform:uppercase; display:block; }
+  .divider { border:none; height:1px; background:linear-gradient(to right,transparent,rgba(191,54,12,0.15),transparent); margin:0 22px; }
+  .tip { background:rgba(230,74,25,0.07); border:1px solid rgba(230,74,25,0.22); border-radius:10px; padding:10px 15px; font-size:13px; color:#BF360C; margin-bottom:15px; }
+
+  /* WARMUP */
+  .warmup-box { background:var(--paper); border-left:4px solid var(--warm); border-radius:0 12px 12px 0; padding:20px 24px; }
+  .warmup-box h3 { font-family:'Playfair Display',serif; font-size:17px; margin-bottom:12px; color:var(--terra); }
+  .warmup-q { display:flex; gap:10px; align-items:flex-start; margin-bottom:9px; font-size:14px; line-height:1.6; }
+  .warmup-q .qnum { background:var(--terra); color:white; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; margin-top:1px; }
+
+  /* VOCAB */
+  .vocab-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:560px){ .vocab-grid { grid-template-columns:1fr; } }
+  .vocab-card { background:var(--paper); border:1px solid rgba(191,54,12,0.12); border-radius:10px; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+  .vocab-card:hover { border-color:var(--warm); transform:translateY(-2px); box-shadow:0 5px 16px rgba(230,74,25,0.15); }
+  .vocab-card .word { font-size:14px; font-weight:500; }
+  .vocab-card .meaning { font-size:13px; color:var(--teal); opacity:0; transition:opacity 0.3s; font-style:italic; }
+  .vocab-card.revealed .meaning { opacity:1; }
+  .vocab-card .hint { font-size:10px; color:rgba(26,8,0,0.3); position:absolute; bottom:5px; right:9px; }
+  .audio-btn { background:none; border:none; cursor:pointer; color:rgba(26,8,0,0.25); font-size:16px; padding:3px; transition:color 0.2s; flex-shrink:0; }
+  .audio-btn:hover { color:var(--terra); }
+
+  /* VERBS TABLE */
+  .verbs-table { width:100%; border-collapse:collapse; background:var(--paper); border-radius:12px; overflow:hidden; border:1px solid rgba(191,54,12,0.12); }
+  .verbs-table th { background:var(--dark); color:white; padding:10px 15px; text-align:left; font-size:11px; letter-spacing:2px; text-transform:uppercase; font-weight:400; }
+  .verbs-table td { padding:10px 15px; font-size:14px; border-bottom:1px solid rgba(191,54,12,0.07); }
+  .verbs-table tr:last-child td { border-bottom:none; }
+  .verbs-table tr:hover td { background:var(--light); }
+  .verbs-table .past { color:var(--terra); font-weight:700; }
+  .verbs-table .example { color:rgba(26,8,0,0.5); font-style:italic; font-size:13px; }
+
+  /* STORY */
+  .story-audio-bar { display:flex; gap:10px; align-items:center; background:var(--cream); border-radius:10px; padding:11px 15px; margin-bottom:15px; flex-wrap:wrap; }
+  .story-audio-bar button { background:var(--dark); color:white; border:none; border-radius:8px; padding:8px 16px; font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; transition:background 0.2s; white-space:nowrap; }
+  .story-audio-bar button:hover, .story-audio-bar button.active { background:var(--terra); }
+  .story-audio-bar select { border:1px solid rgba(191,54,12,0.2); background:white; border-radius:6px; padding:6px 10px; font-family:'DM Sans',sans-serif; font-size:13px; outline:none; cursor:pointer; }
+  .story-card { background:var(--paper); border-left:4px solid var(--warm); border-radius:0 12px 12px 0; padding:26px 30px; font-size:15px; line-height:1.85; }
+  .story-card h3 { font-family:'Playfair Display',serif; font-size:20px; margin-bottom:16px; }
+  .story-card p { margin-bottom:11px; transition:background 0.3s; border-radius:4px; padding:2px 4px; }
+
+  .grammar-note { background:rgba(93,64,55,0.07); border:1px solid rgba(93,64,55,0.18); border-radius:10px; padding:14px 18px; margin-top:14px; font-size:13px; }
+  .grammar-note strong { color:var(--brown); }
+
+  .questions { margin-top:22px; }
+  .question-item { background:var(--paper); border:1px solid rgba(191,54,12,0.12); border-radius:10px; padding:13px 17px; margin-bottom:8px; }
+  .question-item p { font-size:14px; font-weight:500; margin-bottom:7px; }
+  .question-item input { width:100%; border:none; border-bottom:2px solid rgba(191,54,12,0.2); background:transparent; padding:5px 0; font-family:'DM Sans',sans-serif; font-size:14px; outline:none; transition:border-color 0.2s; }
+  .question-item input:focus { border-bottom-color:var(--terra); }
+  .answer-reveal { font-size:13px; color:var(--teal); margin-top:8px; font-style:italic; display:none; }
+  .check-btn { background:var(--terra); color:white; border:none; padding:9px 22px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px; cursor:pointer; margin-top:6px; transition:background 0.2s; }
+  .check-btn:hover { background:#8D1A00; }
+
+  /* PRACTICE */
+  .practice-item { background:var(--paper); border:1px solid rgba(191,54,12,0.12); border-radius:10px; padding:13px 17px; margin-bottom:8px; font-size:14px; line-height:1.7; }
+  .fill { border:none; border-bottom:2px solid var(--gold); background:transparent; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--terra); outline:none; min-width:80px; text-align:center; padding:1px 4px; }
+  .hint-word { color:rgba(26,8,0,0.4); font-style:italic; font-size:12px; }
+  .c-ok { border-bottom-color:#43A047 !important; color:#2E7D32 !important; }
+  .c-no { border-bottom-color:#E53935 !important; color:#B71C1C !important; }
+
+  /* TRANSLATION */
+  .trans-header { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:8px 14px; border-radius:8px; margin:18px 0 10px; }
+  .trans-header.topt { background:rgba(191,54,12,0.1); color:var(--terra); }
+  .trans-header.toen { background:rgba(0,105,92,0.1); color:var(--teal); }
+  .translation-item { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:7px; align-items:start; }
+  @media(max-width:500px){ .translation-item { grid-template-columns:1fr; } }
+  .trans-source { background:var(--paper); border:1px solid rgba(191,54,12,0.12); border-radius:8px; padding:9px 13px; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .trans-source button { background:none; border:none; cursor:pointer; color:rgba(26,8,0,0.25); font-size:15px; flex-shrink:0; transition:color 0.2s; }
+  .trans-source button:hover { color:var(--terra); }
+  .translation-item input { background:var(--paper); border:1px solid rgba(191,54,12,0.12); border-radius:8px; padding:9px 13px; font-size:14px; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; width:100%; }
+  .translation-item input:focus { border-color:var(--terra); }
+
+  /* DIALOGUE */
+  .family-marquee {
+    background:var(--dark); border-radius:14px; padding:6px;
+    border:3px solid var(--warm); position:relative;
+    box-shadow:0 0 0 2px var(--dark), 0 0 0 4px var(--warm);
+    margin-bottom:20px;
+  }
+  .family-title {
+    background:var(--dark); text-align:center; padding:12px;
+    font-family:'Playfair Display',serif; font-size:20px; color:var(--warm);
+    letter-spacing:4px; text-transform:uppercase; border-radius:8px;
+    border:1px solid rgba(255,138,101,0.3);
+  }
+  .family-lights { display:flex; justify-content:space-around; padding:8px 12px 4px; }
+  .bulb { width:10px; height:10px; border-radius:50%; background:var(--warm); opacity:0.7; }
+  .bulb:nth-child(odd) { background:#FFCCBC; }
+
+  .dialogue-container { background:var(--paper); border-radius:12px; border:1px solid rgba(191,54,12,0.12); padding:22px; }
+  .dialogue-line { display:flex; gap:12px; margin-bottom:13px; }
+  .speaker-badge { flex-shrink:0; width:58px; text-align:center; padding:4px 6px; border-radius:6px; font-size:11px; font-weight:600; letter-spacing:0.5px; height:fit-content; margin-top:2px; }
+  .julia { background:var(--terra); color:white; }
+  .carlos { background:var(--teal); color:white; }
+  .dialogue-text { font-size:14px; line-height:1.65; padding-top:2px; }
+  .dialogue-play-btn { background:var(--dark); color:white; border:none; padding:9px 18px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; margin-bottom:18px; display:flex; align-items:center; gap:8px; transition:background 0.2s; }
+  .dialogue-play-btn:hover { background:var(--terra); }
+
+  .useful-phrases { margin-top:20px; background:var(--paper); border-radius:12px; padding:20px; border:1px solid rgba(191,54,12,0.12); }
+  .useful-phrases h3 { font-family:'Playfair Display',serif; font-size:17px; margin-bottom:13px; }
+  .phrases-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .phrase-card { background:var(--cream); border-radius:8px; padding:10px 13px; font-size:13px; }
+  .phrase-card span { color:rgba(26,8,0,0.5); display:block; margin-top:2px; }
+
+  .score-badge { position:fixed; bottom:18px; right:18px; background:var(--dark); color:white; padding:10px 17px; border-radius:50px; font-size:13px; font-weight:500; box-shadow:0 4px 18px rgba(0,0,0,0.25); display:none; z-index:99; }
+  .score-badge span { color:var(--warm); font-family:'Playfair Display',serif; font-size:15px; }
+
+  .footer { background:var(--dark); text-align:center; padding:34px 20px; margin-top:40px; }
+  .footer p { font-family:'Playfair Display',serif; font-size:17px; color:white; margin-top:10px; }
+  .footer small { color:rgba(255,255,255,0.3); font-size:12px; margin-top:5px; display:block; }
+
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;} }
+
+</style>
+<div style="max-width:900px;margin:0 auto;padding:20px 16px;">
+
+
+<div class="progress-bar" id="progress"></div>
+<div class="score-badge" id="scoreBadge">Score: <span id="scoreNum">0</span></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo-wrap">
+    <div class="logo-text">
+      <div class="main-name">EasyWay</div>
+      <div class="school-name">Escola de Idiomas</div>
+    </div>
+  </div>
+  <div class="hero-tags">
+    <span class="tag tag-outline">Elementary A2</span>
+    <span class="tag tag-gold">Unit 3 · Lesson 1</span>
+  </div>
+  <h1>👨‍👩‍👧 Meet My <span>Family!</span></h1>
+  <p class="hero-sub">Past Simple · Family Vocabulary · Story · Dialogue</p>
+  <nav class="hero-nav">
+    <a href="#warmup">🔥 Warm Up</a>
+    <a href="#vocab">👪 Key Words</a>
+    <a href="#verbs">🔄 Verbs</a>
+    <a href="#story">📖 Story</a>
+    <a href="#practice">✏️ Practice</a>
+    <a href="#dialogue">💬 Dialogue</a>
+  </nav>
+</div>
+
+<!-- 0. WARM UP -->
+<div class="section" id="warmup">
+  <div class="section-label">
+    <div class="num">🔥</div>
+    <div><span class="subtitle">Conversation Starter</span><h2>Warm Up</h2></div>
+  </div>
+  <div class="warmup-box">
+    <h3>💬 Talk about these questions with your teacher or a classmate:</h3>
+    <div class="warmup-q"><div class="qnum">1</div><div>How many people are in your family? Tell us about them!</div></div>
+    <div class="warmup-q"><div class="qnum">2</div><div>When was the last time you introduced someone to your family?</div></div>
+    <div class="warmup-q"><div class="qnum">3</div><div>Do you have a big family? Do you see your cousins and relatives often?</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 1. KEY WORDS -->
+<div class="section" id="vocab">
+  <div class="section-label">
+    <div class="num">1</div>
+    <div><span class="subtitle">Key Words</span><h2>Family Vocabulary 👪</h2></div>
+  </div>
+  <div class="tip"><strong>💡</strong> Click each card to reveal the translation. The 🔊 button reads it aloud!</div>
+  <div class="vocab-grid">
+    <div class="vocab-card" onclick="rv(this)"><span class="word">cousin</span><span class="meaning">primo / prima</span><button class="audio-btn" onclick="event.stopPropagation();speak('cousin')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">aunt</span><span class="meaning">tia</span><button class="audio-btn" onclick="event.stopPropagation();speak('aunt')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">uncle</span><span class="meaning">tio</span><button class="audio-btn" onclick="event.stopPropagation();speak('uncle')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">neighbor</span><span class="meaning">vizinho / vizinha</span><button class="audio-btn" onclick="event.stopPropagation();speak('neighbor')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">coworker</span><span class="meaning">colega de trabalho</span><button class="audio-btn" onclick="event.stopPropagation();speak('coworker')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">introduce</span><span class="meaning">apresentar</span><button class="audio-btn" onclick="event.stopPropagation();speak('introduce')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">gift</span><span class="meaning">presente</span><button class="audio-btn" onclick="event.stopPropagation();speak('gift')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">everyone</span><span class="meaning">todos / todo mundo</span><button class="audio-btn" onclick="event.stopPropagation();speak('everyone')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">us</span><span class="meaning">nos / a nós</span><button class="audio-btn" onclick="event.stopPropagation();speak('us')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">him</span><span class="meaning">ele (objeto) / a ele</span><button class="audio-btn" onclick="event.stopPropagation();speak('him')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">warm</span><span class="meaning">caloroso / quentinho</span><button class="audio-btn" onclick="event.stopPropagation();speak('warm')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">hug</span><span class="meaning">abraço</span><button class="audio-btn" onclick="event.stopPropagation();speak('hug')">🔊</button><span class="hint">click to reveal</span></div>
+    <div class="vocab-card" onclick="rv(this)"><span class="word">little</span><span class="meaning">pouco (incontáveis)</span><button class="audio-btn" onclick="event.stopPropagation();speak('little')">🔊</button><span class="hint">click to reveal</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 2. VERBS -->
+<div class="section" id="verbs">
+  <div class="section-label">
+    <div class="num">2</div>
+    <div><span class="subtitle">Grammar</span><h2>Useful Verbs – Past Simple 🔄</h2></div>
+  </div>
+  <div class="tip"><strong>💡</strong> These are the 4 key verbs for this lesson. Click 🔊 to hear the past form!</div>
+  <table class="verbs-table">
+    <thead>
+      <tr><th>Present</th><th>Past</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>to meet — <em>conhecer</em></td>
+        <td><button class="audio-btn" onclick="speak('met')" style="font-size:14px;color:var(--dark)">🔊</button> <span class="past">met</span> ⚠️</td>
+        <td><span class="example">I met my new neighbor.</span></td>
+      </tr>
+      <tr>
+        <td>to talk — <em>conversar / falar</em></td>
+        <td><button class="audio-btn" onclick="speak('talked')" style="font-size:14px;color:var(--dark)">🔊</button> <span class="past">talked</span></td>
+        <td><span class="example">We talked for hours.</span></td>
+      </tr>
+      <tr>
+        <td>to help — <em>ajudar</em></td>
+        <td><button class="audio-btn" onclick="speak('helped')" style="font-size:14px;color:var(--dark)">🔊</button> <span class="past">helped</span></td>
+        <td><span class="example">She helped my aunt.</span></td>
+      </tr>
+      <tr>
+        <td>to give — <em>dar</em></td>
+        <td><button class="audio-btn" onclick="speak('gave')" style="font-size:14px;color:var(--dark)">🔊</button> <span class="past">gave</span> ⚠️</td>
+        <td><span class="example">He gave me a gift.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:rgba(26,8,0,0.45);margin-top:10px;text-align:right;">⚠️ = irregular verb</p>
+</div>
+
+<hr class="divider">
+
+<!-- 3. STORY -->
+<div class="section" id="story">
+  <div class="section-label">
+    <div class="num">3</div>
+    <div><span class="subtitle">Reading</span><h2>Story Time 📖</h2></div>
+  </div>
+  <div class="story-audio-bar">
+    <button id="storyPlayBtn" onclick="toggleStory()">
+      <span id="storyIcon">▶</span> <span id="storyLabel">Read Aloud</span>
+    </button>
+    <select onchange="storySpd=parseFloat(this.value)">
+      <option value="0.75">Slow</option>
+      <option value="0.9" selected>Normal</option>
+      <option value="1.2">Fast</option>
+    </select>
+  </div>
+  <div class="story-card">
+    <h3>🏠 A Special Sunday Lunch</h3>
+    <p id="sp1">Last Sunday, my aunt and uncle visited us for lunch. My cousin Ana arrived too. It was so good to meet everyone again!</p>
+    <p id="sp2">In the morning, my mother talked to my aunt on the phone. My father helped my mother in the kitchen. I helped too — I gave the table a nice decoration with flowers.</p>
+    <p id="sp3">When Ana arrived, she gave me a big hug and a gift. We talked and talked in the living room. My uncle talked to my father about his job.</p>
+    <p id="sp4">At lunch, my mother introduced her new coworker to everyone. She met him last week at the office. He gave us a delicious cake!</p>
+    <p id="sp5">After lunch, my cousin helped me with the table. We talked about our plans for the holidays. My aunt gave me a warm hug before she left. It was a perfect Sunday!</p>
+  </div>
+
+  <div class="grammar-note">
+    <strong>📝 Grammar Note:</strong> <strong>"introduced"</strong> = apresentou &nbsp;|&nbsp; <strong>"She met him"</strong> — "him" is the object pronoun for "he". It means she met <em>that man</em>.
+  </div>
+
+  <div class="questions">
+    <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin-bottom:13px;">❓ Comprehension Questions</h3>
+    <div class="question-item"><p>1. Who visited the narrator last Sunday?</p><input type="text" placeholder="Type your answer..."><div class="answer-reveal">✅ The narrator's aunt, uncle and cousin Ana visited.</div></div>
+    <div class="question-item"><p>2. What did Ana give the narrator?</p><input type="text" placeholder="Type your answer..."><div class="answer-reveal">✅ Ana gave a big hug and a gift.</div></div>
+    <div class="question-item"><p>3. Who did the mother introduce at lunch?</p><input type="text" placeholder="Type your answer..."><div class="answer-reveal">✅ She introduced her new coworker to everyone.</div></div>
+    <div class="question-item"><p>4. What did the coworker bring?</p><input type="text" placeholder="Type your answer..."><div class="answer-reveal">✅ He gave them a delicious cake.</div></div>
+    <button class="check-btn" onclick="document.querySelectorAll('.answer-reveal').forEach(a=>a.style.display='block')">Check Answers</button>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 4. PRACTICE -->
+<div class="section" id="practice">
+  <div class="section-label">
+    <div class="num">4</div>
+    <div><span class="subtitle">Exercises</span><h2>Practice Time ✏️</h2></div>
+  </div>
+
+  <h3 style="font-size:15px;margin-bottom:12px;font-weight:500;">A. Complete with the past form:</h3>
+  <div class="tip"><strong>💡</strong> Type the past tense and press Enter to check!</div>
+  <div class="practice-item">1. I <input class="fill" data-answer="met" onkeydown="cf(event,this)"> <span class="hint-word">(meet)</span> my new neighbor yesterday.</div>
+  <div class="practice-item">2. She <input class="fill" data-answer="talked" onkeydown="cf(event,this)"> <span class="hint-word">(talk)</span> to her aunt on the phone last night.</div>
+  <div class="practice-item">3. We <input class="fill" data-answer="helped" onkeydown="cf(event,this)"> <span class="hint-word">(help)</span> our coworker last week.</div>
+  <div class="practice-item">4. He <input class="fill" data-answer="gave" onkeydown="cf(event,this)"> <span class="hint-word">(give)</span> his cousin a birthday gift.</div>
+
+  <h3 style="font-size:15px;margin:24px 0 10px;font-weight:500;">B. Translation Challenge:</h3>
+
+  <div class="trans-header topt">🇬🇧 Inglês → 🇧🇷 Português</div>
+  <div class="translation-item"><div class="trans-source"><span>I met my new neighbor last week.</span><button onclick="speak('I met my new neighbor last week.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+  <div class="translation-item"><div class="trans-source"><span>We helped our coworker last month.</span><button onclick="speak('We helped our coworker last month.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+  <div class="translation-item"><div class="trans-source"><span>She met her cousin at the party.</span><button onclick="speak('She met her cousin at the party.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+  <div class="translation-item"><div class="trans-source"><span>They talked for hours last night.</span><button onclick="speak('They talked for hours last night.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+  <div class="translation-item"><div class="trans-source"><span>He gave his aunt flowers last Sunday.</span><button onclick="speak('He gave his aunt flowers last Sunday.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+  <div class="translation-item"><div class="trans-source"><span>I helped my uncle move last Saturday.</span><button onclick="speak('I helped my uncle move last Saturday.')">🔊</button></div><input type="text" placeholder="Escreva em português..."></div>
+
+  <div class="trans-header toen">🇧🇷 Português → 🇬🇧 Inglês</div>
+  <div class="translation-item"><div class="trans-source"><span>Ela conversou com a tia dela ontem.</span><button onclick="speakPT('Ela conversou com a tia dela ontem.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+  <div class="translation-item"><div class="trans-source"><span>Ele deu um presente para o primo dele.</span><button onclick="speakPT('Ele deu um presente para o primo dele.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+  <div class="translation-item"><div class="trans-source"><span>Eu ajudei meu vizinho ontem de manhã.</span><button onclick="speakPT('Eu ajudei meu vizinho ontem de manhã.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+  <div class="translation-item"><div class="trans-source"><span>Ela me deu um abraço caloroso.</span><button onclick="speakPT('Ela me deu um abraço caloroso.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+  <div class="translation-item"><div class="trans-source"><span>Nós nos conhecemos na semana passada.</span><button onclick="speakPT('Nós nos conhecemos na semana passada.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+  <div class="translation-item"><div class="trans-source"><span>Ela apresentou o colega de trabalho.</span><button onclick="speakPT('Ela apresentou o colega de trabalho.')">🔊</button></div><input type="text" placeholder="Write in English..."></div>
+</div>
+
+<hr class="divider">
+
+<!-- 5. DIALOGUE -->
+<div class="section" id="dialogue">
+  <div class="section-label">
+    <div class="num">5</div>
+    <div><span class="subtitle">Speaking</span><h2>Family Gathering 🏠</h2></div>
+  </div>
+
+  <div class="family-marquee">
+    <div class="family-lights">
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+    </div>
+    <div class="family-title">👨‍👩‍👧 FAMILY GATHERING 👨‍👩‍👧</div>
+    <div class="family-lights">
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+      <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+    </div>
+  </div>
+
+  <button class="dialogue-play-btn" onclick="playDialogue()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    Play Dialogue
+  </button>
+
+  <div class="dialogue-container">
+    <div class="dialogue-line" id="d1"><span class="speaker-badge julia">Julia</span><span class="dialogue-text">I met your cousin yesterday! She was very nice.</span></div>
+    <div class="dialogue-line" id="d2"><span class="speaker-badge carlos">Carlos</span><span class="dialogue-text">Yes! She talked to everyone at the party.</span></div>
+    <div class="dialogue-line" id="d3"><span class="speaker-badge julia">Julia</span><span class="dialogue-text">Your uncle helped with the food, right?</span></div>
+    <div class="dialogue-line" id="d4"><span class="speaker-badge carlos">Carlos</span><span class="dialogue-text">Yes! He gave us some delicious snacks.</span></div>
+    <div class="dialogue-line" id="d5"><span class="speaker-badge julia">Julia</span><span class="dialogue-text">I loved your family!</span></div>
+    <div class="dialogue-line" id="d6"><span class="speaker-badge carlos">Carlos</span><span class="dialogue-text">Thank you! They all helped me organize everything.</span></div>
+  </div>
+
+  <div class="useful-phrases">
+    <h3>💬 Useful Phrases</h3>
+    <div class="phrases-grid">
+      <div class="phrase-card"><strong>She was very nice.</strong><span>Ela foi muito simpática.</span></div>
+      <div class="phrase-card"><strong>She talked to everyone.</strong><span>Ela conversou com todos.</span></div>
+      <div class="phrase-card"><strong>He gave us some snacks.</strong><span>Ele nos deu uns salgadinhos.</span></div>
+      <div class="phrase-card"><strong>They helped me organize.</strong><span>Eles me ajudaram a organizar.</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="logo-text">
+    <div class="main-name">EasyWay</div>
+    <div class="school-name" style="color:#90CAF9">Escola de Idiomas</div>
+  </div>
+  <p style="margin-top:14px;">Great work! 🎉</p>
+  <small>Elementary A2 · Unit 3, Lesson 1 – Meet My Family · EasyWay Escola de Idiomas</small>
+</div>
+
+<script>
+  document.querySelectorAll('.section').forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold:0.07}).observe(s);
+  });
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    document.getElementById('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+  });
+
+  setInterval(() => {
+    document.querySelectorAll('.bulb').forEach((b,i) => {
+      b.style.opacity = (Math.sin(Date.now()/400 + i) > 0) ? '1' : '0.2';
+    });
+  }, 100);
+
+  let currentAudio=null, storyPlaying=false, storySpd=0.9;
+  function speakEL(text,lang,onEnd){
+    if(currentAudio){currentAudio.pause();currentAudio=null;}
+    const url='https://translate.google.com/translate_tts?ie=UTF-8&tl='+(lang||'en-US')+'&client=tw-ob&q='+encodeURIComponent(text);
+    const audio=new Audio(url);
+    audio.playbackRate=storySpd;currentAudio=audio;
+    if(onEnd)audio.onended=onEnd;
+    audio.onerror=()=>{if(onEnd)onEnd();};
+    audio.play().catch(()=>{if(onEnd)onEnd();});
+  }
+  function speak(t){speakEL(t,'en-US');}
+  function speakPT(t){speakEL(t,'pt-BR');}
+  function rv(card){
+    card.classList.toggle('revealed');
+    card.querySelector('.hint').textContent=card.classList.contains('revealed')?'click to hide':'click to reveal';
+    if(card.classList.contains('revealed'))speak(card.querySelector('.word').textContent);
+  }
+
+  const paras=[
+    {id:'sp1',t:'Last Sunday, my aunt and uncle visited us for lunch. My cousin Ana arrived too. It was so good to meet everyone again!'},
+    {id:'sp2',t:'In the morning, my mother talked to my aunt on the phone. My father helped my mother in the kitchen. I helped too — I gave the table a nice decoration with flowers.'},
+    {id:'sp3',t:'When Ana arrived, she gave me a big hug and a gift. We talked and talked in the living room. My uncle talked to my father about his job.'},
+    {id:'sp4',t:'At lunch, my mother introduced her new coworker to everyone. She met him last week at the office. He gave us a delicious cake!'},
+    {id:'sp5',t:'After lunch, my cousin helped me with the table. We talked about our plans for the holidays. My aunt gave me a warm hug before she left. It was a perfect Sunday!'}
+  ];
+  function hl(id){
+    document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
+    const el=document.getElementById(id);
+    if(el){el.style.background='rgba(255,138,101,0.18)';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  }
+  function spk(i){
+    if(!storyPlaying)return;
+    if(i>=paras.length){
+      storyPlaying=false;document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
+      document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
+      document.getElementById('storyPlayBtn').classList.remove('active');return;
+    }
+    hl(paras[i].id);
+    speakEL(paras[i].t,'en-US',()=>{if(storyPlaying)spk(i+1);});
+  }
+  function toggleStory(){
+    if(storyPlaying){
+      storyPlaying=false;if(currentAudio){currentAudio.pause();currentAudio=null;}
+      document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
+      document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
+      document.getElementById('storyPlayBtn').classList.remove('active');
+    } else {
+      storyPlaying=true;
+      document.getElementById('storyIcon').textContent='■';document.getElementById('storyLabel').textContent='Stop';
+      document.getElementById('storyPlayBtn').classList.add('active');
+      spk(0);
+    }
+  }
+
+  let score=0;
+  function cf(e,input){
+    if(e.key==='Enter'){
+      const ans=input.dataset.answer.toLowerCase(),val=input.value.trim().toLowerCase();
+      input.classList.remove('c-ok','c-no');
+      if(val===ans){
+        input.classList.add('c-ok');speak(input.dataset.answer);score++;
+        document.getElementById('scoreNum').textContent=score;document.getElementById('scoreBadge').style.display='block';
+      } else {
+        input.classList.add('c-no');setTimeout(()=>{input.value='';input.classList.remove('c-no');},800);
+      }
+    }
+  }
+
+  const dlTexts=[
+    'I met your cousin yesterday! She was very nice.',
+    'Yes! She talked to everyone at the party.',
+    'Your uncle helped with the food, right?',
+    'Yes! He gave us some delicious snacks.',
+    'I loved your family!',
+    'Thank you! They all helped me organize everything.'
+  ];
+  function playDialogueSeq(i){
+    const lines=document.querySelectorAll('.dialogue-line');
+    if(i>=lines.length)return;
+    lines[i].style.animation='none';lines[i].offsetHeight;
+    lines[i].style.animation='fadeIn 0.4s ease forwards';lines[i].style.opacity='1';
+    speakEL(dlTexts[i],'en-US',()=>setTimeout(()=>playDialogueSeq(i+1),300));
+  }
+  function playDialogue(){
+    document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='0');
+    if(currentAudio){currentAudio.pause();currentAudio=null;}
+    playDialogueSeq(0);
+  }
+  document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='1');
+</script>
+
+</div>
+</section>
+
+<section class="lesson-panel" id="lesson-1">
+
+  <div class="lesson-banner orange" data-emoji="🎉">
+    <small>Unit 2 · Lesson 2</small>
+    <h2>Good Times</h2>
+  </div>
+
+  <!-- Objectives -->
+  <div class="section-card">
+    <div class="section-header orange">🎯 What will you learn?</div>
+    <div class="section-body">
+      <div class="obj-list">
+        <div class="obj-item"><span class="obj-check">✓</span>Talk about parties and celebrations</div>
+        <div class="obj-item"><span class="obj-check">✓</span>Use 4 new verbs in the past simple</div>
+        <div class="obj-item"><span class="obj-check">✓</span>Understand a short text about a birthday party</div>
+        <div class="obj-item"><span class="obj-check">✓</span>Translate sentences about celebrations</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warm Up -->
+  <div class="section-card">
+    <div class="section-header orange">🔥 Warm Up</div>
+    <div class="section-body">
+      <ul class="warmup-list">
+        <li class="warmup-item"><span class="warmup-num">1.</span>Do you like parties? What is your favorite kind of celebration?</li>
+        <li class="warmup-item"><span class="warmup-num">2.</span>When was the last birthday party you went to? Was it fun?</li>
+        <li class="warmup-item"><span class="warmup-num">3.</span>Do you like to dance and sing at parties?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Useful Verbs -->
+  <div class="section-card">
+    <div class="section-header purple">📖 Useful Verbs</div>
+    <div class="section-body" style="padding:0">
+      <table class="verbs-table">
+        <thead><tr><th>Present</th><th>Past</th><th>Example</th><th>🔊</th></tr></thead>
+        <tbody>
+          <tr><td>to celebrate</td><td class="verb-past">celebrated</td><td class="verb-example">We celebrated her birthday.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)" title="Play audio"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to invite</td><td class="verb-past">invited</td><td class="verb-example">She invited all her friends.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)" title="Play audio"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to dance</td><td class="verb-past">danced</td><td class="verb-example">They danced all night.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)" title="Play audio"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to sing</td><td class="verb-past">sang</td><td class="verb-example">We sang Happy Birthday.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)" title="Play audio"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Key Words -->
+  <div class="section-card">
+    <div class="section-header blue">🗝️ Key Words</div>
+    <div class="section-body">
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">party</div><div class="vocab-pt">festa</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">birthday</div><div class="vocab-pt">aniversário</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">surprise</div><div class="vocab-pt">surpresa</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">balloon</div><div class="vocab-pt">balão</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">candle</div><div class="vocab-pt">vela</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">cake</div><div class="vocab-pt">bolo</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">guest</div><div class="vocab-pt">convidado/a</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">decoration</div><div class="vocab-pt">decoração</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story Time -->
+  <div class="section-card">
+    <div class="section-header sky">📖 Story Time</div>
+    <div class="section-body">
+      <div class="story-title">The Best Birthday Surprise 🎂</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last Saturday, I went to my best friend Clara's house. It was her birthday! It was a surprise party!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Clara's sister talked to everyone before Clara arrived. She gave us balloons and candles for the house. We helped with everything!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>When Clara arrived, everyone gave her a big smile. She was so happy! Her mother gave her a beautiful cake with twenty-five candles. We all sang Happy Birthday together.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>After the cake, Clara's cousin gave a short concert with his guitar. All the guests talked and ate. Clara was so grateful.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Clara talked to us all about her plans for next month. It was the best birthday party ever!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. Where did they meet last Saturday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. What did Clara's sister give everyone?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. What did Clara's mother give her?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. What did Clara's cousin do at the party?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <!-- Practice Time – Fill In -->
+  <div class="section-card">
+    <div class="section-header orange">✏️ Practice Time – Complete the Sentence</div>
+    <div class="section-body">
+      <p class="exercise-intro">A. Write the correct past form of the verb in parentheses:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>We <input class="blank-input" data-answer="celebrated" placeholder="…"> (celebrate) my grandmother's birthday last Sunday.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="invited" placeholder="…"> (invite) twenty guests to her party.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>They <input class="blank-input" data-answer="danced" placeholder="…"> (dance) all night at the celebration.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>We <input class="blank-input" data-answer="sang" placeholder="…"> (sing) Happy Birthday together.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <!-- Translation Challenge -->
+  <div class="section-card">
+    <div class="section-header orange">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>We celebrated her birthday last Saturday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós celebramos o aniversário dela no último sábado.</span></td></tr>
+        <tr><td>They danced all night at the party.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles dançaram a noite toda na festa.</span></td></tr>
+        <tr><td>She invited her cousin to the surprise.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela convidou o primo dela para a surpresa.</span></td></tr>
+        <tr><td>I danced with my friends last night.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu dancei com meus amigos ontem à noite.</span></td></tr>
+        <tr><td>We celebrated with cake and candles.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós comemoramos com bolo e velas.</span></td></tr>
+        <tr><td>They sang and danced until midnight.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles cantaram e dançaram até meia-noite.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela convidou todos os amigos para a festa.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She invited all her friends to the party.</span></td></tr>
+        <tr><td>Nós cantamos Parabéns juntos.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We sang Happy Birthday together.</span></td></tr>
+        <tr><td>Eles celebraram com bolo e balões.</td><td><span class="trans-answer" onclick="revealAnswer(this)">They celebrated with cake and balloons.</span></td></tr>
+        <tr><td>Ela cantou uma música com o violão.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She sang a song with the guitar.</span></td></tr>
+        <tr><td>Ele convidou trinta pessoas para a festa.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He invited thirty people to the party.</span></td></tr>
+        <tr><td>Nós celebramos o aniversário dela ontem.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We celebrated her birthday yesterday.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Dialogue -->
+  <div class="section-card">
+    <div class="section-header pink">🎬 Dialogue – Party Invitation</div>
+    <div class="section-body">
+      <div class="dialogue-lines">
+        <div class="dialogue-line a"><span class="speaker-name">Pedro:</span><span class="dialogue-text">I went to Clara's birthday party last Saturday!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Sofia:</span><span class="dialogue-text">Really? I invited her to my party next month.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Pedro:</span><span class="dialogue-text">It was amazing! We danced all night.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Sofia:</span><span class="dialogue-text">Did everyone sing Happy Birthday?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Pedro:</span><span class="dialogue-text">Yes! We celebrated with a huge cake.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Sofia:</span><span class="dialogue-text">Sounds perfect! I want my party like that too!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-panel" id="lesson-2">
+
+  <div class="lesson-banner red" data-emoji="😰">
+    <small>Unit 2 · Lesson 3</small>
+    <h2>Bad Days Happen</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header red">🎯 What will you learn?</div>
+    <div class="section-body"><div class="obj-list">
+      <div class="obj-item"><span class="obj-check">✓</span>Talk about problems and difficult moments</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Use 4 new verbs in the past simple</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Understand a short text about a bad day</div>
+      <div class="obj-item"><span class="obj-check">✓</span>Translate sentences about problems and feelings</div>
+    </div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header red">🔥 Warm Up</div>
+    <div class="section-body"><ul class="warmup-list">
+      <li class="warmup-item"><span class="warmup-num">1.</span>Do you ever have bad days? What usually goes wrong?</li>
+      <li class="warmup-item"><span class="warmup-num">2.</span>Have you ever lost something important? How did you feel?</li>
+      <li class="warmup-item"><span class="warmup-num">3.</span>What do you do when you feel upset or stressed?</li>
+    </ul></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header purple">📖 Useful Verbs</div>
+    <div class="section-body" style="padding:0">
+      <table class="verbs-table">
+        <thead><tr><th>Present</th><th>Past</th><th>Example</th><th>🔊</th></tr></thead>
+        <tbody>
+          <tr><td>to lose</td><td class="verb-past">lost</td><td class="verb-example">I lost my wallet.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to forget</td><td class="verb-past">forgot</td><td class="verb-example">She forgot her keys.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to miss</td><td class="verb-past">missed</td><td class="verb-example">He missed the appointment.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+          <tr><td>to feel</td><td class="verb-past">felt</td><td class="verb-example">We felt very upset.</td><td class="verb-audio-cell"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header blue">🗝️ Key Words</div>
+    <div class="section-body">
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">problem</div><div class="vocab-pt">problema</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">wallet</div><div class="vocab-pt">carteira</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">keys</div><div class="vocab-pt">chaves</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">appointment</div><div class="vocab-pt">compromisso</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">headache</div><div class="vocab-pt">dor de cabeça</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">mistake</div><div class="vocab-pt">erro</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">relieved</div><div class="vocab-pt">aliviado</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">upset</div><div class="vocab-pt">chateado/a</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">terrible</div><div class="vocab-pt">terrível</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">stressed</div><div class="vocab-pt">estressado</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">inside</div><div class="vocab-pt">dentro</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="vocab-card"><div class="vocab-text"><div class="vocab-en">under</div><div class="vocab-pt">embaixo</div></div><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header sky">📖 Story Time</div>
+    <div class="section-body">
+      <div class="story-title">The Worst Monday Ever 😩</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Last Monday was the worst day! Everything went wrong.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>In the morning, I felt very tired. I forgot my keys inside the apartment and the door was shut. I lost twenty minutes trying to solve the problem. I felt so upset!</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>Then I missed my bus. I arrived late at the office. My coworker felt bad for me and helped me. I forgot my wallet at home too, so my coworker paid for my coffee.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>In the afternoon, I missed an important appointment because I forgot to write it in my calendar. My boss felt upset. I felt terrible and had a headache.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>At night, I lost my phone for one hour. I felt so stressed! Then I found it under the sofa. I felt relieved. Bad days happen to everyone. The next day was much better!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. What did the narrator forget in the morning?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. Why did the coworker pay for the coffee?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. What appointment did the narrator miss?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. Where did the narrator find the phone?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header red">✏️ Practice Time – Complete the Sentence</div>
+    <div class="section-body">
+      <p class="exercise-intro">A. Write the correct past form of the verb in parentheses:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>I <input class="blank-input" data-answer="lost" placeholder="…"> (lose) my wallet yesterday morning.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="forgot" placeholder="…"> (forget) her keys inside the car.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>He <input class="blank-input" data-answer="missed" placeholder="…"> (miss) the bus and arrived late.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>We <input class="blank-input" data-answer="felt" placeholder="…"> (feel) very upset about the problem.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header red">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>I lost my keys yesterday morning.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu perdi minhas chaves ontem de manhã.</span></td></tr>
+        <tr><td>He missed the appointment last week.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ele perdeu o compromisso semana passada.</span></td></tr>
+        <tr><td>She felt very tired last Monday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela se sentiu muito cansada na última segunda.</span></td></tr>
+        <tr><td>They missed the bus this morning.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles perderam o ônibus esta manhã.</span></td></tr>
+        <tr><td>I felt a headache all afternoon.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu senti dor de cabeça a tarde toda.</span></td></tr>
+        <tr><td>We forgot the meeting last Tuesday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós esquecemos a reunião na última terça.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela esqueceu a carteira em casa.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She forgot her wallet at home.</span></td></tr>
+        <tr><td>Nós nos sentimos chateados com o problema.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We felt upset about the problem.</span></td></tr>
+        <tr><td>Eu perdi meu telefone ontem à noite.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I lost my phone last night.</span></td></tr>
+        <tr><td>Ele esqueceu o compromisso importante.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He forgot the important appointment.</span></td></tr>
+        <tr><td>Ela perdeu vinte minutos procurando as chaves.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She lost twenty minutes looking for the keys.</span></td></tr>
+        <tr><td>Ele se sentiu aliviado depois de encontrar a carteira.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He felt relieved after finding the wallet.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header pink">🎬 Dialogue – Consoling a Friend</div>
+    <div class="section-body">
+      <div class="dialogue-lines">
+        <div class="dialogue-line a"><span class="speaker-name">Rita:</span><span class="dialogue-text">I had a terrible day yesterday. I lost my wallet!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Bruno:</span><span class="dialogue-text">Oh no! Did you forget where you put it?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Rita:</span><span class="dialogue-text">Yes! I felt so stressed. I missed my bus too.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Bruno:</span><span class="dialogue-text">That's awful. Did you find the wallet?</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line a"><span class="speaker-name">Rita:</span><span class="dialogue-text">Yes! I found it under my bed. I felt so relieved!</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+        <div class="dialogue-line b"><span class="speaker-name">Bruno:</span><span class="dialogue-text">I'm happy you found it! Bad days happen to everyone.</span><button class="audio-btn dialogue-audio" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-panel" id="lesson-3">
+
+  <div class="lesson-banner" data-emoji="🎯" style="background:linear-gradient(135deg,#880E4F,#C2185B);">
+    <small>Unit 3 · Lesson 4</small>
+    <h2>Let&#39;s Review! – Unit 3</h2>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#880E4F,#C2185B);">📖 Story Time – Review</div>
+    <div class="section-body">
+      <div class="story-title">Last Weekend – Good &amp; Bad! 🎉😰</div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Saturday morning, I felt excited because we celebrated my cousin's birthday. His sister invited twenty guests. I helped with the decorations and gave balloons to everyone. We danced and sang in the afternoon. My cousin met his new neighbors at the party and talked to them for hours.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>But in the evening, something went wrong. I lost my wallet at the party. I felt very upset. I missed my last bus and forgot to call my mother. She felt worried.</span></div>
+      <div class="story-para"><button class="audio-btn" onclick="playAudio(this)"><span class="audio-pill">🎵 Playing…</span>🔊</button><span>On Sunday, my neighbor helped me find the wallet. We talked and talked. He met my cousin and gave him a late birthday gift. In the afternoon, I finally found the wallet under a chair! I felt so relieved. Bad days happen, but good people help us!</span></div>
+      <p class="questions-title">❓ Comprehension Questions</p>
+      <div class="question-item"><label>1. What did they celebrate on Saturday?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>2. What did the narrator lose at the party?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>3. Who helped the narrator find the wallet?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+      <div class="question-item"><label>4. Where did they finally find the wallet?</label><input class="question-input" type="text" placeholder="Write your answer here…"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#880E4F,#C2185B);">✏️ Practice A – Verb + Time Expression</div>
+    <div class="section-body">
+      <p class="exercise-intro">Write the verb in the past form:</p>
+      <div class="blank-item"><span class="blank-num">1.</span>Yesterday, I <input class="blank-input" data-answer="met" placeholder="…"> (meet) my new coworker.</div>
+      <div class="blank-item"><span class="blank-num">2.</span>She <input class="blank-input" data-answer="celebrated" placeholder="…"> (celebrate) her birthday last month.</div>
+      <div class="blank-item"><span class="blank-num">3.</span>We <input class="blank-input" data-answer="felt" placeholder="…"> (feel) so happy at night.</div>
+      <div class="blank-item"><span class="blank-num">4.</span>He <input class="blank-input" data-answer="lost" placeholder="…"> (lose) his wallet two days ago.</div>
+      <div class="blank-item"><span class="blank-num">5.</span>They <input class="blank-input" data-answer="danced" placeholder="…"> (dance) and <input class="blank-input" data-answer="sang" placeholder="…"> (sing) last Saturday.</div>
+      <div class="blank-item"><span class="blank-num">6.</span>I <input class="blank-input" data-answer="forgot" placeholder="…"> (forget) the appointment yesterday morning.</div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Answers</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#880E4F,#C2185B);">🔁 Translation Challenge</div>
+    <div class="section-body">
+      <p class="reveal-hint">👆 Click the blue box to reveal the translation</p>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin-bottom:8px;">🇬🇧 English → 🇧🇷 Portuguese</p>
+      <table class="trans-table">
+        <tr><td>I met my cousin last Saturday.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu encontrei meu primo no último sábado.</span></td></tr>
+        <tr><td>We celebrated her birthday last month.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Nós comemoramos o aniversário dela mês passado.</span></td></tr>
+        <tr><td>She felt very happy in the evening.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ela se sentiu muito feliz à noite.</span></td></tr>
+        <tr><td>They talked for hours last night.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eles conversaram por horas ontem à noite.</span></td></tr>
+        <tr><td>He gave his aunt a gift last week.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Ele deu um presente para a tia dele semana passada.</span></td></tr>
+        <tr><td>I missed the bus two days ago.</td><td><span class="trans-answer" onclick="revealAnswer(this)">Eu perdi o ônibus dois dias atrás.</span></td></tr>
+      </table>
+      <p style="font-weight:800;font-size:13px;color:#37474F;margin:14px 0 8px;">🇧🇷 Portuguese → 🇬🇧 English</p>
+      <table class="trans-table">
+        <tr><td>Ela esqueceu as chaves ontem de manhã.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She forgot her keys yesterday morning.</span></td></tr>
+        <tr><td>Ele perdeu a carteira na festa.</td><td><span class="trans-answer" onclick="revealAnswer(this)">He lost his wallet at the party.</span></td></tr>
+        <tr><td>Nós dançamos e cantamos a noite toda.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We danced and sang all night.</span></td></tr>
+        <tr><td>Eu me senti aliviado depois de encontrar as chaves.</td><td><span class="trans-answer" onclick="revealAnswer(this)">I felt relieved after finding the keys.</span></td></tr>
+        <tr><td>Ela convidou vinte pessoas para a festa.</td><td><span class="trans-answer" onclick="revealAnswer(this)">She invited twenty people to the party.</span></td></tr>
+        <tr><td>Nós nos conhecemos há um mês.</td><td><span class="trans-answer" onclick="revealAnswer(this)">We met each other a month ago.</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header" style="background:linear-gradient(90deg,#880E4F,#C2185B);">🔢 Put the Story in Order</div>
+    <div class="section-body">
+      <p class="exercise-intro">Number the sentences 1–6 to create a logical story:</p>
+      <div id="orderList-14" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="4" placeholder="#" style="width:50px;margin-right:8px;"> I felt very upset and missed the last bus home.</div>
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="1" placeholder="#" style="width:50px;margin-right:8px;"> Last Saturday, my friend invited me to a surprise party.</div>
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="3" placeholder="#" style="width:50px;margin-right:8px;"> We danced and sang until midnight.</div>
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="2" placeholder="#" style="width:50px;margin-right:8px;"> At the party, I met many new people and talked to them.</div>
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="5" placeholder="#" style="width:50px;margin-right:8px;"> In the evening, I lost my wallet at the party.</div>
+        <div class="blank-item" style="cursor:grab;" draggable="true"><span class="blank-num">__</span><input class="blank-input" data-answer="6" placeholder="#" style="width:50px;margin-right:8px;"> The next day, my neighbor helped me find it.</div>
+      </div>
+      <button class="check-btn" onclick="checkBlanks(this)">✅ Check Order</button>
+      <div class="score-badge"></div>
+    </div>
+  </div>
+</section>
+
+
+<div class="lesson-footer">EasyWay Escola de Idiomas · A2 · Unit 3 · 🎓</div>
+<script>
+function showLesson(n) {
+  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lesson-' + n).classList.add('active');
+  document.querySelector('.tab-btn[data-lesson="' + n + '"]').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+const synth = window.speechSynthesis;
+let currentBtn = null;
+function getEnVoice() {
+  const voices = synth.getVoices();
+  return voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en')) || voices[0];
+}
+function getTextToSpeak(btn) {
+  const v = btn.closest('.vocab-card');
+  if (v) return v.querySelector('.vocab-en')?.textContent?.trim() || '';
+  const tr = btn.closest('tr');
+  if (tr) { const c = tr.querySelectorAll('td'); if (c.length >= 3) return c[0].textContent.trim() + '. Past: ' + c[1].textContent.trim() + '. Example: ' + c[2].textContent.trim(); }
+  const sp = btn.closest('.story-para');
+  if (sp) return sp.querySelector('span')?.textContent?.trim() || '';
+  const dl = btn.closest('.dialogue-line');
+  if (dl) return dl.querySelector('.dialogue-text')?.textContent?.trim() || '';
+  return '';
+}
+function stopSpeech() {
+  synth.cancel();
+  if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; currentBtn = null; }
+}
+function playAudio(btn) {
+  if (currentBtn === btn) { stopSpeech(); return; }
+  stopSpeech();
+  const text = getTextToSpeak(btn);
+  if (!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.voice = getEnVoice(); utter.lang = 'en-US'; utter.rate = 0.88; utter.pitch = 1.05;
+  btn.classList.add('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>⏹'; currentBtn = btn;
+  utter.onend = utter.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊'; if (currentBtn === btn) currentBtn = null; };
+  if (synth.getVoices().length === 0) { synth.addEventListener('voiceschanged', () => synth.speak(utter), { once: true }); } else { synth.speak(utter); }
+}
+function checkBlanks(btn) {
+  const card = btn.closest('.section-body');
+  const inputs = card.querySelectorAll('.blank-input');
+  let correct = 0;
+  inputs.forEach(inp => { const u = inp.value.trim().toLowerCase(), a = inp.dataset.answer.toLowerCase(); inp.classList.remove('correct','wrong'); if (u === a) { inp.classList.add('correct'); correct++; } else if (u !== '') inp.classList.add('wrong'); });
+  const badge = card.querySelector('.score-badge'); badge.classList.add('visible');
+  if (correct === inputs.length) { badge.textContent = '🎉 Perfect! ' + correct + '/' + inputs.length + ' correct!'; badge.style.cssText = 'display:block;background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32'; }
+  else { badge.textContent = '📝 ' + correct + '/' + inputs.length + ' correct. Try again!'; badge.style.cssText = 'display:block;background:#FFF8E1;border-color:#FFE082;color:#F57F17'; }
+}
+function revealAnswer(el) { el.classList.add('revealed'); }
+</script>
+</body>
+</html>
