@@ -1374,12 +1374,23 @@ function playAudio(btn) {
   stopSpeech();
   const text = getTextToSpeak(btn);
   if (!text) return;
-  const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=' + encodeURIComponent(text);
-  const audio = new Audio(url);
-  currentAudio = audio;
+  const apiKey = '05293c8fd3a1dc832ca2e7821d6df9d5b6b7884fe7d9c6933b94ab984b42d666';
+  const voiceId = 'rachel';
+  const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
   btn.classList.add('playing'); btn.innerHTML = '⏹'; currentBtn = btn;
-  audio.onended = audio.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; };
-  audio.play().catch(() => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
+  fetch(url, {
+    method: 'POST',
+    headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: text, model_id: 'eleven_monolingual_v1', voice_settings: { stability: 0.5, similarity_boost: 0.75 } })
+  })
+  .then(r => r.blob())
+  .then(blob => {
+    const audio = new Audio(URL.createObjectURL(blob));
+    currentAudio = audio;
+    audio.onended = audio.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; };
+    audio.play().catch(() => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
+  })
+  .catch(e => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
 }
 function checkBlanks(btn) {
   const card = btn.closest('.section-body');
