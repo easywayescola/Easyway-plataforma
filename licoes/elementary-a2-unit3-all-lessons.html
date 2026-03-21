@@ -467,7 +467,7 @@ body {
   </button>
 </nav>
 
-<section class="lesson-panel active" id="lesson-PLACEHOLDER">
+<section class="lesson-panel active" id="lesson-0">
 <style>
 
   :root {
@@ -883,15 +883,7 @@ body {
 </div>
 
 <script>
-  document.querySelectorAll('.section').forEach(s => {
-    new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-    }, {threshold:0.07}).observe(s);
-  });
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    document.getElementById('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
-  });
+  /* ── LESSON 0 LOCAL FUNCTIONS ── all audio goes through global Rachel (playAudioText) ── */
 
   setInterval(() => {
     document.querySelectorAll('.bulb').forEach((b,i) => {
@@ -899,58 +891,19 @@ body {
     });
   }, 100);
 
-  const EL_KEY_L1  = 'sk_5241eea6b8b15b86b561f4261f07318e3fad8626fd295ffa';
-  const EL_VID_L1  = '21m00Tcm4TlvDq8ikWAM'; // Rachel
-  const EL_MDL_L1  = 'eleven_turbo_v2';
-  const l1Cache    = {};
-  let l1Audio=null, storyPlaying=false, storySpd=0.9;
+  let storyPlaying=false, storySpd=0.9, l1Audio=null;
 
-  async function speakEL(text, lang, onEnd) {
-    if(l1Audio){l1Audio.pause();l1Audio=null;}
-    // Portuguese sentences: fallback to browser TTS (ElevenLabs is English-optimised)
-    if(lang && lang.startsWith('pt')) {
-      const u = new SpeechSynthesisUtterance(text);
-      const voices = window.speechSynthesis.getVoices();
-      u.voice = voices.find(v=>v.lang.startsWith('pt')) || null;
-      u.lang='pt-BR'; u.rate=0.88;
-      if(onEnd) u.onend=onEnd;
-      window.speechSynthesis.speak(u);
-      return;
-    }
-    try {
-      let blobUrl = l1Cache[text];
-      if(!blobUrl){
-        const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EL_VID_L1}?optimize_streaming_latency=3`,{
-          method:'POST',
-          mode:'cors',
-          headers:{'xi-api-key':EL_KEY_L1,'Content-Type':'application/json','Accept':'audio/mpeg'},
-          body:JSON.stringify({text, model_id:EL_MDL_L1,
-            voice_settings:{stability:0.50,similarity_boost:0.75,style:0.20,use_speaker_boost:true}})
-        });
-        if(!res.ok){
-          const errText = await res.text().catch(()=>'');
-          console.warn('ElevenLabs L1 error '+res.status+':', errText);
-          if(onEnd)onEnd();return;
-        }
-        blobUrl=URL.createObjectURL(await res.blob());
-        l1Cache[text]=blobUrl;
-      }
-      const audio=new Audio(blobUrl);
-      audio.playbackRate=storySpd;
-      l1Audio=audio;
-      if(onEnd)audio.onended=onEnd;
-      audio.onerror=()=>{if(onEnd)onEnd();};
-      audio.play().catch(()=>{if(onEnd)onEnd();});
-    } catch(e){if(onEnd)onEnd();}
-  }
-  function speak(t){speakEL(t,'en-US');}
-  function speakPT(t){speakEL(t,'pt-BR');}
+  /* speak(text) — called by vocab/verb buttons with hardcoded text */
+  function speak(t){ playAudioText(t); }
+  function speakPT(t){ playAudioTextPT(t); }
+
   function rv(card){
     card.classList.toggle('revealed');
     card.querySelector('.hint').textContent=card.classList.contains('revealed')?'click to hide':'click to reveal';
-    if(card.classList.contains('revealed'))speak(card.querySelector('.word').textContent);
+    if(card.classList.contains('revealed')) speak(card.querySelector('.word').textContent);
   }
 
+  /* Story sequential reader */
   const paras=[
     {id:'sp1',t:'Last Sunday, my aunt and uncle visited us for lunch. My cousin Ana arrived too. It was so good to meet everyone again!'},
     {id:'sp2',t:'In the morning, my mother talked to my aunt on the phone. My father helped my mother in the kitchen. I helped too — I gave the table a nice decoration with flowers.'},
@@ -966,36 +919,43 @@ body {
   function spk(i){
     if(!storyPlaying)return;
     if(i>=paras.length){
-      storyPlaying=false;document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
-      document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
-      document.getElementById('storyPlayBtn').classList.remove('active');return;
+      storyPlaying=false;
+      document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
+      document.getElementById('storyIcon').textContent='▶';
+      document.getElementById('storyLabel').textContent='Read Aloud';
+      document.getElementById('storyPlayBtn').classList.remove('active');
+      return;
     }
     hl(paras[i].id);
-    speakEL(paras[i].t,'en-US',()=>{if(storyPlaying)spk(i+1);});
+    playAudioText(paras[i].t, ()=>{ if(storyPlaying) spk(i+1); });
   }
   function toggleStory(){
     if(storyPlaying){
-      storyPlaying=false;if(l1Audio){l1Audio.pause();l1Audio=null;}
-      window.speechSynthesis.cancel();
+      storyPlaying=false;
+      stopCurrentAudio();
       document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
-      document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
+      document.getElementById('storyIcon').textContent='▶';
+      document.getElementById('storyLabel').textContent='Read Aloud';
       document.getElementById('storyPlayBtn').classList.remove('active');
     } else {
       storyPlaying=true;
-      document.getElementById('storyIcon').textContent='■';document.getElementById('storyLabel').textContent='Stop';
+      document.getElementById('storyIcon').textContent='■';
+      document.getElementById('storyLabel').textContent='Stop';
       document.getElementById('storyPlayBtn').classList.add('active');
       spk(0);
     }
   }
 
+  /* Dialogue */
   let score=0;
   function cf(e,input){
     if(e.key==='Enter'){
       const ans=input.dataset.answer.toLowerCase(),val=input.value.trim().toLowerCase();
       input.classList.remove('c-ok','c-no');
       if(val===ans){
-        input.classList.add('c-ok');speak(input.dataset.answer);score++;
-        document.getElementById('scoreNum').textContent=score;document.getElementById('scoreBadge').style.display='block';
+        input.classList.add('c-ok'); speak(input.dataset.answer); score++;
+        document.getElementById('scoreNum').textContent=score;
+        document.getElementById('scoreBadge').style.display='block';
       } else {
         input.classList.add('c-no');setTimeout(()=>{input.value='';input.classList.remove('c-no');},800);
       }
@@ -1011,19 +971,30 @@ body {
     'Thank you! They all helped me organize everything.'
   ];
   function playDialogueSeq(i){
-    const lines=document.querySelectorAll('.dialogue-line');
+    const lines=document.querySelectorAll('#lesson-0 .dialogue-line');
     if(i>=lines.length)return;
-    lines[i].style.animation='none';lines[i].offsetHeight;
-    lines[i].style.animation='fadeIn 0.4s ease forwards';lines[i].style.opacity='1';
-    speakEL(dlTexts[i],'en-US',()=>setTimeout(()=>playDialogueSeq(i+1),300));
+    lines[i].style.animation='none'; lines[i].offsetHeight;
+    lines[i].style.animation='fadeIn 0.4s ease forwards'; lines[i].style.opacity='1';
+    playAudioText(dlTexts[i], ()=>setTimeout(()=>playDialogueSeq(i+1),300));
   }
   function playDialogue(){
-    document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='0');
-    if(l1Audio){l1Audio.pause();l1Audio=null;}
-    window.speechSynthesis.cancel();
+    document.querySelectorAll('#lesson-0 .dialogue-line').forEach(l=>l.style.opacity='0');
+    stopCurrentAudio();
     playDialogueSeq(0);
   }
-  document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='1');
+  document.querySelectorAll('#lesson-0 .dialogue-line').forEach(l=>l.style.opacity='1');
+
+  /* scroll progress */
+  document.querySelectorAll('.section').forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold:0.07}).observe(s);
+  });
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const prog = document.getElementById('progress');
+    if(prog) prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+  });
 </script>
 
 </div>
@@ -1392,13 +1363,51 @@ function showLesson(n) {
 }
 
 /* ── ELEVENLABS RACHEL CONFIG ── */
-const EL_API_KEY   = 'sk_5241eea6b8b15b86b561f4261f07318e3fad8626fd295ffa';
+const EL_API_KEY   = 'sk_47f43f535f481858eff1c3e8aa7f4741005b51e39a25f756';
 const EL_VOICE_ID  = '21m00Tcm4TlvDq8ikWAM'; // Rachel
 const EL_MODEL     = 'eleven_turbo_v2';
 
 const audioCache   = {};   // text → blob URL
 let   currentAudio = null;
 let   currentBtn   = null;
+
+function stopCurrentAudio() {
+  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+  if (currentBtn)   { setBtnState(currentBtn, 'idle'); currentBtn = null; }
+}
+
+/* playAudioText(text, onEnd?) — play Rachel with plain text, no button state */
+async function playAudioText(text, onEnd) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  try {
+    let blobUrl = audioCache[text];
+    if (!blobUrl) {
+      const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EL_VOICE_ID}`, {
+        method: 'POST',
+        headers: { 'xi-api-key': EL_API_KEY, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' },
+        body: JSON.stringify({ text, model_id: EL_MODEL,
+          voice_settings: { stability: 0.50, similarity_boost: 0.75, style: 0.20, use_speaker_boost: true } })
+      });
+      if (!res.ok) { if (onEnd) onEnd(); return; }
+      blobUrl = URL.createObjectURL(await res.blob());
+      audioCache[text] = blobUrl;
+    }
+    const audio = new Audio(blobUrl);
+    currentAudio = audio;
+    if (onEnd) audio.onended = onEnd;
+    audio.onerror = () => { if (onEnd) onEnd(); };
+    audio.play().catch(() => { if (onEnd) onEnd(); });
+  } catch(e) { if (onEnd) onEnd(); }
+}
+
+/* playAudioTextPT — Portuguese fallback via browser TTS */
+function playAudioTextPT(text) {
+  const u = new SpeechSynthesisUtterance(text);
+  const voices = window.speechSynthesis.getVoices();
+  u.voice = voices.find(v => v.lang.startsWith('pt')) || null;
+  u.lang = 'pt-BR'; u.rate = 0.88;
+  window.speechSynthesis.speak(u);
+}
 
 function getTextToSpeak(btn) {
   const v = btn.closest('.vocab-card');
@@ -1415,7 +1424,11 @@ function getTextToSpeak(btn) {
     }
   }
   const sp = btn.closest('.story-para');
-  if (sp) return sp.querySelector('span')?.textContent?.trim() || '';
+  if (sp) {
+    const spans = sp.querySelectorAll(':scope > span');
+    for (const s of spans) { const t = s.textContent.trim(); if (t && !t.includes('Playing') && !t.includes('Loading')) return t; }
+    return sp.innerText.replace(/[▶⏹🔊⏳]|Playing…|Loading…/g,'').trim();
+  }
   const dl = btn.closest('.dialogue-line');
   if (dl) return dl.querySelector('.dialogue-text')?.textContent?.trim() || '';
   return '';
@@ -1438,10 +1451,7 @@ function setBtnState(btn, state) {
   }
 }
 
-function stopCurrent() {
-  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
-  if (currentBtn)   { setBtnState(currentBtn, 'idle'); currentBtn = null; }
-}
+function stopCurrent() { stopCurrentAudio(); }
 
 async function playAudio(btn) {
   if (currentBtn === btn) { stopCurrent(); return; }
