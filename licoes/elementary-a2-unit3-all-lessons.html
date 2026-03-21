@@ -467,7 +467,7 @@ body {
   </button>
 </nav>
 
-<section class="lesson-panel active" id="lesson-0">
+<section class="lesson-panel active" id="lesson-PLACEHOLDER">
 <style>
 
   :root {
@@ -899,15 +899,49 @@ body {
     });
   }, 100);
 
-  let currentAudio=null, storyPlaying=false, storySpd=0.9;
-  function speakEL(text,lang,onEnd){
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
-    const url='https://translate.google.com/translate_tts?ie=UTF-8&tl='+(lang||'en-US')+'&client=tw-ob&q='+encodeURIComponent(text);
-    const audio=new Audio(url);
-    audio.playbackRate=storySpd;currentAudio=audio;
-    if(onEnd)audio.onended=onEnd;
-    audio.onerror=()=>{if(onEnd)onEnd();};
-    audio.play().catch(()=>{if(onEnd)onEnd();});
+  const EL_KEY_L1  = 'sk_5241eea6b8b15b86b561f4261f07318e3fad8626fd295ffa';
+  const EL_VID_L1  = '21m00Tcm4TlvDq8ikWAM'; // Rachel
+  const EL_MDL_L1  = 'eleven_turbo_v2';
+  const l1Cache    = {};
+  let l1Audio=null, storyPlaying=false, storySpd=0.9;
+
+  async function speakEL(text, lang, onEnd) {
+    if(l1Audio){l1Audio.pause();l1Audio=null;}
+    // Portuguese sentences: fallback to browser TTS (ElevenLabs is English-optimised)
+    if(lang && lang.startsWith('pt')) {
+      const u = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      u.voice = voices.find(v=>v.lang.startsWith('pt')) || null;
+      u.lang='pt-BR'; u.rate=0.88;
+      if(onEnd) u.onend=onEnd;
+      window.speechSynthesis.speak(u);
+      return;
+    }
+    try {
+      let blobUrl = l1Cache[text];
+      if(!blobUrl){
+        const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EL_VID_L1}?optimize_streaming_latency=3`,{
+          method:'POST',
+          mode:'cors',
+          headers:{'xi-api-key':EL_KEY_L1,'Content-Type':'application/json','Accept':'audio/mpeg'},
+          body:JSON.stringify({text, model_id:EL_MDL_L1,
+            voice_settings:{stability:0.50,similarity_boost:0.75,style:0.20,use_speaker_boost:true}})
+        });
+        if(!res.ok){
+          const errText = await res.text().catch(()=>'');
+          console.warn('ElevenLabs L1 error '+res.status+':', errText);
+          if(onEnd)onEnd();return;
+        }
+        blobUrl=URL.createObjectURL(await res.blob());
+        l1Cache[text]=blobUrl;
+      }
+      const audio=new Audio(blobUrl);
+      audio.playbackRate=storySpd;
+      l1Audio=audio;
+      if(onEnd)audio.onended=onEnd;
+      audio.onerror=()=>{if(onEnd)onEnd();};
+      audio.play().catch(()=>{if(onEnd)onEnd();});
+    } catch(e){if(onEnd)onEnd();}
   }
   function speak(t){speakEL(t,'en-US');}
   function speakPT(t){speakEL(t,'pt-BR');}
@@ -941,7 +975,8 @@ body {
   }
   function toggleStory(){
     if(storyPlaying){
-      storyPlaying=false;if(currentAudio){currentAudio.pause();currentAudio=null;}
+      storyPlaying=false;if(l1Audio){l1Audio.pause();l1Audio=null;}
+      window.speechSynthesis.cancel();
       document.querySelectorAll('.story-card p').forEach(p=>p.style.background='');
       document.getElementById('storyIcon').textContent='▶';document.getElementById('storyLabel').textContent='Read Aloud';
       document.getElementById('storyPlayBtn').classList.remove('active');
@@ -984,7 +1019,8 @@ body {
   }
   function playDialogue(){
     document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='0');
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
+    if(l1Audio){l1Audio.pause();l1Audio=null;}
+    window.speechSynthesis.cancel();
     playDialogueSeq(0);
   }
   document.querySelectorAll('.dialogue-line').forEach(l=>l.style.opacity='1');
@@ -1346,6 +1382,7 @@ body {
 
 <div class="lesson-footer">EasyWay Escola de Idiomas · A2 · Unit 3 · 🎓</div>
 <script>
+/* ── TAB NAVIGATION ── */
 function showLesson(n) {
   document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1353,54 +1390,144 @@ function showLesson(n) {
   document.querySelector('.tab-btn[data-lesson="' + n + '"]').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-let currentAudio = null, currentBtn = null;
+
+/* ── ELEVENLABS RACHEL CONFIG ── */
+const EL_API_KEY   = 'sk_5241eea6b8b15b86b561f4261f07318e3fad8626fd295ffa';
+const EL_VOICE_ID  = '21m00Tcm4TlvDq8ikWAM'; // Rachel
+const EL_MODEL     = 'eleven_turbo_v2';
+
+const audioCache   = {};   // text → blob URL
+let   currentAudio = null;
+let   currentBtn   = null;
+
 function getTextToSpeak(btn) {
   const v = btn.closest('.vocab-card');
   if (v) return v.querySelector('.vocab-en')?.textContent?.trim() || '';
   const tr = btn.closest('tr');
-  if (tr) { const c = tr.querySelectorAll('td'); if (c.length >= 3) return c[0].textContent.trim() + '. Past: ' + c[1].textContent.trim() + '. Example: ' + c[2].textContent.trim(); }
+  if (tr) {
+    const c = tr.querySelectorAll('td');
+    if (c.length >= 3) {
+      // strip irrelevant inner button text, just get clean cell text
+      const present = c[0].innerText.trim();
+      const past    = c[1].innerText.replace(/[▶⏹🔊]/g,'').trim();
+      const example = c[2].innerText.trim();
+      return present + '. Past tense: ' + past + '. Example: ' + example;
+    }
+  }
   const sp = btn.closest('.story-para');
   if (sp) return sp.querySelector('span')?.textContent?.trim() || '';
   const dl = btn.closest('.dialogue-line');
   if (dl) return dl.querySelector('.dialogue-text')?.textContent?.trim() || '';
   return '';
 }
-function stopSpeech() {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = '🔊'; currentBtn = null; }
+
+function setBtnState(btn, state) {
+  // state: 'idle' | 'loading' | 'playing'
+  if (state === 'idle') {
+    btn.classList.remove('playing');
+    btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>🔊';
+    btn.disabled = false;
+  } else if (state === 'loading') {
+    btn.classList.remove('playing');
+    btn.innerHTML = '<span class="audio-pill">🔄 Loading…</span>⏳';
+    btn.disabled = true;
+  } else if (state === 'playing') {
+    btn.classList.add('playing');
+    btn.innerHTML = '<span class="audio-pill">🎵 Playing…</span>⏹';
+    btn.disabled = false;
+  }
 }
-function playAudio(btn) {
-  if (currentBtn === btn) { stopSpeech(); return; }
-  stopSpeech();
+
+function stopCurrent() {
+  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+  if (currentBtn)   { setBtnState(currentBtn, 'idle'); currentBtn = null; }
+}
+
+async function playAudio(btn) {
+  if (currentBtn === btn) { stopCurrent(); return; }
+  stopCurrent();
+
   const text = getTextToSpeak(btn);
   if (!text) return;
-  const apiKey = '05293c8fd3a1dc832ca2e7821d6df9d5b6b7884fe7d9c6933b94ab984b42d666';
-  const voiceId = 'rachel';
-  const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-  btn.classList.add('playing'); btn.innerHTML = '⏹'; currentBtn = btn;
-  fetch(url, {
-    method: 'POST',
-    headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: text, model_id: 'eleven_monolingual_v1', voice_settings: { stability: 0.5, similarity_boost: 0.75 } })
-  })
-  .then(r => r.blob())
-  .then(blob => {
-    const audio = new Audio(URL.createObjectURL(blob));
+
+  setBtnState(btn, 'loading');
+
+  try {
+    let blobUrl = audioCache[text];
+
+    if (!blobUrl) {
+      const res = await fetch(
+        `https://api.elevenlabs.io/v1/text-to-speech/${EL_VOICE_ID}?optimize_streaming_latency=3`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'xi-api-key': EL_API_KEY,
+            'Content-Type': 'application/json',
+            'Accept': 'audio/mpeg'
+          },
+          body: JSON.stringify({
+            text,
+            model_id: EL_MODEL,
+            voice_settings: { stability: 0.50, similarity_boost: 0.75, style: 0.20, use_speaker_boost: true }
+          })
+        }
+      );
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        console.warn('ElevenLabs error ' + res.status + ':', errText);
+        // fallback to browser TTS
+        setBtnState(btn, 'idle');
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US'; utter.rate = 0.88;
+        window.speechSynthesis.speak(utter);
+        return;
+      }
+
+      const blob = await res.blob();
+      blobUrl = URL.createObjectURL(blob);
+      audioCache[text] = blobUrl;
+    }
+
+    const audio = new Audio(blobUrl);
     currentAudio = audio;
-    audio.onended = audio.onerror = () => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; };
-    audio.play().catch(() => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
-  })
-  .catch(e => { btn.classList.remove('playing'); btn.innerHTML = '🔊'; if (currentBtn === btn) currentBtn = null; });
+    currentBtn   = btn;
+    setBtnState(btn, 'playing');
+
+    audio.onended = audio.onerror = () => {
+      if (currentBtn === btn) { setBtnState(btn, 'idle'); currentBtn = null; currentAudio = null; }
+    };
+    audio.play();
+
+  } catch (e) {
+    console.error('playAudio error:', e);
+    setBtnState(btn, 'idle');
+  }
 }
+
+/* ── EXERCISES ── */
 function checkBlanks(btn) {
   const card = btn.closest('.section-body');
   const inputs = card.querySelectorAll('.blank-input');
   let correct = 0;
-  inputs.forEach(inp => { const u = inp.value.trim().toLowerCase(), a = inp.dataset.answer.toLowerCase(); inp.classList.remove('correct','wrong'); if (u === a) { inp.classList.add('correct'); correct++; } else if (u !== '') inp.classList.add('wrong'); });
-  const badge = card.querySelector('.score-badge'); badge.classList.add('visible');
-  if (correct === inputs.length) { badge.textContent = '🎉 Perfect! ' + correct + '/' + inputs.length + ' correct!'; badge.style.cssText = 'display:block;background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32'; }
-  else { badge.textContent = '📝 ' + correct + '/' + inputs.length + ' correct. Try again!'; badge.style.cssText = 'display:block;background:#FFF8E1;border-color:#FFE082;color:#F57F17'; }
+  inputs.forEach(inp => {
+    const u = inp.value.trim().toLowerCase(), a = inp.dataset.answer.toLowerCase();
+    inp.classList.remove('correct','wrong');
+    if (u === a) { inp.classList.add('correct'); correct++; }
+    else if (u !== '') inp.classList.add('wrong');
+  });
+  const badge = card.querySelector('.score-badge');
+  badge.classList.add('visible');
+  if (correct === inputs.length) {
+    badge.textContent = '🎉 Perfect! ' + correct + '/' + inputs.length + ' correct!';
+    badge.style.cssText = 'display:block;background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32';
+  } else {
+    badge.textContent = '📝 ' + correct + '/' + inputs.length + ' correct. Try again!';
+    badge.style.cssText = 'display:block;background:#FFF8E1;border-color:#FFE082;color:#F57F17';
+  }
 }
+
 function revealAnswer(el) { el.classList.add('revealed'); }
 </script>
 </body>
