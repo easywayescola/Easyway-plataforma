@@ -574,7 +574,7 @@ window.speak = function(text) {
   const key = (text||'').toLowerCase().trim();
   const b64 = _ew_rachel[key];
   if(b64){ new Audio('data:audio/mpeg;base64,'+b64).play(); return; }
-  if(_orig_speak) _orig_speak(text);
+  speakEL(text, 'en-US');
 };
 </script>
 </body>
