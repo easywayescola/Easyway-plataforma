@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Review! – EasyWay A2 Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#001A33; --green:#26C281; --gold:#FFB300;
+  --purple:#7C3AED; --purple2:#A78BFA; --purple3:#EDE9FE;
+  --bg:#F4F7FA; --white:#fff; --text:#1a2a3a; --muted:#6b7a8d;
+  --radius:14px; --shadow:0 4px 20px rgba(0,26,51,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#2D1B69 0%,#5B21B6 45%,#7C3AED 75%,#A78BFA 100%);
+  padding:2.5rem 1.5rem 3rem; text-align:center; position:relative; overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-logo{font-size:1rem;font-weight:900;color:rgba(255,255,255,0.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;}
+.hero-badges{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem;}
+.badge-pill{padding:.3rem 1rem;border-radius:50px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.badge-level{background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);}
+.badge-lesson{background:var(--gold);color:#2D1B69;}
+.hero-icon{font-size:3.5rem;margin-bottom:.5rem;display:block;}
+.hero-title{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;color:white;line-height:1.1;}
+.hero-sub{color:rgba(255,255,255,0.8);font-size:.95rem;margin-top:.6rem;font-weight:600;}
+
+/* TABS */
+.tabs-wrap{background:white;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;}
+.tabs{display:flex;overflow-x:auto;max-width:900px;margin:0 auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex-shrink:0;padding:1rem 1.3rem;font-family:'Nunito',sans-serif;
+  font-size:.85rem;font-weight:800;border:none;background:none;
+  cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;
+  transition:all .2s;white-space:nowrap;text-transform:uppercase;letter-spacing:.5px;
+}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple);}
+.tab-btn:hover:not(.active){color:var(--text);background:#f8f8f8;}
+
+/* CONTENT */
+.content{max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.section{display:none;}
+.section.active{display:block;}
+.section-head{margin-bottom:1.8rem;}
+.section-label{font-size:.75rem;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:2px;margin-bottom:.3rem;}
+.section-title{font-size:1.8rem;font-weight:900;color:var(--navy);}
+
+/* TIP BOX */
+.tip-box{
+  background:var(--purple3);border:1px solid var(--purple2);border-radius:var(--radius);
+  padding:.9rem 1.2rem;font-size:.88rem;color:var(--purple);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+
+/* VOCAB */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+.vocab-card{
+  background:white;border-radius:var(--radius);padding:1.2rem 1.4rem;
+  box-shadow:var(--shadow);cursor:pointer;position:relative;
+  border-left:4px solid var(--purple);transition:transform .2s,box-shadow .2s;user-select:none;
+}
+.vocab-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,26,51,.14);}
+.vocab-word{font-size:1.05rem;font-weight:800;color:var(--navy);}
+.vocab-unit-tag{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:.2rem;}
+.vocab-translation{font-size:.9rem;color:var(--purple);font-weight:700;margin-top:.3rem;display:none;}
+.vocab-card.revealed .vocab-translation{display:block;}
+.vocab-reveal{font-size:.72rem;color:var(--muted);margin-top:.5rem;}
+.vocab-card.revealed .vocab-reveal{display:none;}
+.audio-btn{
+  position:absolute;top:.8rem;right:.8rem;background:none;border:none;
+  cursor:pointer;padding:.2rem;color:var(--muted);font-size:1.1rem;transition:color .2s;
+}
+.audio-btn:hover{color:var(--purple);}
+.audio-btn.playing{color:var(--purple);animation:pulse .8s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* UNIT DIVIDER */
+.unit-divider{font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;
+  color:var(--purple);margin:1.5rem 0 .8rem;padding-bottom:.4rem;border-bottom:2px solid var(--purple3);}
+
+/* VERBS */
+.verb-card{
+  background:white;border-radius:var(--radius);padding:1.2rem 1.6rem;
+  box-shadow:var(--shadow);margin-bottom:.8rem;display:flex;
+  align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.verb-info{flex:1;}
+.verb-present{font-size:1rem;font-weight:800;color:var(--navy);}
+.verb-pt{font-size:.85rem;color:var(--muted);margin:.1rem 0;}
+.verb-past-big{font-size:1.6rem;font-weight:900;color:var(--purple);}
+.verb-ex{font-style:italic;color:var(--muted);font-size:.88rem;margin-top:.3rem;}
+.verb-lesson-tag{font-size:.65rem;font-weight:800;text-transform:uppercase;
+  background:var(--purple3);color:var(--purple);padding:.15rem .5rem;
+  border-radius:50px;display:inline-block;margin-top:.3rem;}
+.play-btn{
+  background:var(--purple);border:none;color:white;border-radius:50%;
+  width:42px;height:42px;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0;
+}
+.play-btn:hover{background:#5B21B6;transform:scale(1.08);}
+.play-btn.playing{background:var(--green);}
+
+/* STORY */
+.story-audio-bar{
+  background:var(--purple3);border-radius:var(--radius);padding:1rem 1.4rem;
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;border:1px solid var(--purple2);
+}
+.story-audio-bar button{
+  background:var(--purple);border:none;color:white;border-radius:50px;
+  padding:.5rem 1.4rem;font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:background .2s;
+}
+.story-audio-bar button:hover{background:#5B21B6;}
+.story-audio-bar button.playing{background:var(--green);}
+.story-audio-bar span{font-size:.85rem;color:var(--muted);font-weight:600;}
+.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.story-box{
+  background:white;border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);
+  margin-bottom:1.8rem;border-top:5px solid var(--purple);
+}
+.story-title{font-size:1.3rem;font-weight:900;color:var(--navy);margin-bottom:1.2rem;}
+.story-text{line-height:1.9;font-size:.97rem;color:#2a3a4a;}
+.story-text p{margin-bottom:.9rem;}
+.story-note{font-size:.82rem;color:var(--muted);font-style:italic;border-top:1px solid #eef0f3;margin-top:1rem;padding-top:.7rem;}
+
+/* QUESTIONS */
+.questions-box{background:#F0FFF8;border-radius:var(--radius);padding:1.5rem;border:1px solid #B0F0D0;}
+.questions-box h4{font-size:1rem;font-weight:900;color:var(--navy);margin-bottom:1rem;}
+.question-item{margin-bottom:1.1rem;}
+.question-item p{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.answer-input{
+  width:100%;border:2px solid #B0E0C8;border-radius:8px;padding:.6rem .9rem;
+  font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;background:white;transition:border-color .2s;
+}
+.answer-input:focus{border-color:var(--green);}
+
+/* PRACTICE */
+.exercise-block{background:white;border-radius:var(--radius);padding:1.8rem;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+.ex-title{font-size:1rem;font-weight:900;color:var(--navy);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:2px solid #eef0f3;}
+.fill-blank{margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.95rem;line-height:2;}
+.blank-input{
+  border:none;border-bottom:2px solid var(--purple);background:transparent;
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--purple);outline:none;width:110px;text-align:center;padding:.1rem .3rem;
+}
+.blank-hint{font-size:.78rem;color:var(--muted);font-style:italic;}
+.blank-time{
+  border:none;border-bottom:2px dashed var(--gold);background:transparent;
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;
+  color:#B45309;outline:none;width:130px;text-align:center;padding:.1rem .3rem;
+}
+.check-btn{
+  background:var(--navy);color:white;border:none;border-radius:50px;
+  padding:.6rem 1.8rem;font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:.9rem;cursor:pointer;margin-top:1rem;transition:background .2s;
+}
+.check-btn:hover{background:#003366;}
+.feedback{margin-top:.8rem;font-size:.88rem;font-weight:700;display:none;}
+.feedback.show{display:block;}
+.feedback.ok{color:var(--green);}
+.feedback.wrong{color:#e05252;}
+
+.trans-grid{display:grid;gap:.7rem;}
+.trans-row{background:#F8FAFC;border-radius:10px;padding:.9rem 1.2rem;border-left:3px solid var(--purple);}
+.trans-src{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
+.trans-label{font-size:.72rem;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.2rem;letter-spacing:.5px;}
+.trans-input{
+  width:100%;border:1.5px solid #D0D8E4;border-radius:8px;padding:.5rem .8rem;
+  font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;background:white;transition:border-color .2s;
+}
+.trans-input:focus{border-color:var(--purple);}
+
+/* FREE WRITE */
+.free-write-box{background:white;border-radius:var(--radius);padding:1.8rem;box-shadow:var(--shadow);}
+.free-q{margin-bottom:1.2rem;}
+.free-q label{font-size:.92rem;font-weight:700;color:var(--text);display:block;margin-bottom:.4rem;}
+.free-textarea{
+  width:100%;border:2px solid #D0D8E4;border-radius:8px;padding:.7rem 1rem;
+  font-family:'Nunito',sans-serif;font-size:.92rem;outline:none;
+  resize:vertical;min-height:70px;background:white;transition:border-color .2s;
+}
+.free-textarea:focus{border-color:var(--purple);}
+
+@media(max-width:600px){
+  .content{padding:1.5rem 1rem 3rem;}
+  .verb-card{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo">EasyWay · Escola de Idiomas</div>
+  <div class="hero-badges">
+    <span class="badge-pill badge-level">Elementary A2</span>
+    <span class="badge-pill badge-lesson">Unit 1 · Lesson 4</span>
+  </div>
+  <span class="hero-icon">🎯</span>
+  <h1 class="hero-title">Let's Review!</h1>
+  <p class="hero-sub">All 8 Verbs · Vocabulary Review · Story · Practice</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('keywords',this)">🔑 Key Words</button>
+    <button class="tab-btn" onclick="switchTab('verbs',this)">📘 Verbs</button>
+    <button class="tab-btn" onclick="switchTab('story',this)">📖 Story</button>
+    <button class="tab-btn" onclick="switchTab('practice',this)">✏️ Practice</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- KEY WORDS -->
+  <div id="tab-keywords" class="section active">
+    <div class="section-head">
+      <div class="section-label">Key Words Review</div>
+      <div class="section-title">Vocabulary – Units 1–3</div>
+    </div>
+    <div class="tip-box">💡 Click each card to reveal the translation. The 🔊 button reads it aloud!</div>
+
+    <div class="unit-divider">📽️ Lesson 1 & 2 — Cinema & Daily Life</div>
+    <div class="vocab-grid" id="vocab1"></div>
+
+    <div class="unit-divider">🍕 Lesson 3 — Food & Restaurants</div>
+    <div class="vocab-grid" id="vocab2"></div>
+  </div>
+
+  <!-- VERBS -->
+  <div id="tab-verbs" class="section">
+    <div class="section-head">
+      <div class="section-label">All 8 Verbs</div>
+      <div class="section-title">Past Simple Review</div>
+    </div>
+    <div class="tip-box">🎯 These are ALL the verbs from Unit 1. Master them!</div>
+    <div id="verbCards"></div>
+  </div>
+
+  <!-- STORY -->
+  <div id="tab-story" class="section">
+    <div class="section-head">
+      <div class="section-label">Story Time – Review</div>
+      <div class="section-title">An Amazing Weekend!</div>
+    </div>
+    <div class="story-audio-bar">
+      <button id="storyPlayBtn" onclick="playStory()">
+        🔊 Listen to Story
+        <div class="spinner" id="storySpinner"></div>
+      </button>
+      <span>Rachel's voice · ElevenLabs</span>
+    </div>
+    <div class="story-box">
+      <div class="story-title">🎬 An Amazing Weekend!</div>
+      <div class="story-text">
+        <p>Last weekend was amazing!</p>
+        <p>Yesterday, I went to the cinema with my friend Ana. We bought two tickets online. The screen was incredible! We ate popcorn and candy during the movie. Ana bought the same size of popcorn as me!</p>
+        <p>The movie was an action film. The plot was very interesting. The special effects were incredible! We watched the trailer for the sequel too. Ana was very happy!</p>
+        <p>After the movie, we went to a restaurant. We ate delicious food and drank lemonade. The food was amazing!</p>
+        <p>We bought the sequel book at the store. It was an amazing weekend!</p>
+      </div>
+      <div class="story-note">* as = que (comparação) — "the same size as me" = do mesmo tamanho que eu</div>
+    </div>
+    <div class="questions-box">
+      <h4>📝 Comprehension Questions</h4>
+      <div class="question-item">
+        <p>1. Where did the narrator go last weekend?</p>
+        <input class="answer-input" type="text" placeholder="Type your answer here...">
+      </div>
+      <div class="question-item">
+        <p>2. What did they buy online?</p>
+        <input class="answer-input" type="text" placeholder="Type your answer here...">
+      </div>
+      <div class="question-item">
+        <p>3. What did they eat during the movie?</p>
+        <input class="answer-input" type="text" placeholder="Type your answer here...">
+      </div>
+      <div class="question-item">
+        <p>4. How was the plot?</p>
+        <input class="answer-input" type="text" placeholder="Type your answer here...">
+      </div>
+      <div class="question-item">
+        <p>5. What did they do after the movie?</p>
+        <input class="answer-input" type="text" placeholder="Type your answer here...">
+      </div>
+    </div>
+  </div>
+
+  <!-- PRACTICE -->
+  <div id="tab-practice" class="section">
+    <div class="section-head">
+      <div class="section-label">Practice Time</div>
+      <div class="section-title">Let's Practice!</div>
+    </div>
+
+    <!-- A -->
+    <div class="exercise-block">
+      <div class="ex-title">A. Complete with the correct verb and time expression:</div>
+      <div class="fill-blank">
+        <span>1.</span>
+        <input class="blank-time" id="t1" type="text" placeholder="time...">
+        <span>, I</span>
+        <input class="blank-input" id="v1" type="text" placeholder="verb...">
+        <span class="blank-hint">(go)</span>
+        <span>to the museum.</span>
+      </div>
+      <div class="fill-blank">
+        <span>2. She</span>
+        <input class="blank-input" id="v2" type="text" placeholder="verb...">
+        <span class="blank-hint">(eat)</span>
+        <span>popcorn</span>
+        <input class="blank-time" id="t2" type="text" placeholder="time...">
+        <span>.</span>
+      </div>
+      <div class="fill-blank">
+        <span>3. We</span>
+        <input class="blank-input" id="v3" type="text" placeholder="verb...">
+        <span class="blank-hint">(watch)</span>
+        <span>a great movie</span>
+        <input class="blank-time" id="t3" type="text" placeholder="time...">
+        <span>.</span>
+      </div>
+      <div class="fill-blank">
+        <span>4. He</span>
+        <input class="blank-input" id="v4" type="text" placeholder="verb...">
+        <span class="blank-hint">(go)</span>
+        <span>to the hotel</span>
+        <input class="blank-time" id="t4" type="text" placeholder="time...">
+        <span>.</span>
+      </div>
+      <div class="fill-blank">
+        <span>5. She</span>
+        <input class="blank-input" id="v5" type="text" placeholder="verb...">
+        <span class="blank-hint">(watch)</span>
+        <span>a movie</span>
+        <input class="blank-time" id="t5" type="text" placeholder="time...">
+        <span>.</span>
+      </div>
+      <button class="check-btn" onclick="checkA()">Check Answers ✓</button>
+      <div class="feedback" id="fbA"></div>
+    </div>
+
+    <!-- B -->
+    <div class="exercise-block">
+      <div class="ex-title">B. Translate to English:</div>
+      <div class="trans-grid" id="ptToEn"></div>
+    </div>
+
+    <!-- C -->
+    <div class="exercise-block free-write-box">
+      <div class="ex-title">C. Write about your weekend! ✍️</div>
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:1.2rem;">Answer the questions and write about your last weekend. Use the past tense!</p>
+      <div class="free-q">
+        <label>1. Where did you go?</label>
+        <textarea class="free-textarea" placeholder="I went to..."></textarea>
+      </div>
+      <div class="free-q">
+        <label>2. What did you eat or drink?</label>
+        <textarea class="free-textarea" placeholder="I ate / I drank..."></textarea>
+      </div>
+      <div class="free-q">
+        <label>3. What did you watch?</label>
+        <textarea class="free-textarea" placeholder="I watched..."></textarea>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script src="../config.js"></script>
+<script>
+// ── RACHEL TTS ─────────────────────────────────────────────────
+let currentAudio = null;
+
+async function speakRachel(text, btnEl, spinnerId) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  const spinner = spinnerId ? document.getElementById(spinnerId) : null;
+  if (btnEl) btnEl.classList.add('playing');
+  if (spinner) spinner.style.display = 'inline-block';
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${EASYWAY_CONFIG.elevenlabs.rachelId}`, {
+      method: 'POST',
+      headers: { 'xi-api-key': EASYWAY_CONFIG.elevenlabs.apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        model_id: EASYWAY_CONFIG.elevenlabs.model,
+        voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+      })
+    });
+    if (!res.ok) throw new Error('TTS error');
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    currentAudio = new Audio(url);
+    currentAudio.play();
+    currentAudio.onended = () => {
+      if (btnEl) btnEl.classList.remove('playing');
+      if (spinner) spinner.style.display = 'none';
+    };
+  } catch(e) {
+    if (btnEl) btnEl.classList.remove('playing');
+    if (spinner) spinner.style.display = 'none';
+  }
+}
+
+// ── DATA ───────────────────────────────────────────────────────
+const vocab1 = [
+  { word:'popcorn',   pt:'pipoca' },
+  { word:'ticket',    pt:'ingresso' },
+  { word:'screen',    pt:'tela' },
+  { word:'plot',      pt:'enredo' },
+  { word:'trailer',   pt:'trailer' },
+  { word:'interesting',pt:'interessante' },
+  { word:'sequel',    pt:'sequência' },
+  { word:'candy',     pt:'doce / bala' },
+  { word:'special effects', pt:'efeitos especiais' },
+  { word:'action film',     pt:'filme de ação' },
+];
+
+const vocab2 = [
+  { word:'restaurant', pt:'restaurante' },
+  { word:'menu',       pt:'cardápio' },
+  { word:'waiter',     pt:'garçom / garçonete' },
+  { word:'delicious',  pt:'delicioso' },
+  { word:'dessert',    pt:'sobremesa' },
+  { word:'spicy',      pt:'apimentado(a)' },
+  { word:'sweet',      pt:'doce' },
+  { word:'talented',   pt:'talentoso' },
+];
+
+const verbs = [
+  { present:'to watch', pt:'assistir',    past:'watched', ex:'We watched the trailer.', lesson:'Lesson 2' },
+  { present:'to buy',   pt:'comprar',     past:'bought',  ex:'She bought two tickets.', lesson:'Lesson 2' },
+  { present:'to eat',   pt:'comer',       past:'ate',     ex:'I ate popcorn.',           lesson:'Lesson 2' },
+  { present:'to be',    pt:'ser / estar', past:'was/were',ex:'The movie was amazing.',   lesson:'Lesson 2' },
+  { present:'to cook',  pt:'cozinhar',    past:'cooked',  ex:'My mom cooked pasta.',     lesson:'Lesson 3' },
+  { present:'to like',  pt:'gostar (de)', past:'liked',   ex:'I liked the dessert.',     lesson:'Lesson 3' },
+  { present:'to go',    pt:'ir',          past:'went',    ex:'We went to a restaurant.', lesson:'Lesson 3' },
+  { present:'to drink', pt:'beber',       past:'drank',   ex:'She drank lemonade.',      lesson:'Lesson 3' },
+];
+
+const ptSentences = [
+  'Ontem, eu fui ao cinema com minha amiga Ana.',
+  'Nós compramos dois ingressos online.',
+  'Ela comeu pipoca durante o filme.',
+  'O enredo foi muito interessante.',
+  'Nós assistimos ao trailer da sequência.',
+  'Os efeitos especiais foram incríveis!',
+];
+
+// ── RENDER VOCAB ───────────────────────────────────────────────
+function buildVocab(containerId, data, prefix) {
+  const grid = document.getElementById(containerId);
+  data.forEach((v, i) => {
+    const id = `${prefix}${i}`;
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.id = id;
+    card.innerHTML = `
+      <button class="audio-btn" id="ab${id}" onclick="event.stopPropagation();speakRachel('${v.word}',document.getElementById('ab${id}'),null)">🔊</button>
+      <div class="vocab-word">${v.word}</div>
+      <div class="vocab-translation">${v.pt}</div>
+      <div class="vocab-reveal">click to reveal</div>`;
+    card.onclick = () => card.classList.toggle('revealed');
+    grid.appendChild(card);
+  });
+}
+buildVocab('vocab1', vocab1, 'v1_');
+buildVocab('vocab2', vocab2, 'v2_');
+
+// ── RENDER VERBS ───────────────────────────────────────────────
+const verbContainer = document.getElementById('verbCards');
+verbs.forEach((v, i) => {
+  const div = document.createElement('div');
+  div.className = 'verb-card';
+  div.innerHTML = `
+    <div class="verb-info">
+      <div class="verb-present">${v.present}</div>
+      <div class="verb-pt">${v.pt}</div>
+      <div class="verb-past-big">${v.past}</div>
+      <div class="verb-ex">"${v.ex}"</div>
+      <span class="verb-lesson-tag">${v.lesson}</span>
+    </div>
+    <button class="play-btn" id="vpb${i}" onclick="speakRachel('${v.present}. Past: ${v.past}. ${v.ex}', document.getElementById('vpb${i}'), null)">▶</button>`;
+  verbContainer.appendChild(div);
+});
+
+// ── STORY ──────────────────────────────────────────────────────
+const storyText = `Last weekend was amazing! Yesterday, I went to the cinema with my friend Ana. We bought two tickets online. The screen was incredible! We ate popcorn and candy during the movie. Ana bought the same size of popcorn as me! The movie was an action film. The plot was very interesting. The special effects were incredible! We watched the trailer for the sequel too. Ana was very happy! After the movie, we went to a restaurant. We ate delicious food and drank lemonade. The food was amazing! We bought the sequel book at the store. It was an amazing weekend!`;
+
+function playStory() {
+  speakRachel(storyText, document.getElementById('storyPlayBtn'), 'storySpinner');
+}
+
+// ── RENDER TRANSLATIONS ────────────────────────────────────────
+const ptGrid = document.getElementById('ptToEn');
+ptSentences.forEach(s => {
+  ptGrid.innerHTML += `
+    <div class="trans-row">
+      <div class="trans-src">${s}</div>
+      <div class="trans-label">Your translation (English):</div>
+      <input class="trans-input" type="text" placeholder="Write in English...">
+    </div>`;
+});
+
+// ── CHECK A ────────────────────────────────────────────────────
+const answersA = {
+  v1:'went', t1:'yesterday',
+  v2:'ate',  t2:'this morning',
+  v3:'watched', t3:'last night',
+  v4:'went', t4:'yesterday',
+  v5:'watched', t5:'last night',
+};
+function checkA() {
+  let correct = 0, total = 10;
+  Object.entries(answersA).forEach(([id, ans]) => {
+    const inp = document.getElementById(id);
+    const val = inp.value.trim().toLowerCase();
+    if (val === ans) { inp.style.color = 'var(--green)'; correct++; }
+    else { inp.style.color = '#e05252'; }
+  });
+  const fb = document.getElementById('fbA');
+  fb.className = 'feedback show ' + (correct === total ? 'ok' : 'wrong');
+  fb.textContent = correct === total
+    ? '🎉 Perfect! All answers correct!'
+    : `${correct}/${total} correct. Check the highlighted answers!`;
+}
+
+// ── TAB SWITCH ─────────────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
