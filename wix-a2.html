@@ -6,109 +6,115 @@
 <title>EasyWay - Elementary A2</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#001A33;--blue:#29B6F6;--gold:#FFB300;--green:#26C281;}
+  :root{--navy:#001A33;--gold:#FFB300;--green:#26C281;--blue:#29B6F6;}
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Nunito',sans-serif;background:#F4F7FA;min-height:100vh;color:var(--navy);}
-  .topbar{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+  body{font-family:'Nunito',sans-serif;min-height:100vh;background:#07111F;overflow-x:hidden;color:white;}
+  .blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+  .blob1{width:550px;height:550px;background:radial-gradient(circle,rgba(38,194,129,.35),transparent 70%);top:-180px;left:-150px;animation:b1 14s ease-in-out infinite alternate;}
+  .blob2{width:450px;height:450px;background:radial-gradient(circle,rgba(41,182,246,.28),transparent 70%);top:35%;right:-130px;animation:b2 11s ease-in-out infinite alternate;}
+  .blob3{width:400px;height:400px;background:radial-gradient(circle,rgba(255,179,0,.22),transparent 70%);bottom:-100px;left:25%;animation:b3 13s ease-in-out infinite alternate;}
+  .blob4{width:300px;height:300px;background:radial-gradient(circle,rgba(124,58,237,.3),transparent 70%);top:55%;left:5%;animation:b4 9s ease-in-out infinite alternate;}
+  @keyframes b1{to{transform:translate(60px,50px) scale(1.1);}}
+  @keyframes b2{to{transform:translate(-50px,40px) scale(1.15);}}
+  @keyframes b3{to{transform:translate(40px,-35px) scale(0.92);}}
+  @keyframes b4{to{transform:translate(30px,-40px) scale(1.08);}}
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:28px 28px;}
+  .topbar{background:rgba(0,10,26,.7);backdrop-filter:blur(20px);padding:1rem 2rem;display:flex;align-items:center;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(38,194,129,.2);}
   .topbar-logo{font-size:1.6rem;font-weight:900;color:white;}
   .topbar-logo span{color:var(--gold);}
-  .main{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
-  h1{font-size:1.8rem;margin-bottom:0.5rem;}
-  .subtitle{color:#888;margin-bottom:2rem;}
-  .section{margin-bottom:2.5rem;}
-  .section-title{font-size:1.1rem;font-weight:900;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:3px solid var(--green);}
+  .hero{text-align:center;padding:3rem 1.5rem 2rem;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;background:linear-gradient(90deg,#26C281,#29B6F6,#FFB300,#26C281);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradMove 6s linear infinite;}
+  @keyframes gradMove{to{background-position:300%;}}
+  .hero p{color:rgba(255,255,255,.5);margin-top:.6rem;font-size:.95rem;font-weight:600;}
+  .main{max-width:900px;margin:0 auto;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+  .section{margin-bottom:2.8rem;}
+  .section-title{font-size:1rem;font-weight:900;margin-bottom:1rem;padding:.65rem 1.1rem;border-radius:10px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--green);color:white;display:flex;align-items:center;gap:.5rem;letter-spacing:.3px;}
   .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
-  .card{background:white;border-radius:16px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,26,51,0.08);text-decoration:none;color:var(--navy);transition:all 0.2s;display:flex;flex-direction:column;gap:0.5rem;border-left:4px solid var(--green);}
-  .card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,26,51,0.15);}
-  .card-unit{font-size:0.75rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;}
-  .card-title{font-size:1rem;font-weight:800;}
-  .badge{font-size:0.8rem;font-weight:700;color:white;padding:0.2rem 0.6rem;border-radius:50px;align-self:flex-start;background:var(--green);}
-  .arrow{color:var(--green);font-size:1.2rem;margin-top:0.3rem;}
-  @media(max-width:600px){.main{padding:1rem;}.cards{grid-template-columns:1fr;}}
+  .card{background:rgba(255,255,255,.06);backdrop-filter:blur(14px);border-radius:16px;padding:1.5rem;border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--green);text-decoration:none;color:white;display:flex;flex-direction:column;gap:.5rem;box-shadow:0 4px 30px rgba(0,0,0,.3);transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;position:relative;overflow:hidden;}
+  .card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(38,194,129,.1),rgba(41,182,246,.05));opacity:0;transition:opacity .2s;border-radius:16px;}
+  .card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(38,194,129,.2);border-color:rgba(38,194,129,.5);}
+  .card:hover::after{opacity:1;}
+  .card-unit{font-size:.75rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1px;}
+  .card-title{font-size:1rem;font-weight:800;color:white;}
+  .badge{font-size:.8rem;font-weight:700;color:white;padding:.2rem .6rem;border-radius:50px;align-self:flex-start;background:rgba(38,194,129,.3);border:1px solid rgba(38,194,129,.5);}
+  .arrow{color:var(--green);font-size:1.2rem;margin-top:.3rem;transition:transform .2s;}
+  .card:hover .arrow{transform:translateX(5px);}
+  @media(max-width:600px){.main{padding:0 1rem 3rem;}.cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
 <div class="topbar">
   <div class="topbar-logo">Easy<span>Way</span></div>
 </div>
-<div class="main">
+<div class="hero">
   <h1>Elementary A2</h1>
-  <p class="subtitle">Escolha sua unidade e comece a praticar!</p>
-
+  <p>Escolha sua unidade e comece a praticar!</p>
+</div>
+<div class="main">
   <div class="section">
-    <div class="section-title">Unit 1 - Everyday Life</div>
+    <div class="section-title">⭐ Unit 1 — Everyday Life</div>
     <div class="cards">
       <a href="licoes/elementary-a2-unit1-lesson1-daily-routine_rachel.html" class="card">
-        <div class="card-unit">Lesson 1</div>
-        <div class="card-title">Daily Routines</div>
+        <div class="card-unit">Lesson 1</div><div class="card-title">Daily Routines</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit1-lesson2-movie-night_rachel.html" class="card">
-        <div class="card-unit">Lesson 2</div>
-        <div class="card-title">Movie Night</div>
+        <div class="card-unit">Lesson 2</div><div class="card-title">Movie Night</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit1-lesson3-food-adventure_rachel.html" class="card">
-        <div class="card-unit">Lesson 3</div>
-        <div class="card-title">Food Adventure</div>
+        <div class="card-unit">Lesson 3</div><div class="card-title">Food Adventure</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit1-lesson4-lets-review.html" class="card">
-        <div class="card-unit">Lesson 4</div>
-        <div class="card-title">Let's Review!</div>
+        <div class="card-unit">Lesson 4</div><div class="card-title">Let's Review!</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-title">Unit 2 - Out &amp; About</div>
+    <div class="section-title">🗺️ Unit 2 — Out &amp; About</div>
     <div class="cards">
       <a href="licoes/elementary-a2-unit2-lesson1-city-explorer_rachel.html" class="card">
-        <div class="card-unit">Lesson 1</div>
-        <div class="card-title">City Explorer</div>
+        <div class="card-unit">Lesson 1</div><div class="card-title">City Explorer</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit2-lesson2-lets-go-shopping_rachel.html" class="card">
-        <div class="card-unit">Lesson 2</div>
-        <div class="card-title">Let's Go Shopping!</div>
+        <div class="card-unit">Lesson 2</div><div class="card-title">Let's Go Shopping!</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit2-lesson3-the-big-trip_rachel.html" class="card">
-        <div class="card-unit">Lesson 3</div>
-        <div class="card-title">The Big Trip</div>
+        <div class="card-unit">Lesson 3</div><div class="card-title">The Big Trip</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
       <a href="licoes/elementary-a2-unit2-lesson4-lets-review.html" class="card">
-        <div class="card-unit">Lesson 4</div>
-        <div class="card-title">Let's Review!</div>
+        <div class="card-unit">Lesson 4</div><div class="card-title">Let's Review!</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-title">Unit 3 - People &amp; Feelings</div>
+    <div class="section-title">💛 Unit 3 — People &amp; Feelings</div>
     <div class="cards">
       <a href="licoes/elementary-a2-unit3-all-lessons.html" class="card">
-        <div class="card-unit">All Lessons</div>
-        <div class="card-title">People &amp; Feelings</div>
+        <div class="card-unit">All Lessons</div><div class="card-title">People &amp; Feelings</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
     </div>
   </div>
-
   <div class="section">
-    <div class="section-title">Unit 4 - The World Around Us</div>
+    <div class="section-title">🌍 Unit 4 — The World Around Us</div>
     <div class="cards">
       <a href="licoes/elementary-a2-unit4-all-lessons.html" class="card">
-        <div class="card-unit">All Lessons</div>
-        <div class="card-title">The World Around Us</div>
+        <div class="card-unit">All Lessons</div><div class="card-title">The World Around Us</div>
         <div class="badge">A2</div><div class="arrow">&#8594;</div>
       </a>
     </div>
   </div>
-
 </div>
 </body>
 </html>
